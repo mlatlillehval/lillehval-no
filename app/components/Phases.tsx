@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const phases = [
   { number: 1, phase: "Forstå",    question: "Hva ER AI egentlig for oss?", output: "Understanding Map" },
   { number: 2, phase: "Prioritere", question: "Hva skal vi gjøre først?",    output: "Roadmap" },
@@ -22,6 +24,17 @@ export default function Phases() {
           <p className="mt-3 text-lg" style={{ color: "rgba(255,255,255,0.6)" }}>
             En strukturert vei fra forvirring til full utnyttelse.
           </p>
+        </div>
+
+        {/* Illustration */}
+        <div className="relative w-full rounded-2xl overflow-hidden mb-12" style={{ height: "340px" }}>
+          <Image
+            src="/phases-illustration.jpg"
+            alt="AI-reisen i seks faser — illustrasjon"
+            fill
+            className="object-cover object-center"
+            sizes="100vw"
+          />
         </div>
 
         {/* Horizontal timeline */}
@@ -53,13 +66,13 @@ export default function Phases() {
 
                 {/* Card */}
                 <div
-                  className="green-card w-full flex-1 rounded-2xl p-5 flex flex-col items-center gap-3 text-center"
+                  className="green-card w-full flex-1 rounded-2xl p-5 flex flex-col items-center text-center"
                 >
-                  <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.75)" }}>
+                  <p className="text-sm leading-relaxed flex-1 flex items-center justify-center" style={{ color: "rgba(255,255,255,0.75)" }}>
                     {phase.question}
                   </p>
                   <div
-                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold"
+                    className="mt-auto inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold"
                     style={{ background: "rgba(74,222,128,0.12)", color: "#4ade80" }}
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>

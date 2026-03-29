@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { getCachedNews, NewsItem } from "../lib/fetchNews";
 
 function formatUpdatedAt(iso: string): string {
@@ -43,14 +44,29 @@ export default async function NewsSection() {
   return (
     <section id="siste-nyheter" className="py-24 px-6" style={{ background: "#000000" }}>
       <div className="max-w-6xl mx-auto">
+        {/* Illustration */}
+        <div className="relative w-full rounded-2xl overflow-hidden mb-12" style={{ height: "420px" }}>
+          <Image
+            src="/news-illustration.jpg"
+            alt="Dagens AI-nyheter fra Norge og verden"
+            fill
+            className="object-cover object-center"
+            sizes="100vw"
+          />
+          <div
+            className="absolute inset-0"
+            style={{ background: "linear-gradient(to bottom, transparent 60%, #000000 100%)" }}
+          />
+        </div>
+
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
           <div>
             <span className="inline-block mb-2 text-sm font-semibold uppercase tracking-widest" style={{ color: "#4ade80" }}>
-              Holdt oppdatert
+              Hold deg oppdatert
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
-              Dagens AI-nyheter
+              Siste AI-nyheter
             </h2>
           </div>
           <div className="flex items-center gap-2 text-sm" style={{ color: "rgba(255,255,255,0.4)" }}>

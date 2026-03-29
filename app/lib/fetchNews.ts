@@ -52,6 +52,8 @@ async function fetchNorwayNews(): Promise<NewsItem[]> {
     { url: "https://www.kode24.no/rss", name: "Kode24" },
     { url: "https://www.digi.no/rss", name: "Digi.no" },
     { url: "https://shifter.no/feed/", name: "Shifter" },
+    { url: "https://e24.no/rss2", name: "E24" },
+    { url: "https://www.tu.no/rss", name: "Teknisk Ukeblad" },
   ];
 
   const results = await Promise.allSettled(
@@ -62,9 +64,13 @@ async function fetchNorwayNews(): Promise<NewsItem[]> {
     r.status === "fulfilled" ? r.value : []
   );
 
-  return all
-    .filter((item) => isAIRelated(item.title))
-    .slice(0, 5);
+  const aiFiltered = all.filter((item) => isAIRelated(item.title));
+
+  // If we have fewer than 5 AI articles, fill up with remaining tech articles
+  if (aiFiltered.length >= 5) return aiFiltered.slice(0, 5);
+
+  const nonAI = all.filter((item) => !isAIRelated(item.title));
+  return [...aiFiltered, ...nonAI].slice(0, 5);
 }
 
 async function fetchWorldNews(): Promise<NewsItem[]> {
@@ -91,9 +97,10 @@ async function fetchWorldNews(): Promise<NewsItem[]> {
     r.status === "fulfilled" ? r.value : []
   );
 
-  return all
-    .filter((item) => isAIRelated(item.title))
-    .slice(0, 5);
+  const aiFiltered = all.filter((item) => isAIRelated(item.title));
+  if (aiFiltered.length >= 5) return aiFiltered.slice(0, 5);
+  const nonAI = all.filter((item) => !isAIRelated(item.title));
+  return [...aiFiltered, ...nonAI].slice(0, 5);
 }
 
 export const getCachedNews = unstable_cache(

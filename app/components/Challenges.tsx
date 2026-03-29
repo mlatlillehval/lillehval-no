@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const challenges = [
   {
     icon: (
@@ -7,6 +9,7 @@ const challenges = [
     ),
     title: "Hva ER AI egentlig?",
     description: "Folk tror det er magisk. Det er egentlig teknikker som løser spesifikke problemer.",
+    illustration: "/challenge-1.jpg",
   },
   {
     icon: (
@@ -16,6 +19,7 @@ const challenges = [
     ),
     title: "Mulighetene er ENORME",
     description: "ChatGPT, dokumentanalyse, bildekjente, prediksjon, fine-tuning, custom løsninger.",
+    illustration: "/challenge-2.jpg",
   },
   {
     icon: (
@@ -25,6 +29,7 @@ const challenges = [
     ),
     title: "Det endrer seg hele tiden",
     description: "GPT-4 ble 10x bedre. Fine-tuning ble mulig. Vision-AI ble mainstream.",
+    illustration: "/challenge-3.jpg",
   },
   {
     icon: (
@@ -34,6 +39,7 @@ const challenges = [
     ),
     title: "Det handler om mennesker",
     description: "Teknologi er enkel. Mennesker er komplisert.",
+    illustration: "/challenge-4.jpg",
   },
 ];
 
@@ -59,20 +65,29 @@ export default function Challenges() {
           {challenges.map((card, i) => (
             <div
               key={i}
-              className="green-card flex flex-col gap-4 rounded-2xl p-7"
+              className="green-card flex flex-col rounded-2xl p-7 gap-4"
             >
               <div
-                className="w-12 h-12 flex items-center justify-center rounded-xl"
+                className="w-12 h-12 flex items-center justify-center rounded-xl flex-shrink-0"
                 style={{ background: "rgba(74,222,128,0.12)", color: "#4ade80" }}
               >
                 {card.icon}
               </div>
-              <h3 className="text-lg font-bold text-white leading-snug whitespace-nowrap">
+              <h3 className="text-lg font-bold text-white leading-snug whitespace-nowrap flex-shrink-0">
                 {card.title}
               </h3>
-              <p className="leading-relaxed text-base" style={{ color: "rgba(255,255,255,0.6)" }}>
+              <p className="leading-relaxed text-base flex-1" style={{ color: "rgba(255,255,255,0.6)" }}>
                 {card.description}
               </p>
+              <div className="relative w-full rounded-xl overflow-hidden flex-shrink-0" style={{ height: "160px" }}>
+                <Image
+                  src={card.illustration}
+                  alt={card.title}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                />
+              </div>
             </div>
           ))}
         </div>

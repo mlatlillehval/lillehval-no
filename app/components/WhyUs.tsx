@@ -4,7 +4,7 @@ const team = [
   {
     name: "Marius Langsrud",
     title: "Medgründer & AI-rådgiver",
-    image: "/team-marius.jpg",
+    image: "/illustration-marius.jpg",
     quote: "«AI er ikke et IT-prosjekt. Det er en lederutfordring — og det starter med å forstå hva du faktisk har å vinne.»",
     tags: ["Strategi", "Forretningsutvikling", "AI-implementering"],
     bio: "Marius har [X] års erfaring fra [bransje/roller]. Han har hjulpet selskaper i [bransjer] med å [resultater]. Fyll inn din bakgrunn her.",
@@ -13,7 +13,7 @@ const team = [
   {
     name: "Hein Torgersen",
     title: "Medgründer & AI-rådgiver",
-    image: "/team-hein.jpg",
+    image: "/illustration-hein.jpg",
     quote: "«De fleste selskaper sitter på mer potensial enn de aner. AI er verktøyet som låser det opp — hvis du vet hvor du skal se.»",
     tags: ["Teknologi", "Prosessoptimalisering", "Change Management"],
     bio: "Hein har [X] års erfaring fra [bransje/roller]. Han har ledet [type prosjekter] og skapt [resultater]. Fyll inn Heins bakgrunn her.",

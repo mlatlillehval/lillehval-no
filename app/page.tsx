@@ -1,5 +1,6 @@
 import Hero from "./components/Hero";
 import Challenges from "./components/Challenges";
+import UseCases from "./components/UseCases";
 import AITimeline from "./components/AITimeline";
 import MarqueeSection from "./components/MarqueeSection";
 import Phases from "./components/Phases";
@@ -10,10 +11,11 @@ export default function Home() {
   return (
     <main>
       <Hero />
-      <Challenges />
       <AITimeline />
-      <MarqueeSection />
+      <UseCases />
+      <Challenges />
       <Phases />
+      <MarqueeSection />
       <NewsSection />
       <WhyUs />
     </main>

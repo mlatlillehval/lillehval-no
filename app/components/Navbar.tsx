@@ -1,58 +1,31 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import BookingModal from "./BookingModal";
 
 const navLinks = [
-  { label: "AI utviklingen", href: "#ai-utviklingen" },
-  { label: "AI tjenester", href: "#ai-tjenester" },
-  { label: "AI metodikk", href: "#ai-metodikk" },
-  { label: "Siste AI nyheter", href: "#siste-nyheter" },
-  { label: "Hvorfor oss?", href: "#hvorfor-oss" },
+  { label: "AI utviklingen", href: "/ai-utviklingen" },
+  { label: "AI tjenester", href: "/ai-tjenester" },
+  { label: "AI metodikk", href: "/ai-metodikk" },
+  { label: "Siste AI nyheter", href: "/siste-nyheter" },
+  { label: "Pågående prosjekter", href: "#pagaende-prosjekter" },
+  { label: "Hvorfor oss?", href: "/hvorfor-oss" },
 ];
 
 function WhaleLogo() {
   return (
-    <svg
-      width="44"
-      height="44"
-      viewBox="0 0 100 70"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      {/* Water spout */}
-      <path
-        d="M38 18 Q40 6 42 14 Q44 4 46 14"
-        stroke="#4ade80"
-        strokeWidth="3"
-        strokeLinecap="round"
-        fill="none"
+    <div style={{ width: 88, height: 88, position: "relative" }}>
+      <Image
+        src="/logo-whale-transparent.png"
+        alt="Lillehval logo"
+        fill
+        className="object-contain"
+        sizes="88px"
+        priority
       />
-      {/* Body */}
-      <path
-        d="M15 38 Q22 20 45 22 Q68 22 80 36 Q70 50 45 50 Q22 50 15 38Z"
-        fill="#22c55e"
-      />
-      {/* Belly highlight */}
-      <path
-        d="M20 40 Q35 48 58 46 Q70 44 78 38 Q72 48 50 50 Q28 52 20 40Z"
-        fill="#16a34a"
-        opacity="0.5"
-      />
-      {/* Tail fluke */}
-      <path
-        d="M78 36 Q90 24 94 30 Q90 36 94 42 Q88 46 78 36Z"
-        fill="#22c55e"
-      />
-      {/* Pectoral fin */}
-      <path
-        d="M35 46 Q30 58 42 56 Q44 50 40 46Z"
-        fill="#16a34a"
-      />
-      {/* Eye */}
-      <circle cx="33" cy="34" r="3.5" fill="#0a2e1a" />
-      <circle cx="32" cy="33" r="1.2" fill="white" />
-    </svg>
+    </div>
   );
 }
 
@@ -60,6 +33,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -69,8 +43,12 @@ export default function Navbar() {
 
   const handleNavClick = (href: string) => {
     setMenuOpen(false);
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+    if (href.startsWith("/")) {
+      router.push(href);
+    } else {
+      const el = document.querySelector(href);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (
@@ -82,9 +60,7 @@ export default function Navbar() {
             ? "rgba(10, 46, 26, 0.97)"
             : "#0a2e1a",
           backdropFilter: scrolled ? "blur(12px)" : "none",
-          borderBottom: scrolled
-            ? "1px solid rgba(74, 222, 128, 0.12)"
-            : "1px solid transparent",
+          borderBottom: "2px solid rgba(74, 222, 128, 0.5)",
         }}
       >
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
@@ -99,7 +75,7 @@ export default function Navbar() {
             <span className="whitespace-nowrap flex items-baseline gap-1.5">
               <span className="text-lg font-extrabold tracking-tight" style={{ color: "#4ade80" }}>Lillehval</span>
               <span className="text-xs font-normal" style={{ color: "rgba(255,255,255,0.5)" }}>–</span>
-              <span className="text-xs font-normal" style={{ color: "#ffffff" }}>Vi gjør dere ai-klare</span>
+              <span className="text-xs font-normal" style={{ color: "#ffffff" }}>AI-reisen starter her</span>
             </span>
           </a>
 

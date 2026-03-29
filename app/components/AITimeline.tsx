@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const eras = [
   {
     name: "Chat Era",
@@ -8,6 +10,7 @@ const eras = [
     textColor: "#4ade80",
     platform: "ChatGPT",
     platformBg: "linear-gradient(135deg, #15803d 0%, #22c55e 100%)",
+    illustration: "/era-chat.jpg",
     description:
       "AI ble tilgjengelig for alle. For første gang kunne hvem som helst stille et spørsmål og få et intelligent svar. ChatGPT nådde 100 millioner brukere på to måneder — raskere enn noe annet produkt i historien. Verden oppdaget hva AI faktisk kunne gjøre, og konkurransen eksploderte. Google, Meta, Anthropic og andre kastet seg inn i løpet.",
     tools: ["Perplexity", "Claude", "Grok", "Gemini"],
@@ -22,6 +25,7 @@ const eras = [
     textColor: "#fbbf24",
     platform: "Claude Code",
     platformBg: "linear-gradient(135deg, #92400e 0%, #d97706 100%)",
+    illustration: "/era-vibe.jpg",
     description:
       "Utviklere sluttet å skrive kode linje for linje — AI tok over. Verktøy som Cursor og Bolt gjorde det mulig for én person å bygge det som tidligere krevde et helt team. «Vibe coding» ble et begrep: beskriv hva du vil ha, og AI bygger det. Terskelen for å lage programvare falt dramatisk, og en ny generasjon gründere uten teknisk bakgrunn begynte å bygge egne produkter.",
     tools: ["Cursor", "Bolt", "Replit", "Lovable", "Vibecode", "Emergent", "Codex"],
@@ -36,6 +40,7 @@ const eras = [
     textColor: "#86efac",
     platform: "???",
     platformBg: "linear-gradient(135deg, #064e3b 0%, #059669 100%)",
+    illustration: "/era-agents.jpg",
     description:
       "AI begynner å handle på egenhånd. Ikke bare svare — men planlegge, ta beslutninger og utføre oppgaver over tid uten at noen holder i hånden. Agenter kan browse nettet, skrive kode, sende e-poster og koordinere andre agenter. Det vi visste om hva AI «ikke kunne» er i ferd med å bli utdatert. Dette er den fasen de fleste bedrifter ennå ikke har tatt inn over seg.",
     tools: ["OpenClaw", "cowork / Claude", "pplx Computer", "Manus", "Open AI Superapp"],
@@ -45,7 +50,7 @@ const eras = [
 
 export default function AITimeline() {
   return (
-    <section id="ai-utviklingen" className="py-24 px-6 overflow-x-hidden" style={{ background: "#0a2e1a" }}>
+    <section id="ai-utviklingen" className="py-24 px-6 overflow-x-hidden" style={{ background: "#000000" }}>
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
@@ -99,6 +104,17 @@ export default function AITimeline() {
                 style={{ background: era.platformBg }}
               >
                 {era.platform}
+              </div>
+
+              {/* Illustration */}
+              <div className="relative w-full rounded-xl overflow-hidden" style={{ height: "180px" }}>
+                <Image
+                  src={era.illustration}
+                  alt={era.name}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                />
               </div>
 
               <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.65)" }}>

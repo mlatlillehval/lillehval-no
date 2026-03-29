@@ -12,15 +12,13 @@ export default function Hero() {
       <div
         className="absolute inset-0"
         style={{
-          background:
-            "linear-gradient(160deg, #051a0d 0%, #0a2e1a 40%, #134d2a 75%, #0a2e1a 100%)",
+          background: "#0a2e1a",
         }}
       />
       <div
         className="absolute inset-0"
         style={{
-          background:
-            "radial-gradient(ellipse at 50% 110%, rgba(34, 197, 94, 0.15) 0%, transparent 65%)",
+          background: "none",
         }}
       />
 
@@ -47,7 +45,8 @@ export default function Hero() {
             className="text-4xl sm:text-5xl xl:text-6xl font-extrabold leading-tight tracking-tight mb-6"
             style={{ color: "#ffffff", textShadow: "0 2px 20px rgba(0,0,0,0.18)" }}
           >
-            AI er stort.{" "}
+            AI er stort.
+            <br />
             <span style={{ color: "#4ade80" }}>AI er krevende.</span>
             <br />
             AI endrer seg hele tiden.
@@ -58,7 +57,7 @@ export default function Hero() {
             className="text-xl sm:text-2xl font-medium mb-10 max-w-lg"
             style={{ color: "rgba(255,255,255,0.88)" }}
           >
-            La oss hjelpe deg å navigere det og hente ut reell verdi.
+            Vi hjelper deg å navigere i landskapet og hente ut reell verdi.
           </p>
 
           {/* CTA */}
@@ -100,7 +99,7 @@ export default function Hero() {
             style={{ aspectRatio: "16/9" }}
           >
             <Image
-              src="/hero-evolution.jpg"
+              src="/hero-bedrift-utvikling.jpg"
               alt="Et selskap på sin AI-reise — fra analog til AI-drevet"
               fill
               className="object-cover object-center"
@@ -110,7 +109,7 @@ export default function Hero() {
             <div
               className="absolute inset-0 rounded-3xl"
               style={{
-                background: "linear-gradient(to top, rgba(15,23,42,0.3) 0%, transparent 50%)",
+                background: "linear-gradient(to top, rgba(5,26,13,0.25) 0%, transparent 60%)",
               }}
             />
           </div>
@@ -120,7 +119,7 @@ export default function Hero() {
       {/* Bottom fade */}
       <div
         className="absolute bottom-0 left-0 right-0 h-32"
-        style={{ background: "linear-gradient(to bottom, transparent, #0a2e1a)" }}
+        style={{ background: "none" }}
       />
     </section>
   );

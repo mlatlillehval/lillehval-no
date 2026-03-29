@@ -2,25 +2,25 @@ import Image from "next/image";
 
 const cards = [
   {
-    image: "/marquee-1.jpg",
+    image: "/marquee-ill-1.jpg",
     label: "Innsikt & Analyse",
     quote: "«Vi gikk fra å drukne i data til å faktisk forstå hva den forteller oss.»",
     company: "Norsk teknologibedrift",
   },
   {
-    image: "/marquee-2.jpg",
+    image: "/marquee-ill-2.jpg",
     label: "AI-strategi",
     quote: "«For første gang hadde hele teamet et felles språk rundt AI. Det endret alt.»",
     company: "Vekstselskap, Oslo",
   },
   {
-    image: "/marquee-3.jpg",
+    image: "/marquee-ill-3.jpg",
     label: "Lederforankring",
     quote: "«Lillehval hjalp oss å presentere AI på en måte styret faktisk forstod og ville investere i.»",
     company: "Konsernledelse, Bergen",
   },
   {
-    image: "/marquee-4.jpg",
+    image: "/marquee-ill-4.jpg",
     label: "Implementering",
     quote: "«Fra idé til pilot på tre uker. Det hadde ikke skjedd uten ekstern hjelp til å prioritere.»",
     company: "SaaS-selskap, Trondheim",
@@ -32,7 +32,7 @@ const allCards = [...cards, ...cards];
 
 export default function MarqueeSection() {
   return (
-    <section style={{ background: "#051a0d" }} className="py-20 overflow-hidden">
+    <section id="pagaende-prosjekter" style={{ background: "#051a0d" }} className="py-20 overflow-hidden">
       <div className="max-w-6xl mx-auto px-6 mb-12">
         <span className="inline-block mb-3 text-sm font-semibold uppercase tracking-widest" style={{ color: "#4ade80" }}>
           Resultater
@@ -94,6 +94,63 @@ export default function MarqueeSection() {
                 <p className="text-xs font-semibold" style={{ color: "rgba(255,255,255,0.35)" }}>
                   — {card.company}
                 </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Konkrete daglige use cases */}
+      <div className="max-w-6xl mx-auto px-6 mt-20">
+        <h3 className="text-xl font-extrabold text-white mb-8">
+          3 ting AI kan gjøre for deg — fra dag én
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[
+            {
+              number: "01",
+              label: "Møter & Rapportering",
+              before: "Timer brukt på å skrive referat, oppsummere diskusjoner og distribuere handlingspunkter.",
+              after: "AI transkriberer, oppsummerer og sender handlingspunkter automatisk etter hvert møte.",
+              impact: "2–4 timer spart per uke",
+            },
+            {
+              number: "02",
+              label: "Dokumentanalyse",
+              before: "Ansatte blar gjennom hundrevis av sider for å finne riktig informasjon i kontrakter og rapporter.",
+              after: "Still spørsmål til dokumentene dine — AI finner svaret på sekunder.",
+              impact: "80% raskere informasjonsinnhenting",
+            },
+            {
+              number: "03",
+              label: "Kundeservice & Intern hjelp",
+              before: "Samme spørsmål besvares manuelt om og om igjen av dyre medarbeidere.",
+              after: "En AI-assistent håndterer standardspørsmål 24/7, og eskalerer kun det komplekse.",
+              impact: "Opptil 60% færre manuelle henvendelser",
+            },
+          ].map((uc) => (
+            <div
+              key={uc.number}
+              className="rounded-2xl p-6 flex flex-col gap-4"
+              style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(74,222,128,0.18)" }}
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-2xl font-extrabold" style={{ color: "rgba(74,222,128,0.35)" }}>{uc.number}</span>
+                <span className="text-sm font-bold uppercase tracking-widest" style={{ color: "#4ade80" }}>{uc.label}</span>
+              </div>
+              <div>
+                <p className="text-xs font-semibold mb-1" style={{ color: "rgba(255,255,255,0.35)" }}>FØR</p>
+                <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.55)" }}>{uc.before}</p>
+              </div>
+              <div>
+                <p className="text-xs font-semibold mb-1" style={{ color: "#4ade80" }}>MED AI</p>
+                <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.75)" }}>{uc.after}</p>
+              </div>
+              <div
+                className="mt-auto px-3 py-1.5 rounded-full text-xs font-bold text-center"
+                style={{ background: "rgba(74,222,128,0.1)", color: "#4ade80" }}
+              >
+                {uc.impact}
               </div>
             </div>
           ))}

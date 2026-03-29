@@ -30,13 +30,13 @@ body {
 }
 
 .green-news-card {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(74,222,128,0.15);
+  background: rgba(74,222,128,0.12);
+  border: 1px solid rgba(74,222,128,0.25);
   transition: background 0.2s, border-color 0.2s;
 }
 .green-news-card:hover {
-  background: rgba(74,222,128,0.07);
-  border-color: rgba(74,222,128,0.4);
+  background: rgba(74,222,128,0.2);
+  border-color: rgba(74,222,128,0.5);
 }
 .green-news-card:hover .news-title {
   color: #86efac;
