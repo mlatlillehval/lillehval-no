@@ -45,17 +45,17 @@ const challenges = [
 
 export default function Challenges() {
   return (
-    <section id="ai-tjenester" className="py-24 px-6" style={{ background: "#0d3520" }}>
+    <section id="ai-tjenester" className="py-24 px-6" style={{ background: "#eaf0e6" }}>
       <div className="max-w-7xl mx-auto">
         {/* Section header */}
         <div className="text-center mb-14">
-          <span className="inline-block mb-3 text-sm font-semibold uppercase tracking-widest" style={{ color: "#4ade80" }}>
+          <span className="inline-block mb-3 text-sm font-semibold uppercase tracking-widest" style={{ color: "#15803d" }}>
             Hvorfor det er krevende
           </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#1a3320]">
             AI er ikke én ting.
           </h2>
-          <p className="mt-3 text-lg max-w-xl mx-auto" style={{ color: "rgba(255,255,255,0.6)" }}>
+          <p className="mt-3 text-lg max-w-xl mx-auto" style={{ color: "rgba(26,51,32,0.6)" }}>
             Det er et landskap. Her er de fire tingene de fleste bedrifter sliter med å navigere.
           </p>
         </div>
@@ -69,14 +69,14 @@ export default function Challenges() {
             >
               <div
                 className="w-12 h-12 flex items-center justify-center rounded-xl flex-shrink-0"
-                style={{ background: "rgba(74,222,128,0.12)", color: "#4ade80" }}
+                style={{ background: "rgba(34,139,70,0.1)", color: "#15803d" }}
               >
                 {card.icon}
               </div>
-              <h3 className="text-lg font-bold text-white leading-snug whitespace-nowrap flex-shrink-0">
+              <h3 className="text-lg font-bold text-[#1a3320] leading-snug whitespace-nowrap flex-shrink-0">
                 {card.title}
               </h3>
-              <p className="leading-relaxed text-base flex-1" style={{ color: "rgba(255,255,255,0.6)" }}>
+              <p className="leading-relaxed text-base flex-1" style={{ color: "rgba(26,51,32,0.6)" }}>
                 {card.description}
               </p>
               <div className="relative w-full rounded-xl overflow-hidden flex-shrink-0" style={{ height: "160px" }}>

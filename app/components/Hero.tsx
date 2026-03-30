@@ -12,7 +12,7 @@ export default function Hero() {
       <div
         className="absolute inset-0"
         style={{
-          background: "#0a2e1a",
+          background: "#f2ede3",
         }}
       />
       <div
@@ -31,9 +31,9 @@ export default function Hero() {
           <span
             className="inline-block mb-6 px-4 py-1.5 rounded-full text-sm font-semibold tracking-wide uppercase"
             style={{
-              background: "rgba(255, 255, 255, 0.18)",
-              color: "#bbf7d0",
-              border: "1px solid rgba(255, 255, 255, 0.3)",
+              background: "rgba(34,139,70,0.1)",
+              color: "#15803d",
+              border: "1px solid rgba(34,139,70,0.25)",
               backdropFilter: "blur(8px)",
             }}
           >
@@ -43,19 +43,19 @@ export default function Hero() {
           {/* Headline */}
           <h1
             className="text-4xl sm:text-5xl xl:text-6xl font-extrabold leading-tight tracking-tight mb-6"
-            style={{ color: "#ffffff", textShadow: "0 2px 20px rgba(0,0,0,0.18)" }}
+            style={{ color: "#1a3320", textShadow: "0 2px 20px rgba(0,0,0,0.06)" }}
           >
             AI er stort.
             <br />
-            <span style={{ color: "#4ade80" }}>AI er krevende.</span>
+            <span style={{ color: "#15803d" }}>AI er krevende.</span>
             <br />
-            AI endrer seg hele tiden.
+            AI er i endring.
           </h1>
 
           {/* Subheadline */}
           <p
             className="text-xl sm:text-2xl font-medium mb-10 max-w-lg"
-            style={{ color: "rgba(255,255,255,0.88)" }}
+            style={{ color: "rgba(26,51,32,0.75)" }}
           >
             Vi hjelper deg å navigere i landskapet og hente ut reell verdi.
           </p>
@@ -87,31 +87,47 @@ export default function Hero() {
           <BookingModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
 
           {/* Trust line */}
-          <p className="mt-5 text-sm" style={{ color: "rgba(255,255,255,0.6)" }}>
+          <p className="mt-5 text-sm" style={{ color: "rgba(26,51,32,0.5)" }}>
             Ingen forpliktelser. 30 minutter. Helt gratis.
           </p>
         </div>
 
         {/* RIGHT — Image */}
         <div className="lg:flex-1 w-full">
-          <div
-            className="relative rounded-3xl overflow-hidden shadow-2xl"
-            style={{ aspectRatio: "16/9" }}
-          >
-            <Image
-              src="/hero-bedrift-utvikling.jpg"
-              alt="Et selskap på sin AI-reise — fra analog til AI-drevet"
-              fill
-              className="object-cover object-center"
-              priority
-            />
-            {/* Subtle gradient overlay at bottom for depth */}
+          {/* Outer wrapper: relative without overflow-hidden so logo can escape */}
+          <div className="relative">
             <div
-              className="absolute inset-0 rounded-3xl"
-              style={{
-                background: "linear-gradient(to top, rgba(5,26,13,0.25) 0%, transparent 60%)",
-              }}
-            />
+              className="relative rounded-3xl overflow-hidden shadow-2xl"
+              style={{ aspectRatio: "16/9" }}
+            >
+              <Image
+                src="/hero-bedrift-utvikling.jpg"
+                alt="Et selskap på sin AI-reise — fra analog til AI-drevet"
+                fill
+                className="object-cover object-center"
+                priority
+              />
+              {/* Subtle gradient overlay at bottom for depth */}
+              <div
+                className="absolute inset-0 rounded-3xl"
+                style={{
+                  background: "linear-gradient(to top, rgba(5,26,13,0.25) 0%, transparent 60%)",
+                }}
+              />
+            </div>
+
+            {/* Whale logo — 1/4 on image, 3/4 outside top-right */}
+            <div
+              className="absolute pointer-events-none"
+              style={{ top: "-140px", right: "12px", width: "240px", height: "240px", zIndex: 10 }}
+            >
+              <Image
+                src="/logo-whale-hero-transparent.png"
+                alt="Lillehval logo"
+                fill
+                className="object-contain"
+              />
+            </div>
           </div>
         </div>
       </div>

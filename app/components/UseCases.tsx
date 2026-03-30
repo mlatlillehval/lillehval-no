@@ -18,7 +18,7 @@ const services = [
     area: "AI-implementering",
     tagline: "Løsninger som faktisk virker",
     illustration: "/service-implementering.jpg",
-    color: "#4ade80",
+    color: "#15803d",
     items: [
       "Intern AI-assistent og chatbot",
       "Dokumentanalyse og kunnskapsbase",
@@ -31,7 +31,7 @@ const services = [
     area: "AI-opplæring",
     tagline: "Kompetanse som sitter",
     illustration: "/service-opplaering.jpg",
-    color: "#86efac",
+    color: "#16a34a",
     items: [
       "AI-workshop for hele teamet (halvdag)",
       "Lederprogram i ansvarlig AI-bruk",
@@ -57,19 +57,19 @@ const services = [
 
 export default function UseCases() {
   return (
-    <section id="ai-tjenester-cases" className="py-24 px-6" style={{ background: "#0a2e1a" }}>
+    <section id="ai-tjenester-cases" className="py-24 px-6" style={{ background: "#f2ede3" }}>
       <div className="max-w-7xl mx-auto">
 
         {/* Header */}
         <div className="text-center mb-16">
-          <span className="inline-block mb-3 text-sm font-semibold uppercase tracking-widest" style={{ color: "#4ade80" }}>
+          <span className="inline-block mb-3 text-sm font-semibold uppercase tracking-widest" style={{ color: "#15803d" }}>
             Hva vi leverer
           </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#1a3320]">
             Fire tjenesteområder
           </h2>
-          <p className="mt-3 text-lg max-w-2xl mx-auto" style={{ color: "rgba(255,255,255,0.6)" }}>
-            Fra strategi til optimering — vi følger deg gjennom hele AI-reisen.
+          <p className="mt-3 text-lg max-w-2xl mx-auto" style={{ color: "rgba(26,51,32,0.6)" }}>
+            Fra strategi til optimering — vi følger deg gjennom hele AI-reisen. Vi skreddersyr oss til selskapets behov.
           </p>
         </div>
 
@@ -102,7 +102,7 @@ export default function UseCases() {
                   >
                     {service.area}
                   </span>
-                  <p className="text-white font-semibold text-base leading-snug">{service.tagline}</p>
+                  <p className="text-[#1a3320] font-semibold text-base leading-snug">{service.tagline}</p>
                 </div>
               </div>
 
@@ -116,7 +116,7 @@ export default function UseCases() {
                     >
                       {i + 1}
                     </div>
-                    <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.75)" }}>
+                    <p className="text-sm leading-relaxed" style={{ color: "rgba(26,51,32,0.75)" }}>
                       {item}
                     </p>
                   </div>

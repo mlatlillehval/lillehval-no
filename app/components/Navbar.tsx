@@ -57,10 +57,10 @@ export default function Navbar() {
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
         style={{
           background: scrolled
-            ? "rgba(10, 46, 26, 0.97)"
-            : "#0a2e1a",
+            ? "rgba(235, 229, 214, 0.97)"
+            : "#e8e2d4",
           backdropFilter: scrolled ? "blur(12px)" : "none",
-          borderBottom: "2px solid rgba(74, 222, 128, 0.5)",
+          borderBottom: "2px solid rgba(34, 139, 70, 0.35)",
         }}
       >
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
@@ -73,9 +73,9 @@ export default function Navbar() {
           >
             <WhaleLogo />
             <span className="whitespace-nowrap flex items-baseline gap-1.5">
-              <span className="text-lg font-extrabold tracking-tight" style={{ color: "#4ade80" }}>Lillehval</span>
-              <span className="text-xs font-normal" style={{ color: "rgba(255,255,255,0.5)" }}>–</span>
-              <span className="text-xs font-normal" style={{ color: "#ffffff" }}>AI-reisen starter her</span>
+              <span className="text-lg font-extrabold tracking-tight" style={{ color: "#15803d" }}>Lillehval</span>
+              <span className="text-xs font-normal" style={{ color: "rgba(26,51,32,0.4)" }}>–</span>
+              <span className="text-xs font-normal" style={{ color: "#1a3320" }}>AI-reisen starter her</span>
             </span>
           </a>
 
@@ -86,13 +86,13 @@ export default function Navbar() {
                 key={link.href}
                 onClick={() => handleNavClick(link.href)}
                 className="px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-150 whitespace-nowrap"
-                style={{ color: "rgba(255,255,255,0.8)" }}
+                style={{ color: "#1a3320" }}
                 onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.color = "#4ade80";
-                  (e.currentTarget as HTMLElement).style.background = "rgba(74,222,128,0.08)";
+                  (e.currentTarget as HTMLElement).style.color = "#15803d";
+                  (e.currentTarget as HTMLElement).style.background = "rgba(34,139,70,0.08)";
                 }}
                 onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.8)";
+                  (e.currentTarget as HTMLElement).style.color = "#1a3320";
                   (e.currentTarget as HTMLElement).style.background = "transparent";
                 }}
               >
@@ -125,7 +125,7 @@ export default function Navbar() {
                 <span
                   key={i}
                   className="block h-0.5 w-6 rounded transition-all"
-                  style={{ background: "#4ade80" }}
+                  style={{ background: "rgba(34,139,70,0.5)" }}
                 />
               ))}
             </button>
@@ -136,14 +136,14 @@ export default function Navbar() {
         {menuOpen && (
           <div
             className="lg:hidden px-6 pb-5 pt-2 flex flex-col gap-1"
-            style={{ background: "#0a2e1a", borderTop: "1px solid rgba(74,222,128,0.12)" }}
+            style={{ background: "#e8e2d4", borderTop: "1px solid rgba(34,139,70,0.2)" }}
           >
             {navLinks.map((link) => (
               <button
                 key={link.href}
                 onClick={() => handleNavClick(link.href)}
                 className="text-left px-3 py-2.5 rounded-lg text-sm font-medium"
-                style={{ color: "rgba(255,255,255,0.85)" }}
+                style={{ color: "#1a3320" }}
               >
                 {link.label}
               </button>

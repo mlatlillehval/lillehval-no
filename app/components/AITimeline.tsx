@@ -34,7 +34,7 @@ const eras = [
   {
     name: "General Agents",
     years: "2026 →",
-    color: "#4ade80",
+    color: "#15803d",
     bgColor: "rgba(74,222,128,0.06)",
     borderColor: "rgba(74,222,128,0.2)",
     textColor: "#86efac",
@@ -50,17 +50,17 @@ const eras = [
 
 export default function AITimeline() {
   return (
-    <section id="ai-utviklingen" className="py-24 px-6 overflow-x-hidden" style={{ background: "#000000" }}>
+    <section id="ai-utviklingen" className="py-24 px-6 overflow-x-hidden" style={{ background: "#e8e2d4" }}>
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <span className="inline-block mb-3 text-sm font-semibold uppercase tracking-widest" style={{ color: "#4ade80" }}>
+          <span className="inline-block mb-3 text-sm font-semibold uppercase tracking-widest" style={{ color: "#15803d" }}>
             Historikk
           </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#1a3320]">
             AI-utviklingen i tre epoker
           </h2>
-          <p className="mt-3 text-lg max-w-xl mx-auto" style={{ color: "rgba(255,255,255,0.6)" }}>
+          <p className="mt-3 text-lg max-w-xl mx-auto" style={{ color: "rgba(26,51,32,0.6)" }}>
             Fra chatbot til agent. Fra verktøy til medarbeider.
           </p>
         </div>
@@ -74,12 +74,12 @@ export default function AITimeline() {
                 className="w-5 h-5 rounded-full shadow-md"
                 style={{ background: era.color, border: "3px solid #0a2e1a", boxShadow: `0 0 10px ${era.color}60` }}
               />
-              <span className="text-xs font-bold whitespace-nowrap" style={{ color: "rgba(255,255,255,0.45)" }}>{era.years}</span>
+              <span className="text-xs font-bold whitespace-nowrap" style={{ color: "rgba(26,51,32,0.45)" }}>{era.years}</span>
             </div>
           ))}
           <div className="absolute right-10 top-1/2 -translate-y-1/2">
             <svg width="24" height="12" viewBox="0 0 24 12" fill="none">
-              <path d="M0 6h20M14 1l6 5-6 5" stroke="rgba(74,222,128,0.4)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M0 6h20M14 1l6 5-6 5" stroke="rgba(34,139,70,0.4)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </div>
         </div>
@@ -96,11 +96,11 @@ export default function AITimeline() {
                 <span className="text-sm font-extrabold uppercase tracking-widest" style={{ color: era.textColor }}>
                   {era.name}
                 </span>
-                <span className="text-xs font-semibold" style={{ color: "rgba(255,255,255,0.4)" }}>{era.years}</span>
+                <span className="text-xs font-semibold" style={{ color: "rgba(26,51,32,0.4)" }}>{era.years}</span>
               </div>
 
               <div
-                className="w-full py-3 rounded-xl text-center text-white font-extrabold text-lg tracking-wide shadow-sm"
+                className="w-full py-3 rounded-xl text-center text-[#1a3320] font-extrabold text-lg tracking-wide shadow-sm"
                 style={{ background: era.platformBg }}
               >
                 {era.platform}
@@ -117,7 +117,7 @@ export default function AITimeline() {
                 />
               </div>
 
-              <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.65)" }}>
+              <p className="text-sm leading-relaxed" style={{ color: "rgba(26,51,32,0.65)" }}>
                 {era.description}
               </p>
 
@@ -126,7 +126,7 @@ export default function AITimeline() {
                   <span
                     key={tool}
                     className="px-2.5 py-1 rounded-full text-xs font-semibold"
-                    style={{ background: "rgba(255,255,255,0.07)", color: era.textColor }}
+                    style={{ background: "rgba(255,255,255,0.8)", color: era.textColor }}
                   >
                     {tool}
                   </span>
@@ -152,14 +152,14 @@ export default function AITimeline() {
         {/* Bottom callout */}
         <div
           className="mt-12 rounded-2xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4"
-          style={{ background: "rgba(74,222,128,0.07)", border: "1px solid rgba(74,222,128,0.2)" }}
+          style={{ background: "rgba(34,139,70,0.07)", border: "1px solid rgba(34,139,70,0.2)" }}
         >
-          <p className="font-medium text-base max-w-lg" style={{ color: "rgba(255,255,255,0.8)" }}>
-            <strong className="text-white">Lillehval hjelper deg</strong> å forstå hvilken epoke du befinner deg i — og hva du bør gjøre nå for ikke å bli hengende etter.
+          <p className="font-medium text-base max-w-lg" style={{ color: "rgba(26,51,32,0.8)" }}>
+            <strong className="text-[#1a3320]">Lillehval hjelper deg</strong> å forstå hvilken epoke du befinner deg i — og hva du bør gjøre nå for ikke å bli hengende etter.
           </p>
           <a
             href="#kontakt"
-            className="flex-shrink-0 inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-bold text-white transition-all hover:scale-105"
+            className="flex-shrink-0 inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-bold text-[#1a3320] transition-all hover:scale-105"
             style={{ background: "linear-gradient(135deg, #22c55e, #15803d)" }}
           >
             Ta en prat med oss
