@@ -119,7 +119,7 @@ export default function Hero() {
             {/* Whale logo — 1/4 on image, 3/4 outside top-right */}
             <div
               className="absolute pointer-events-none"
-              style={{ top: "-140px", right: "12px", width: "240px", height: "240px", zIndex: 10 }}
+              style={{ top: "-140px", right: "-40px", width: "240px", height: "240px", zIndex: 10 }}
             >
               <Image
                 src="/logo-whale-hero-transparent.png"
