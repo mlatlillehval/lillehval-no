@@ -45,11 +45,11 @@ export default function Hero() {
             className="text-4xl sm:text-5xl xl:text-6xl font-extrabold leading-tight tracking-tight mb-6"
             style={{ color: "#1a3320", textShadow: "0 2px 20px rgba(0,0,0,0.06)" }}
           >
-            AI er stort.
+            AI-teknologien er i endring
             <br />
-            <span style={{ color: "#15803d" }}>AI er krevende.</span>
+            <span style={{ color: "#15803d" }}>og verktøyklassene</span>
             <br />
-            AI er i endring.
+            endrer seg.
           </h1>
 
           {/* Subheadline */}
@@ -57,7 +57,11 @@ export default function Hero() {
             className="text-xl sm:text-2xl font-medium mb-10 max-w-lg"
             style={{ color: "rgba(26,51,32,0.75)" }}
           >
-            Vi hjelper deg å navigere i landskapet og hente ut reell verdi.
+            Nye muligheter for å spare tid og skape verdi.
+            <br />
+            Vi navigerer AI-landskapet
+            <br />
+            — sammen med deg.
           </p>
 
           {/* CTA */}
