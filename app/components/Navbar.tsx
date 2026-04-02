@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import BookingModal from "./BookingModal";
 
@@ -9,7 +10,7 @@ const navLinks = [
   { label: "AI utviklingen", href: "/ai-utviklingen" },
   { label: "AI tjenester", href: "/ai-tjenester" },
   { label: "AI metodikk", href: "/ai-metodikk" },
-  { label: "Siste AI nyheter", href: "/siste-nyheter" },
+  { label: "AI-Aktualitet", href: "/siste-nyheter" },
   { label: "Pågående prosjekter", href: "#pagaende-prosjekter" },
   { label: "Hvorfor oss?", href: "/hvorfor-oss" },
 ];
@@ -103,6 +104,18 @@ export default function Navbar() {
 
           {/* CTA + Mobile menu */}
           <div className="flex items-center gap-3">
+            <Link
+              href="/ai-beredskap"
+              className="hidden sm:inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-bold transition-all duration-200 hover:scale-105 active:scale-95 whitespace-nowrap border-2"
+              style={{
+                background: "#0a2e1a",
+                color: "#E1F5EE",
+                borderColor: "rgba(225, 245, 238, 0.35)",
+                boxShadow: "0 2px 12px rgba(10, 46, 26, 0.35)",
+              }}
+            >
+              AI-beredskap
+            </Link>
             <button
               onClick={() => setModalOpen(true)}
               className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-200 hover:scale-105 active:scale-95 whitespace-nowrap"
@@ -148,9 +161,17 @@ export default function Navbar() {
                 {link.label}
               </button>
             ))}
+            <Link
+              href="/ai-beredskap"
+              onClick={() => setMenuOpen(false)}
+              className="mt-2 px-5 py-3 rounded-full text-sm font-bold text-center"
+              style={{ background: "#0a2e1a", color: "#E1F5EE" }}
+            >
+              AI-beredskap
+            </Link>
             <button
               onClick={() => { setMenuOpen(false); setModalOpen(true); }}
-              className="mt-2 px-5 py-3 rounded-full text-sm font-bold text-white"
+              className="mt-1 px-5 py-3 rounded-full text-sm font-bold text-white"
               style={{ background: "linear-gradient(135deg, #22c55e, #15803d)" }}
             >
               Book et møte

@@ -47,7 +47,7 @@ export default function Hero() {
           >
             AI-teknologien er i endring
             <br />
-            <span style={{ color: "#15803d" }}>og verktøyklassene</span>
+            <span style={{ color: "#15803d" }}>og verktøykassene</span>
             <br />
             endrer seg.
           </h1>

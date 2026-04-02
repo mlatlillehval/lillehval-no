@@ -1,4 +1,5 @@
 import Image from "next/image";
+import AIBlogSection from "./AIBlogSection";
 import { getCachedNews, NewsItem } from "../lib/fetchNews";
 
 function formatUpdatedAt(iso: string): string {
@@ -58,6 +59,8 @@ export default async function NewsSection() {
             style={{ background: "linear-gradient(to bottom, transparent 60%, #000000 100%)" }}
           />
         </div>
+
+        <AIBlogSection />
 
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
