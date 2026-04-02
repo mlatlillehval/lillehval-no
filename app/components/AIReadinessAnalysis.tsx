@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState, useCallback } from "react";
+import { useMemo, useState, useCallback, useRef, useEffect } from "react";
+import type { Json } from "@/types/supabase";
 import Link from "next/link";
 
 /** Bytt ut med ekte Calendly-URL når den er klar */
@@ -163,6 +164,27 @@ export default function AIReadinessAnalysis() {
   const [q10, setQ10] = useState<string | null>(null);
   const [q11, setQ11] = useState("");
 
+  /** Valgfritt kontakt på resultatsiden — sendes til ai_beredskap.navn / epost */
+  const [resultContactNavn, setResultContactNavn] = useState("");
+  const [resultContactEpost, setResultContactEpost] = useState("");
+
+  const flowIdRef = useRef("");
+  const resultContactRef = useRef({ navn: "", epost: "" });
+  const aiSaveStartedRef = useRef(false);
+  const aiSavePayloadRef = useRef<{
+    total_score: number;
+    score_kategori: string;
+    bedrift: string | null;
+    navn: string | null;
+    epost: string | null;
+    svar: Json;
+  } | null>(null);
+
+  resultContactRef.current = {
+    navn: resultContactNavn,
+    epost: resultContactEpost,
+  };
+
   const totalFlowSteps = 12;
   const progressPct =
     phase === "flow"
@@ -196,15 +218,72 @@ export default function AIReadinessAnalysis() {
     setQ9(null);
     setQ10(null);
     setQ11("");
+    setResultContactNavn("");
+    setResultContactEpost("");
+  }, []);
+
+  const flushSaveAiBeredskap = useCallback(() => {
+    const payload = aiSavePayloadRef.current;
+    if (!payload || aiSaveStartedRef.current) return;
+
+    const lockKey = `lillehval-ai-beredskap-${flowIdRef.current}`;
+    try {
+      if (typeof sessionStorage !== "undefined" && sessionStorage.getItem(lockKey)) {
+        return;
+      }
+    } catch {
+      /* privat modus */
+    }
+
+    aiSaveStartedRef.current = true;
+    const { navn, epost } = resultContactRef.current;
+
+    void fetch("/api/ai-beredskap", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        total_score: payload.total_score,
+        score_kategori: payload.score_kategori,
+        bedrift: payload.bedrift,
+        navn: navn.trim() || null,
+        epost: epost.trim() || null,
+        svar: payload.svar,
+      }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          try {
+            if (typeof sessionStorage !== "undefined") {
+              sessionStorage.setItem(lockKey, "1");
+            }
+          } catch {
+            /* */
+          }
+        } else {
+          aiSaveStartedRef.current = false;
+        }
+      })
+      .catch(() => {
+        aiSaveStartedRef.current = false;
+      });
   }, []);
 
   const openFlow = () => {
     resetFlow();
+    flowIdRef.current =
+      typeof crypto !== "undefined" && "randomUUID" in crypto
+        ? crypto.randomUUID()
+        : `${Date.now()}-${Math.random()}`;
+    aiSavePayloadRef.current = null;
+    aiSaveStartedRef.current = false;
+    setShowResults(false);
     setPhase("flow");
     setStepIndex(0);
   };
 
   const closeFlow = () => {
+    if (showResults) flushSaveAiBeredskap();
+    setShowResults(false);
     setPhase("landing");
     resetFlow();
   };
@@ -243,14 +322,50 @@ export default function AIReadinessAnalysis() {
   const goNext = () => {
     if (!canProceed()) return;
     if (stepIndex === 11) {
+      if (q4 === null || q5 === null || q7 === null || q9 === null) return;
+      const s = computeScore(q4, q5, q7, q9);
+      const b = scoreBand(s);
+      const rec = q8 !== null ? pickPackages(q6, q8) : [];
+      aiSavePayloadRef.current = {
+        total_score: s,
+        score_kategori: b.label,
+        bedrift: companyName.trim() || null,
+        navn: null,
+        epost: null,
+        svar: {
+          q1,
+          q2,
+          q3,
+          q4,
+          q5,
+          q6: [...q6],
+          q7,
+          q8,
+          q9,
+          q10,
+          q11,
+          band_label: b.label,
+          band_description: b.description,
+          anbefalte_pakker: rec.map((p) => ({ tag: p.tag, name: p.name })),
+        },
+      };
+      setResultContactNavn("");
+      setResultContactEpost("");
       setShowResults(true);
       return;
     }
     setStepIndex((s) => s + 1);
   };
 
+  useEffect(() => {
+    if (!showResults) return;
+    const t = setTimeout(() => flushSaveAiBeredskap(), 2800);
+    return () => clearTimeout(t);
+  }, [showResults, flushSaveAiBeredskap]);
+
   const goBack = () => {
     if (showResults) {
+      flushSaveAiBeredskap();
       setShowResults(false);
       return;
     }
@@ -379,6 +494,10 @@ export default function AIReadinessAnalysis() {
                   companyName={companyName}
                   q11={q11}
                   packages={recommended}
+                  contactNavn={resultContactNavn}
+                  contactEpost={resultContactEpost}
+                  onContactNavnChange={setResultContactNavn}
+                  onContactEpostChange={setResultContactEpost}
                   onClose={closeFlow}
                 />
               ) : (
@@ -696,6 +815,10 @@ function ResultsPanel({
   companyName,
   q11,
   packages,
+  contactNavn,
+  contactEpost,
+  onContactNavnChange,
+  onContactEpostChange,
   onClose,
 }: {
   score: number;
@@ -703,6 +826,10 @@ function ResultsPanel({
   companyName: string;
   q11: string;
   packages: PackageRow[];
+  contactNavn: string;
+  contactEpost: string;
+  onContactNavnChange: (v: string) => void;
+  onContactEpostChange: (v: string) => void;
   onClose: () => void;
 }) {
   const circumference = 2 * Math.PI * 52;
@@ -813,6 +940,48 @@ function ResultsPanel({
           {q11}
         </div>
       )}
+
+      <div
+        className="rounded-xl border-2 p-4 space-y-3"
+        style={{ borderColor: "rgba(8,80,65,0.2)", background: LIGHT_BG }}
+      >
+        <h3 className="text-sm font-extrabold uppercase tracking-wide" style={{ color: DARK_TEXT }}>
+          Vil du at vi kontakter deg?
+        </h3>
+        <p className="text-xs opacity-80 leading-relaxed">
+          Helt valgfritt. Navn og e-post lagres sammen med analysen slik at vi kan følge opp — dere kan også bare booke et møte under uten å fylle ut noe her.
+        </p>
+        <div>
+          <label className="block text-xs font-semibold mb-1 opacity-80" htmlFor="ai-result-navn">
+            Navn (valgfritt)
+          </label>
+          <input
+            id="ai-result-navn"
+            type="text"
+            autoComplete="name"
+            value={contactNavn}
+            onChange={(e) => onContactNavnChange(e.target.value)}
+            placeholder="For- og etternavn"
+            className="w-full rounded-xl border-2 px-3 py-2.5 text-sm outline-none focus:ring-2"
+            style={{ borderColor: "rgba(8,80,65,0.2)", color: DARK_TEXT }}
+          />
+        </div>
+        <div>
+          <label className="block text-xs font-semibold mb-1 opacity-80" htmlFor="ai-result-epost">
+            E-post (valgfritt)
+          </label>
+          <input
+            id="ai-result-epost"
+            type="email"
+            autoComplete="email"
+            value={contactEpost}
+            onChange={(e) => onContactEpostChange(e.target.value)}
+            placeholder="ola@bedrift.no"
+            className="w-full rounded-xl border-2 px-3 py-2.5 text-sm outline-none focus:ring-2"
+            style={{ borderColor: "rgba(8,80,65,0.2)", color: DARK_TEXT }}
+          />
+        </div>
+      </div>
 
       <a
         href={CALENDLY_URL}

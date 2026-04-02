@@ -40,6 +40,8 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   if (!isOpen) return null;
 
@@ -92,9 +94,39 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
     setSelectedTime(null);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    if (!selectedDate || !selectedTime) return;
+    setSubmitting(true);
+    setSubmitError(null);
+    const y = selectedDate.getFullYear();
+    const m = selectedDate.getMonth() + 1;
+    const d = selectedDate.getDate();
+    const onsketDato = `${y}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+    try {
+      const res = await fetch("/api/moetebooking", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          navn: `${form.firstName.trim()} ${form.lastName.trim()}`.trim(),
+          epost: form.email.trim(),
+          bedrift: form.company.trim() || null,
+          melding: form.message.trim() || null,
+          onsketDato,
+          onsketTid: selectedTime,
+        }),
+      });
+      const data = (await res.json().catch(() => ({}))) as { error?: string };
+      if (!res.ok) {
+        setSubmitError(data.error ?? "Noe gikk galt. Prøv igjen.");
+        return;
+      }
+      setSubmitted(true);
+    } catch {
+      setSubmitError("Nettverksfeil. Sjekk tilkoblingen og prøv igjen.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const resetAndClose = () => {
@@ -103,6 +135,8 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
     setSelectedTime(null);
     setForm({ company: "", firstName: "", lastName: "", email: "", message: "" });
     setSubmitted(false);
+    setSubmitting(false);
+    setSubmitError(null);
     onClose();
   };
 
@@ -369,20 +403,28 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                 />
               </div>
 
+              {submitError && (
+                <p className="text-sm text-red-600 font-medium" role="alert">
+                  {submitError}
+                </p>
+              )}
+
               <div className="flex gap-3 pt-1">
                 <button
                   type="button"
                   onClick={() => setStep(1)}
-                  className="flex-1 py-3.5 rounded-full font-bold border border-gray-200 text-gray-600 hover:bg-gray-50 transition-all"
+                  disabled={submitting}
+                  className="flex-1 py-3.5 rounded-full font-bold border border-gray-200 text-gray-600 hover:bg-gray-50 transition-all disabled:opacity-50"
                 >
                   ← Tilbake
                 </button>
                 <button
                   type="submit"
-                  className="flex-[2] py-3.5 rounded-full font-bold text-white transition-all hover:scale-[1.02]"
+                  disabled={submitting}
+                  className="flex-[2] py-3.5 rounded-full font-bold text-white transition-all hover:scale-[1.02] disabled:opacity-60 disabled:scale-100"
                   style={{ background: "linear-gradient(135deg, #22c55e 0%, #15803d 100%)" }}
                 >
-                  Book møte
+                  {submitting ? "Sender …" : "Book møte"}
                 </button>
               </div>
             </form>

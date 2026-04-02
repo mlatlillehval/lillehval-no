@@ -1,0 +1,310 @@
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[]
+
+export type Database = {
+  // Allows to automatically instantiate createClient with right options
+  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
+  __InternalSupabase: {
+    PostgrestVersion: "14.5"
+  }
+  public: {
+    Tables: {
+      ai_beredskap: {
+        Row: {
+          bedrift: string | null
+          epost: string | null
+          id: string
+          navn: string | null
+          opprettet: string | null
+          score_kategori: string | null
+          svar: Json
+          total_score: number
+        }
+        Insert: {
+          bedrift?: string | null
+          epost?: string | null
+          id?: string
+          navn?: string | null
+          opprettet?: string | null
+          score_kategori?: string | null
+          svar: Json
+          total_score: number
+        }
+        Update: {
+          bedrift?: string | null
+          epost?: string | null
+          id?: string
+          navn?: string | null
+          opprettet?: string | null
+          score_kategori?: string | null
+          svar?: Json
+          total_score?: number
+        }
+        Relationships: []
+      }
+      innlegg: {
+        Row: {
+          id: string
+          ingress: string | null
+          innhold: string | null
+          opprettet: string | null
+          publisert: boolean | null
+          publisert_dato: string | null
+          slug: string
+          tittel: string
+        }
+        Insert: {
+          id?: string
+          ingress?: string | null
+          innhold?: string | null
+          opprettet?: string | null
+          publisert?: boolean | null
+          publisert_dato?: string | null
+          slug: string
+          tittel: string
+        }
+        Update: {
+          id?: string
+          ingress?: string | null
+          innhold?: string | null
+          opprettet?: string | null
+          publisert?: boolean | null
+          publisert_dato?: string | null
+          slug?: string
+          tittel?: string
+        }
+        Relationships: []
+      }
+      kontaktskjema: {
+        Row: {
+          bedrift: string | null
+          epost: string
+          id: string
+          melding: string | null
+          navn: string
+          opprettet: string | null
+          side: string | null
+        }
+        Insert: {
+          bedrift?: string | null
+          epost: string
+          id?: string
+          melding?: string | null
+          navn: string
+          opprettet?: string | null
+          side?: string | null
+        }
+        Update: {
+          bedrift?: string | null
+          epost?: string
+          id?: string
+          melding?: string | null
+          navn?: string
+          opprettet?: string | null
+          side?: string | null
+        }
+        Relationships: []
+      }
+      moetebookinger: {
+        Row: {
+          bedrift: string | null
+          epost: string
+          id: string
+          melding: string | null
+          navn: string
+          opprettet: string | null
+          telefon: string | null
+        }
+        Insert: {
+          bedrift?: string | null
+          epost: string
+          id?: string
+          melding?: string | null
+          navn: string
+          opprettet?: string | null
+          telefon?: string | null
+        }
+        Update: {
+          bedrift?: string | null
+          epost?: string
+          id?: string
+          melding?: string | null
+          navn?: string
+          opprettet?: string | null
+          telefon?: string | null
+        }
+        Relationships: []
+      }
+      prosjekter: {
+        Row: {
+          beskrivelse: string | null
+          id: string
+          kunde: string | null
+          opprettet: string | null
+          status: string | null
+          tittel: string
+          vis_paa_nettside: boolean | null
+        }
+        Insert: {
+          beskrivelse?: string | null
+          id?: string
+          kunde?: string | null
+          opprettet?: string | null
+          status?: string | null
+          tittel: string
+          vis_paa_nettside?: boolean | null
+        }
+        Update: {
+          beskrivelse?: string | null
+          id?: string
+          kunde?: string | null
+          opprettet?: string | null
+          status?: string | null
+          tittel?: string
+          vis_paa_nettside?: boolean | null
+        }
+        Relationships: []
+      }
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      [_ in never]: never
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
+}
+
+type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
+
+type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
+
+export type Tables<
+  DefaultSchemaTableNameOrOptions extends
+    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
+    | { schema: keyof DatabaseWithoutInternals },
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
+    : never = never,
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+      Row: infer R
+    }
+    ? R
+    : never
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])
+    ? (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
+        Row: infer R
+      }
+      ? R
+      : never
+    : never
+
+export type TablesInsert<
+  DefaultSchemaTableNameOrOptions extends
+    | keyof DefaultSchema["Tables"]
+    | { schema: keyof DatabaseWithoutInternals },
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Insert: infer I
+    }
+    ? I
+    : never
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+        Insert: infer I
+      }
+      ? I
+      : never
+    : never
+
+export type TablesUpdate<
+  DefaultSchemaTableNameOrOptions extends
+    | keyof DefaultSchema["Tables"]
+    | { schema: keyof DatabaseWithoutInternals },
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Update: infer U
+    }
+    ? U
+    : never
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+        Update: infer U
+      }
+      ? U
+      : never
+    : never
+
+export type Enums<
+  DefaultSchemaEnumNameOrOptions extends
+    | keyof DefaultSchema["Enums"]
+    | { schema: keyof DatabaseWithoutInternals },
+  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
+    : never = never,
+> = DefaultSchemaEnumNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
+    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
+    : never
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof DefaultSchema["CompositeTypes"]
+    | { schema: keyof DatabaseWithoutInternals },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
+    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+    : never
+
+export const Constants = {
+  public: {
+    Enums: {},
+  },
+} as const
