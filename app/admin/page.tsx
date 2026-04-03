@@ -219,6 +219,29 @@ export default function AdminPage() {
     }
   };
 
+  const clearBookingMelding = async () => {
+    if (!selectedBooking) return;
+    const sb = getSupabaseOrNull();
+    if (!sb) return;
+    setSavingBooking(true);
+    setGlobalError(null);
+    try {
+      const { error } = await sb
+        .from("moetebookinger")
+        .update({ melding: null })
+        .eq("id", selectedBooking.id);
+      if (error) throw error;
+      setBookingMeldingDraft("");
+      await refreshBookings();
+    } catch (e) {
+      setGlobalError(
+        e instanceof Error ? e.message : "Kunne ikke slette melding."
+      );
+    } finally {
+      setSavingBooking(false);
+    }
+  };
+
   const updateSelectedProject = async () => {
     if (!selectedProject) return;
     const sb = getSupabaseOrNull();
@@ -336,7 +359,7 @@ export default function AdminPage() {
                     <th className="px-6 py-3 text-left">E-post</th>
                     <th className="px-6 py-3 text-left">Score</th>
                     <th className="px-6 py-3 text-left">Dato</th>
-                    <th className="px-6 py-3 text-left">Status</th>
+                    <th className="px-6 py-3 text-left">Kategori</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
@@ -445,13 +468,22 @@ export default function AdminPage() {
                       />
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
                       <button
+                        type="button"
                         onClick={() => void updateBookingMelding()}
                         disabled={savingBooking}
                         className="px-4 py-2 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-60 transition"
                       >
                         {savingBooking ? "Lagrer..." : "Lagre melding"}
+                      </button>
+                      <button
+                        type="button"
+                        disabled={savingBooking}
+                        onClick={() => void clearBookingMelding()}
+                        className="px-4 py-2 rounded-xl font-bold text-white bg-red-600 hover:bg-red-700 disabled:opacity-60 transition shrink-0"
+                      >
+                        Slette melding
                       </button>
                       <button
                         type="button"
