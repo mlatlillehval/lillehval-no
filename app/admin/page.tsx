@@ -3,8 +3,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { createBrowserClient } from "@supabase/ssr";
 import { useRouter } from "next/navigation";
+import FrontpageTextEditor from "../components/admin/FrontpageTextEditor";
 
-type Tab = "ai" | "bookings" | "projects";
+type Tab = "ai" | "bookings" | "projects" | "frontpage";
 
 type LeadRow = {
   id: string;
@@ -296,6 +297,17 @@ export default function AdminPage() {
           >
             Tekst på nettsiden
           </button>
+          <button
+            className={`px-4 py-2 rounded-lg text-sm font-semibold border ${
+              tab === "frontpage"
+                ? "bg-blue-50 border-blue-200 text-blue-700"
+                : "bg-white border-gray-200 text-gray-700 hover:bg-gray-50"
+            }`}
+            onClick={() => setTab("frontpage")}
+            type="button"
+          >
+            Tekst på forsiden
+          </button>
         </div>
 
         {globalError && (
@@ -457,7 +469,7 @@ export default function AdminPage() {
               </div>
             </div>
           </div>
-        ) : (
+        ) : tab === "projects" ? (
           <div className="bg-white rounded-xl shadow-md overflow-hidden">
             <div className="px-6 py-4 border-b border-gray-100">
               <h2 className="font-semibold text-gray-700">
@@ -631,7 +643,9 @@ export default function AdminPage() {
               </div>
             </div>
           </div>
-        )}
+        ) : tab === "frontpage" ? (
+          <FrontpageTextEditor />
+        ) : null}
       </div>
     </div>
   );

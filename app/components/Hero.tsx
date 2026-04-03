@@ -1,11 +1,32 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import BookingModal from "./BookingModal";
+import {
+  FRONT_PAGE_DEFAULTS,
+  type FrontpageCopy,
+} from "../data/frontpageCopy";
 
 export default function Hero() {
   const [modalOpen, setModalOpen] = useState(false);
+  const [copy, setCopy] = useState<FrontpageCopy>(FRONT_PAGE_DEFAULTS);
+
+  useEffect(() => {
+    const run = async () => {
+      try {
+        const res = await fetch("/api/frontpage-content");
+        const json = (await res.json()) as Partial<FrontpageCopy>;
+        setCopy({ ...FRONT_PAGE_DEFAULTS, ...(json as any) });
+      } catch {
+        // fallback til defaults
+      }
+    };
+    void run();
+  }, []);
+
+  const subLines = copy.hero_subheadline.split("\n").map((s) => s.trim());
+
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
       {/* Gradient background */}
@@ -37,7 +58,7 @@ export default function Hero() {
               backdropFilter: "blur(8px)",
             }}
           >
-            AI-rådgivning for norske bedrifter
+            {copy.hero_badge_text}
           </span>
 
           {/* Headline */}
@@ -45,11 +66,11 @@ export default function Hero() {
             className="text-4xl sm:text-5xl xl:text-6xl font-extrabold leading-tight tracking-tight mb-6"
             style={{ color: "#1a3320", textShadow: "0 2px 20px rgba(0,0,0,0.06)" }}
           >
-            AI-teknologien er i endring
+            {copy.hero_headline_top}
             <br />
-            <span style={{ color: "#15803d" }}>og verktøykassene</span>
+            <span style={{ color: "#15803d" }}>{copy.hero_headline_highlight}</span>
             <br />
-            endrer seg.
+            {copy.hero_headline_bottom}
           </h1>
 
           {/* Subheadline */}
@@ -57,11 +78,12 @@ export default function Hero() {
             className="text-xl sm:text-2xl font-medium mb-10 max-w-lg"
             style={{ color: "rgba(26,51,32,0.75)" }}
           >
-            Nye muligheter for å spare tid og skape verdi.
-            <br />
-            Vi navigerer AI-landskapet
-            <br />
-            — sammen med deg.
+            {subLines.map((line, i) => (
+              <span key={`${i}-${line}`}>
+                {line}
+                {i < subLines.length - 1 ? <br /> : null}
+              </span>
+            ))}
           </p>
 
           {/* CTA */}
@@ -74,7 +96,7 @@ export default function Hero() {
               boxShadow: "0 4px 24px rgba(21, 128, 61, 0.4)",
             }}
           >
-            Book gratis møte
+            {copy.hero_cta_text}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -92,7 +114,7 @@ export default function Hero() {
 
           {/* Trust line */}
           <p className="mt-5 text-sm" style={{ color: "rgba(26,51,32,0.5)" }}>
-            Ingen forpliktelser. 30 minutter. Helt gratis.
+            {copy.hero_trust_line}
           </p>
         </div>
 

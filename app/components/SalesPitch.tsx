@@ -1,4 +1,11 @@
+ "use client";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import {
+  FRONT_PAGE_DEFAULTS,
+  type FrontpageCopy,
+} from "../data/frontpageCopy";
 
 const points = [
   {
@@ -36,6 +43,21 @@ const points = [
 ];
 
 export default function SalesPitch() {
+  const [copy, setCopy] = useState<FrontpageCopy>(FRONT_PAGE_DEFAULTS);
+
+  useEffect(() => {
+    const run = async () => {
+      try {
+        const res = await fetch("/api/frontpage-content");
+        const json = (await res.json()) as Partial<FrontpageCopy>;
+        setCopy({ ...FRONT_PAGE_DEFAULTS, ...(json as any) });
+      } catch {
+        // fallback til defaults
+      }
+    };
+    void run();
+  }, []);
+
   return (
     <section className="py-24 px-6" style={{ background: "#f2ede3" }}>
       <div className="max-w-5xl mx-auto">
@@ -46,10 +68,12 @@ export default function SalesPitch() {
             className="inline-block mb-3 text-sm font-semibold uppercase tracking-widest"
             style={{ color: "#15803d" }}
           >
-            Hvorfor nå
+            {copy.salespitch_kicker}
           </span>
           <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight" style={{ color: "#1a3320" }}>
-            Ikke bare enklere.<br />Vi gjør AI til din fordel.
+            {copy.salespitch_title_line1}
+            <br />
+            {copy.salespitch_title_line2}
           </h2>
         </div>
 
