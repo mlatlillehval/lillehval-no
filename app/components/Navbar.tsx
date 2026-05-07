@@ -1,34 +1,19 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import BookingModal from "./BookingModal";
+import BrandLogo from "./BrandLogo";
+import { SITE_PHONE_DISPLAY, SITE_PHONE_TEL } from "../data/siteContact";
 
 const navLinks = [
-  { label: "AI utviklingen", href: "/ai-utviklingen" },
-  { label: "AI tjenester", href: "/ai-tjenester" },
-  { label: "AI metodikk", href: "/ai-metodikk" },
-  { label: "AI-Aktualitet", href: "/siste-nyheter" },
-  { label: "Pågående prosjekter", href: "#pagaende-prosjekter" },
-  { label: "Hvorfor oss?", href: "/hvorfor-oss" },
+  { label: "Produkter og tjenester", href: "/ai-tjenester" },
+  { label: "AI Forklart", href: "/ai-forklart" },
+  { label: "AI aktualitet", href: "/siste-nyheter" },
+  { label: "Prosjekter", href: "/pagaende-prosjekter" },
+  { label: "Om oss", href: "/hvorfor-oss" },
 ];
-
-function WhaleLogo() {
-  return (
-    <div style={{ width: 88, height: 88, position: "relative" }}>
-      <Image
-        src="/logo-whale-transparent.png"
-        alt="Lillehval logo"
-        fill
-        className="object-contain"
-        sizes="88px"
-        priority
-      />
-    </div>
-  );
-}
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -64,46 +49,55 @@ export default function Navbar() {
           borderBottom: "2px solid rgba(34, 139, 70, 0.35)",
         }}
       >
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
+        <div className="relative mx-auto flex h-16 max-w-7xl items-center justify-between gap-0 px-6">
 
-          {/* Logo */}
-          <a
-            href="#"
-            className="flex items-center gap-2.5 flex-shrink-0 group"
-            onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+          {/* Logo — alltid til forsiden */}
+          <Link
+            href="/"
+            className="flex min-w-0 shrink-0 items-center group"
+            onClick={(e) => {
+              setMenuOpen(false);
+              if (typeof window !== "undefined" && window.location.pathname === "/") {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }
+            }}
           >
-            <WhaleLogo />
-            <span className="whitespace-nowrap flex items-baseline gap-1.5">
-              <span className="text-lg font-extrabold tracking-tight" style={{ color: "#15803d" }}>Lillehval</span>
-              <span className="text-xs font-normal" style={{ color: "rgba(26,51,32,0.4)" }}>–</span>
-              <span className="text-xs font-normal" style={{ color: "#1a3320" }}>AI-reisen starter her</span>
-            </span>
-          </a>
+            <BrandLogo
+              kind="wordmarkJourneyInline"
+              surface="transparent"
+              alt="Lillehval – AI-reisen starter her"
+              width={480}
+              height={80}
+              fetchPriority="high"
+              decoding="async"
+              className="h-7 w-auto max-w-[180px] object-contain object-left sm:h-6 sm:max-w-[185px] md:max-w-[min(100%,240px)]"
+            />
+          </Link>
 
-          {/* Desktop nav links */}
-          <nav className="hidden lg:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <button
-                key={link.href}
-                onClick={() => handleNavClick(link.href)}
-                className="px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-150 whitespace-nowrap"
-                style={{ color: "#1a3320" }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.color = "#15803d";
-                  (e.currentTarget as HTMLElement).style.background = "rgba(34,139,70,0.08)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.color = "#1a3320";
-                  (e.currentTarget as HTMLElement).style.background = "transparent";
-                }}
-              >
-                {link.label}
-              </button>
-            ))}
-          </nav>
-
-          {/* CTA + Mobile menu */}
-          <div className="flex items-center gap-3">
+          {/* CTA + Nav + Mobile menu */}
+          <div className="ml-auto flex items-center gap-3">
+            {/* Desktop nav links */}
+            <nav className="hidden items-center gap-1 lg:flex">
+              {navLinks.map((link) => (
+                <button
+                  key={link.href}
+                  onClick={() => handleNavClick(link.href)}
+                  className="px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-150 whitespace-nowrap"
+                  style={{ color: "#1a3320" }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLElement).style.color = "#15803d";
+                    (e.currentTarget as HTMLElement).style.background = "rgba(34,139,70,0.08)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.color = "#1a3320";
+                    (e.currentTarget as HTMLElement).style.background = "transparent";
+                  }}
+                >
+                  {link.label}
+                </button>
+              ))}
+            </nav>
             <Link
               href="/ai-beredskap"
               className="hidden sm:inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-bold transition-all duration-200 hover:scale-105 active:scale-95 whitespace-nowrap border-2"
@@ -114,15 +108,15 @@ export default function Navbar() {
                 boxShadow: "0 2px 12px rgba(10, 46, 26, 0.35)",
               }}
             >
-              AI-beredskap
+              Hvor AI-klar er du?
             </Link>
             <button
               onClick={() => setModalOpen(true)}
               className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-200 hover:scale-105 active:scale-95 whitespace-nowrap"
               style={{
-                background: "linear-gradient(135deg, #22c55e 0%, #15803d 100%)",
-                color: "#ffffff",
-                boxShadow: "0 2px 16px rgba(34,197,94,0.35)",
+                background: "#f59e0b",
+                color: "#052016",
+                boxShadow: "0 2px 16px rgba(245, 158, 11, 0.45)",
               }}
             >
               Book et møte
@@ -167,12 +161,12 @@ export default function Navbar() {
               className="mt-2 px-5 py-3 rounded-full text-sm font-bold text-center"
               style={{ background: "#0a2e1a", color: "#E1F5EE" }}
             >
-              AI-beredskap
+              Hvor AI-klar er du?
             </Link>
             <button
               onClick={() => { setMenuOpen(false); setModalOpen(true); }}
-              className="mt-1 px-5 py-3 rounded-full text-sm font-bold text-white"
-              style={{ background: "linear-gradient(135deg, #22c55e, #15803d)" }}
+              className="mt-1 px-5 py-3 rounded-full text-sm font-bold"
+              style={{ background: "#f59e0b", color: "#052016" }}
             >
               Book et møte
             </button>

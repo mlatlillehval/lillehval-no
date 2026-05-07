@@ -1,16 +1,70 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Image from "next/image";
+import { useEffect, useMemo, useState } from "react";
 import BookingModal from "./BookingModal";
 import {
   FRONT_PAGE_DEFAULTS,
   type FrontpageCopy,
 } from "../data/frontpageCopy";
 
-export default function Hero() {
+const WHALE_SRC = "/lillehval-hval-snudd-v2.svg";
+const JOURNEY_PATH_IMG =
+  "/logo-manual-v1.1/Logo%20-%20Reise%20alene%20-%20transparent.svg";
+
+type BulletSegment = { text: string; highlight?: boolean };
+
+const HERO_BULLETS_HEADING = "Vi leder deg trygt gjennom AI-reisen";
+
+const HERO_BULLETS: BulletSegment[][] = [
+  [
+    { text: "AI-potensialet er stort" , highlight: true },
+    { text: ", men de færreste bedrifter vet hvor de skal begynne eller hva som faktisk er relevant for dem." },
+  ],
+  [
+    { text: "Å navigere mulighetene krever " },
+    { text: "tid og kompetanse", highlight: true },
+    { text: " de fleste ikke har til overs i en travel hverdag." },
+  ],
+  [
+    { text: "Med " },
+    { text: "over 50 års samlet erfaring", highlight: true },
+    { text: " innen forretningsutvikling, produktledelse og teknisk gjennomføring har vi " },
+    { text: "kompetansen som trengs", highlight: true },
+    { text: "." },
+  ],
+  [
+    { text: "Vi fungerer som en " },
+    { text: "praktisk guide", highlight: true },
+    { text: " — ikke bare rådgivere, men " },
+    { text: "partnere som navigerer landskapet sammen med deg", highlight: true },
+    { text: "." },
+  ],
+  [
+    { text: "Vi leverer " },
+    { text: "skreddersydde løsninger", highlight: true },
+    { text: " tilpasset din bransje, dine prosesser og dine faktiske behov." },
+  ],
+];
+
+const JOURNEY_NODES = [
+  { label: "Usikkerhet",    x: 2.5,  above: true,  color: "#D4840A", delay: "0s" },
+  { label: "Erkjennelse",   x: 17.1, above: false, color: "#F59E0B", delay: "0.4s" },
+  { label: "Nysgjerrighet", x: 34.7, above: true,  color: "#8AAD94", delay: "0.8s" },
+  { label: "Klarhet",       x: 46.6, above: false, color: "#4A7A55", delay: "1.2s" },
+  { label: "Mot",           x: 74.5, above: true,  color: "#1d6e3a", delay: "2.0s" },
+  { label: "Handling",      x: 96.9, above: false, color: "#14532D", delay: "2.4s" },
+] as const;
+
+
+type HeroProps = {
+  /** Serverhentet kopi — første paint matcher CMS uten tekst-hopp */
+  initialCopy?: FrontpageCopy;
+};
+
+export default function Hero({ initialCopy = FRONT_PAGE_DEFAULTS }: HeroProps) {
   const [modalOpen, setModalOpen] = useState(false);
-  const [copy, setCopy] = useState<FrontpageCopy>(FRONT_PAGE_DEFAULTS);
+  const [copy, setCopy] = useState<FrontpageCopy>(initialCopy);
 
   useEffect(() => {
     const run = async () => {
@@ -25,144 +79,365 @@ export default function Hero() {
     void run();
   }, []);
 
-  const subLines = copy.hero_subheadline.split("\n").map((s) => s.trim());
+  const {
+    heroHeadlineGreenLead,
+    heroHeadlineTop,
+    heroHeadlineHighlight,
+    heroHeadlineMid,
+  } = useMemo(() => {
+    let greenLead = copy.hero_headline_green_lead.trim();
+    let top = copy.hero_headline_top.trimEnd().replace(/\s+som\s*$/i, "");
+    let highlight = copy.hero_headline_highlight.trim();
+    if (/^som\s+/i.test(highlight)) {
+      highlight = highlight.replace(/^som\s+/i, "").trim();
+    }
+    let mid = copy.hero_headline_mid.trim();
+
+    if (/^AI\s+/i.test(top)) {
+      if (!greenLead) greenLead = "AI";
+      top = top.replace(/^AI\s+/i, "").trimEnd();
+    }
+
+    top = top.trim();
+
+    // Tidligere layout: «mulighet» sto i top, uthevet var «mange bedrifter».
+    if (/^mange bedrifter$/i.test(highlight) && /\bmulighet\s*$/i.test(top)) {
+      const oldHighlight = highlight;
+      top = top.replace(/\s*mulighet\s*$/i, "").trimEnd();
+      highlight = "mulighet";
+      mid = oldHighlight;
+    }
+
+    return {
+      heroHeadlineGreenLead: greenLead,
+      heroHeadlineTop: top,
+      heroHeadlineHighlight: highlight,
+      heroHeadlineMid: mid,
+    };
+  }, [
+    copy.hero_headline_green_lead,
+    copy.hero_headline_top,
+    copy.hero_headline_highlight,
+    copy.hero_headline_mid,
+  ]);
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Gradient background */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background: "#f2ede3",
-        }}
-      />
-      <div
-        className="absolute inset-0"
-        style={{
-          background: "none",
-        }}
-      />
+    <section
+      className="relative flex flex-col overflow-hidden"
+      style={{ minHeight: "auto" }}
+    >
 
-      {/* Two-column layout */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 py-24 flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
 
-        {/* LEFT — Text */}
-        <div className="lg:w-[38%] flex-shrink-0 flex flex-col items-start text-left">
-          {/* Eyebrow badge */}
-          <span
-            className="inline-block mb-6 px-4 py-1.5 rounded-full text-sm font-semibold tracking-wide uppercase"
+      {/* ── TEXT CONTENT — to kolonner på desktop, én på mobil ── */}
+      <div className="relative z-10 px-6 lg:px-12 pt-24 pb-16 lg:pt-28 lg:pb-24">
+        {/* Myke lysflater — gir dybde og «svung» uten å dominere */}
+        <div
+          className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-none"
+          aria-hidden
+        >
+          <div
+            className="absolute -top-[18%] -left-[8%] h-[min(52vh,480px)] w-[min(72vw,560px)] rounded-full blur-3xl opacity-[0.62]"
             style={{
-              background: "rgba(34,139,70,0.1)",
-              color: "#15803d",
-              border: "1px solid rgba(34,139,70,0.25)",
-              backdropFilter: "blur(8px)",
+              background:
+                "radial-gradient(circle at 40% 40%, rgba(159,199,170,0.55) 0%, rgba(232,226,212,0.2) 48%, transparent 70%)",
             }}
-          >
-            {copy.hero_badge_text}
-          </span>
-
-          {/* Headline */}
-          <h1
-            className="text-4xl sm:text-5xl xl:text-6xl font-extrabold leading-tight tracking-tight mb-6"
-            style={{ color: "#1a3320", textShadow: "0 2px 20px rgba(0,0,0,0.06)" }}
-          >
-            {copy.hero_headline_top}
-            <br />
-            <span style={{ color: "#15803d" }}>{copy.hero_headline_highlight}</span>
-            <br />
-            {copy.hero_headline_bottom}
-          </h1>
-
-          {/* Subheadline */}
-          <p
-            className="text-xl sm:text-2xl font-medium mb-10 max-w-lg"
-            style={{ color: "rgba(26,51,32,0.75)" }}
-          >
-            {subLines.map((line, i) => (
-              <span key={`${i}-${line}`}>
-                {line}
-                {i < subLines.length - 1 ? <br /> : null}
-              </span>
-            ))}
-          </p>
-
-          {/* CTA */}
-          <button
-            onClick={() => setModalOpen(true)}
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-lg font-bold shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-xl active:scale-95"
+          />
+          <div
+            className="absolute top-[8%] -right-[6%] h-[min(38vh,380px)] w-[min(48vw,420px)] rounded-full blur-3xl opacity-[0.42]"
             style={{
-              background: "linear-gradient(135deg, #22c55e 0%, #15803d 100%)",
-              color: "#ffffff",
-              boxShadow: "0 4px 24px rgba(21, 128, 61, 0.4)",
+              background:
+                "radial-gradient(circle at 60% 50%, rgba(245,158,11,0.28) 0%, transparent 62%)",
             }}
-          >
-            {copy.hero_cta_text}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2.5}
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </button>
-
-          <BookingModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
-
-          {/* Trust line */}
-          <p className="mt-5 text-sm" style={{ color: "rgba(26,51,32,0.5)" }}>
-            {copy.hero_trust_line}
-          </p>
+          />
+          <div
+            className="absolute bottom-[-5%] left-[18%] right-[12%] h-[160px] blur-2xl opacity-[0.28]"
+            style={{
+              background:
+                "radial-gradient(ellipse 80% 100% at 50% 100%, rgba(21,128,61,0.22) 0%, transparent 72%)",
+            }}
+          />
         </div>
 
-        {/* RIGHT — Image */}
-        <div className="lg:flex-1 w-full">
-          {/* Outer wrapper: relative without overflow-hidden so logo can escape */}
-          <div className="relative">
+        <div className="relative w-full max-w-5xl mx-auto">
+
+          {/* TO kolonner — grid gir garantert lik høyde på desktop */}
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_20rem] xl:grid-cols-[minmax(0,1fr)_24rem] lg:gap-x-16 lg:gap-y-0 lg:items-stretch">
+
+            {/* VENSTRE: Eyebrow + Headline + Paragraph */}
             <div
-              className="relative rounded-3xl overflow-hidden shadow-2xl"
-              style={{ aspectRatio: "16/9" }}
+              className="flex min-h-0 min-w-0 flex-col gap-5 rounded-2xl border border-[rgba(21,128,61,0.14)] bg-[rgba(252,253,252,0.97)] px-5 py-6 text-left shadow-[0_12px_40px_rgba(21,128,61,0.08)] backdrop-blur-sm border-l-[5px] border-l-[#15803d] sm:px-7 sm:py-7"
             >
-              <Image
-                src="/hero-bedrift-utvikling.jpg"
-                alt="Et selskap på sin AI-reise — fra analog til AI-drevet"
-                fill
-                className="object-cover object-center"
-                priority
-              />
-              {/* Subtle gradient overlay at bottom for depth */}
+
+              {/* Eyebrow */}
+              <div className="flex items-center gap-2.5 animate-hero-fold hero-fold-delay-1">
+                <span className="animate-rav-pulse w-2 h-2 rounded-full flex-shrink-0" style={{ background: "#f59e0b" }} />
+                <span style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "#15803d" }}>
+                  {copy.hero_badge_text}
+                </span>
+              </div>
+
+              {/* Headline */}
+              <h1
+                className="text-4xl sm:text-5xl xl:text-6xl font-extrabold leading-[1.08] tracking-tight animate-hero-fold hero-fold-delay-2"
+                style={{ color: "#052e16" }}
+              >
+                {heroHeadlineGreenLead ? (
+                  <><span style={{ color: "rgba(159, 199, 170, 1)" }}>{heroHeadlineGreenLead}</span>{" "}</>
+                ) : null}
+                {"er en "}
+                <span style={{ color: "rgba(159, 199, 170, 1)" }}>mulighet</span>
+                {" og et "}
+                <span style={{ color: "rgba(159, 199, 170, 1)" }}>{heroHeadlineHighlight}</span>
+                <br />
+                {heroHeadlineMid}
+                {copy.hero_headline_bottom.trim() ? (
+                  <><br />{copy.hero_headline_bottom}</>
+                ) : null}
+              </h1>
+
+              {/* ── CTA + Trust — festes til bunnen ved like høye kort ── */}
               <div
-                className="absolute inset-0 rounded-3xl"
-                style={{
-                  background: "linear-gradient(to top, rgba(5,26,13,0.25) 0%, transparent 60%)",
-                }}
-              />
+                className="mt-auto flex flex-col sm:flex-row sm:items-center gap-4 rounded-2xl p-6 animate-hero-fold hero-fold-delay-3 transition-shadow duration-300 hover:shadow-[0_8px_40px_rgba(245,158,11,0.12)]"
+                style={{ background: "rgba(245,158,11,0.08)", border: "1px solid rgba(245,158,11,0.2)" }}
+              >
+                <button
+                  onClick={() => setModalOpen(true)}
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl text-base font-bold shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-xl active:scale-95 text-center flex-shrink-0 outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#15803d]"
+                  style={{ background: "#f59e0b", color: "#052016", boxShadow: "0 4px 24px rgba(245,158,11,0.45)", maxWidth: "200px", lineHeight: "1.3" }}
+                >
+                  {copy.hero_cta_text}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </button>
+                <p className="text-sm m-0 leading-relaxed" style={{ color: "rgba(26,51,32,0.6)" }}>
+                  {copy.hero_trust_line}
+                </p>
+              </div>
+
             </div>
 
-            {/* Whale logo — 1/4 on image, 3/4 outside top-right */}
-            <div
-              className="absolute pointer-events-none"
-              style={{ top: "-140px", right: "-90px", width: "240px", height: "240px", zIndex: 10 }}
-            >
-              <Image
-                src="/logo-whale-hero-transparent.png"
-                alt="Lillehval logo"
-                fill
-                className="object-contain"
+            {/* HØYRE: Bullets — strekker seg til samme høyde som venstre */}
+            <div className="flex min-h-0 min-w-0 flex-col gap-4 rounded-2xl border border-[rgba(21,128,61,0.12)] bg-[rgba(252,253,252,0.96)] px-4 py-5 backdrop-blur-sm shadow-[0_8px_32px_rgba(21,128,61,0.06)] sm:px-5 sm:py-6 h-full">
+              <p className="m-0 shrink-0 text-xs font-bold uppercase tracking-widest animate-hero-fold hero-fold-delay-3" style={{ color: "#15803d" }}>
+                {HERO_BULLETS_HEADING}
+              </p>
+              <ul className="m-0 flex min-h-0 flex-1 list-none flex-col justify-start gap-2.5 pl-0 hero-bullets-stagger">
+                {HERO_BULLETS.map((segments, i) => (
+                  <li key={i} className="flex items-start gap-2.5 animate-hero-fold">
+                    <span
+                      className="flex-shrink-0 mt-1.5 w-1.5 h-1.5 rounded-full"
+                      style={{ background: "#15803d" }}
+                    />
+                    <span
+                      className="text-sm leading-relaxed"
+                      style={{ color: "rgba(26,51,32,0.75)" }}
+                    >
+                      {segments.map((seg, j) =>
+                        seg.highlight ? (
+                          <span
+                            key={j}
+                            style={{ color: "#14532d", fontWeight: 700 }}
+                          >
+                            {seg.text}
+                          </span>
+                        ) : (
+                          <span key={j}>{seg.text}</span>
+                        )
+                      )}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      {/* ── HORISONTAL ILLUSTRASJONSBAR ── */}
+      <div
+        className="relative z-10 w-full flex-shrink-0"
+        style={{ height: "clamp(260px, 32vw, 400px)", marginTop: "clamp(-28px, -3vw, -16px)" }}
+      >
+        <div
+          className="w-full h-full relative overflow-hidden"
+          style={{
+            background: "linear-gradient(160deg, #0a2e1a 0%, #061a10 60%, #071e12 100%)",
+            borderRadius: "28px 28px 0 0",
+          }}
+        >
+          {/* Radial glow */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                "radial-gradient(ellipse 60% 80% at 55% 80%, rgba(21,128,61,0.18) 0%, transparent 70%), radial-gradient(ellipse 30% 60% at 10% 50%, rgba(245,158,11,0.06) 0%, transparent 60%)",
+            }}
+          />
+
+          {/* Story label — skjult på mobil */}
+          <div
+            className="absolute z-20 animate-hero-up"
+            style={{ top: "14px", left: "max(24px, calc(50% - 512px))", fontSize: "12px", fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(138,173,148,0.35)", animationDelay: "0.4s" }}
+          >
+            Selskapets reise fra usikkerhet til Handling - Lillehval guider deg på veien
+          </div>
+
+          {/* Illustration: hval + reise */}
+          <div
+            className="absolute flex items-center justify-center gap-2 sm:gap-4 w-[94%] sm:w-[80%]"
+            style={{ top: "50%", left: "50%", transform: "translate(-50%, -56%)", zIndex: 10 }}
+          >
+            {/* Hval — liten på mobil, større på desktop */}
+            <div style={{ position: "relative", width: "clamp(95px, 14vw, 200px)", flexShrink: 0 }}>
+              <div
+                className="animate-glow-pulse"
+                style={{ position: "absolute", bottom: "-20%", left: "0px", right: "0px", height: "50%", background: "radial-gradient(ellipse 80% 60% at 55% 50%, rgba(21,128,61,0.28) 0%, transparent 70%)", zIndex: 10, pointerEvents: "none" }}
               />
+              <div style={{ transform: "scaleX(-1)" }}>
+                <Image
+                  src={WHALE_SRC}
+                  alt="Lillehval hvalen"
+                  width={400}
+                  height={223}
+                  sizes="(max-width: 640px) 95px, min(200px, 14vw)"
+                  className="animate-whale-front block w-full relative z-[11]"
+                  style={{
+                    filter:
+                      "drop-shadow(0 16px 32px rgba(21,128,61,0.35)) drop-shadow(0 4px 12px rgba(0,0,0,0.5)) brightness(0.92) saturate(0.8)",
+                  }}
+                  priority={false}
+                />
+              </div>
+            </div>
+
+            {/* Reisepaden med etikettar */}
+            <div
+              className="flex-1 sm:flex-none"
+              style={{
+                width: undefined,
+                maxWidth: "clamp(260px, 28vw, 420px)",
+                minWidth: 0,
+                flexShrink: 0,
+                position: "relative",
+                paddingTop: "clamp(24px, 4vw, 40px)",
+                paddingBottom: "clamp(60px, 8vw, 90px)",
+                paddingLeft: "8px",
+                paddingRight: "28px",
+              }}
+            >
+              {/* Etikettar: skjult på mobil, vises frå sm og opp */}
+              {JOURNEY_NODES.map((node) => (
+                <div
+                  key={node.label}
+                  className="animate-node-float hidden sm:flex"
+                  style={{
+                    position: "absolute",
+                    left: `${node.x}%`,
+                    ...(node.above ? { top: "0px" } : { bottom: "38px" }),
+                    transform: "translateX(-50%)",
+                    zIndex: 20,
+                    flexDirection: node.above ? "column" : "column-reverse",
+                    alignItems: "center",
+                    gap: "2px",
+                    animationDelay: node.delay,
+                  }}
+                >
+                  <div
+                    style={{
+                      background: "rgba(6,20,12,0.88)",
+                      border: `1px solid ${node.color}44`,
+                      backdropFilter: "blur(8px)",
+                      borderRadius: "100px",
+                      padding: "4px 10px",
+                      fontSize: "12px",
+                      fontWeight: 700,
+                      color: "rgba(242,237,227,0.85)",
+                      whiteSpace: "nowrap",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "3px",
+                      letterSpacing: "0.03em",
+                    }}
+                  >
+                    <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: node.color, flexShrink: 0, display: "inline-block", boxShadow: `0 0 4px ${node.color}99` }} />
+                    {node.label}
+                  </div>
+                  <div style={{ width: "1px", height: "22px", background: `linear-gradient(${node.above ? "to bottom" : "to top"}, ${node.color}88, transparent)`, flexShrink: 0 }} />
+                </div>
+              ))}
+              <Image
+                src={JOURNEY_PATH_IMG}
+                alt="Reisepaden fra usikkerhet til klarhet"
+                width={560}
+                height={180}
+                sizes="(max-width: 640px) 100vw, min(420px, 28vw)"
+                className="animate-journey-in block w-full relative z-[12]"
+                style={{
+                  filter:
+                    "drop-shadow(0 4px 16px rgba(245,158,11,0.2)) brightness(1.15)",
+                }}
+                loading="lazy"
+              />
+
+              {/* AI-implementeringsindikator */}
+              <div style={{ position: "absolute", bottom: "0px", left: "2.5%", right: "3.1%", zIndex: 19 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "3px" }}>
+                  <span style={{ fontSize: "11px", fontWeight: 600, color: "rgba(212,132,10,0.7)", letterSpacing: "0.06em", textTransform: "uppercase" }}>0 % AI</span>
+                  <span style={{ fontSize: "11px", fontWeight: 600, color: "rgba(20,83,45,0.9)", letterSpacing: "0.06em", textTransform: "uppercase" }}>Full implementering</span>
+                </div>
+                <div style={{ height: "3px", borderRadius: "100px", background: "linear-gradient(to right, #D4840A, #F59E0B 20%, #8AAD94 50%, #4A7A55 75%, #14532D)" }} />
+                <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "3px" }}>
+                  <span style={{ fontSize: "10px", color: "rgba(138,173,148,0.5)", letterSpacing: "0.08em" }}>mer AI →</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Ocean overlay */}
+          <div
+            className="absolute bottom-0 left-0 right-0 pointer-events-none"
+            style={{ height: "30%", background: "linear-gradient(to top, rgba(4,14,8,0.6) 0%, transparent 100%)", zIndex: 15 }}
+          />
+
+          {/* Legend — mobil og desktop */}
+          <div
+            className="absolute z-20"
+            style={{ bottom: "12px", left: "max(24px, calc(50% - 512px))" }}
+          >
+            <div
+              style={{
+                background: "rgba(6,20,12,0.72)",
+                border: "1px solid rgba(138,173,148,0.18)",
+                backdropFilter: "blur(10px)",
+                borderRadius: "10px",
+                padding: "6px 12px",
+                display: "flex",
+                flexDirection: "column",
+                gap: "3px",
+              }}
+            >
+              <span style={{ fontSize: "clamp(8px, 1.8vw, 11px)", fontWeight: 800, letterSpacing: "0.18em", textTransform: "uppercase", color: "rgba(245,158,11,0.85)" }}>
+                Selskapers AI-reise fra Usikkerhet til Handling
+              </span>
+              <div style={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "nowrap", justifyContent: "space-between" }}>
+                {JOURNEY_NODES.map((node, i) => (
+                  <div key={node.label} style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                    <span style={{ width: "5px", height: "5px", borderRadius: "50%", background: node.color, flexShrink: 0, display: "inline-block" }} />
+                    <span style={{ fontSize: "clamp(8px, 1.8vw, 12px)", fontWeight: 600, color: "rgba(242,237,227,0.6)", whiteSpace: "nowrap" }}>{node.label}</span>
+                    {i < JOURNEY_NODES.length - 1 && (
+                      <span style={{ fontSize: "10px", color: "rgba(138,173,148,0.3)", marginLeft: "1px" }}>·</span>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Bottom fade */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-32"
-        style={{ background: "none" }}
-      />
+      <BookingModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </section>
   );
 }

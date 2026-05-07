@@ -1,5 +1,20 @@
 @import "tailwindcss";
 
+@keyframes gradientFlow {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.plus-one-logo {
+  background: linear-gradient(90deg, #f59e0b, #d97706, #8aad94, #15803d, #14532d, #15803d, #8aad94, #d97706, #f59e0b);
+  background-size: 300% 100%;
+  animation: gradientFlow 4s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 :root {
   --background: #f2ede3;
   --foreground: #1a3320;
@@ -54,4 +69,188 @@ body {
 
 .animate-marquee:hover {
   animation-play-state: paused;
+}
+
+/* Pulserende rav-prikk */
+@keyframes ravPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.35; transform: scale(1.6); }
+}
+.animate-rav-pulse { animation: ravPulse 2s ease-in-out infinite; }
+
+/* Svevende node-etiketter */
+@keyframes nodFloat {
+  0%, 100% { transform: translateX(-50%) translateY(0px); }
+  50%      { transform: translateX(-50%) translateY(-5px); }
+}
+.animate-node-float {
+  animation: nodFloat 3.8s ease-in-out infinite;
+}
+
+/* Hval svømmer fra venstre mot høyre langs reisepaden */
+/* Y-mønster: lav→høy→lav→høy→lav→høy (under/over hvert knutepunkt) */
+@keyframes whaleSwimPath {
+  0%   { left: -13%; top: 45%; opacity: 0; }
+  5%   { left: -6%;  top: 45%; opacity: 1; }
+  16%  { left: 19%;  top: 47%; }   /* Usikkerhet  — under */
+  27%  { left: 27%;  top: 31%; }   /* Erkjennelse  — over  */
+  38%  { left: 37%;  top: 47%; }   /* Nysgjerrighet — under */
+  48%  { left: 43%;  top: 32%; }   /* Klarhet       — over  */
+  64%  { left: 59%;  top: 48%; }   /* Mot           — under */
+  76%  { left: 71%;  top: 29%; }   /* Handling      — over  */
+  86%  { left: 90%;  top: 29%; opacity: 1; }
+  93%  { opacity: 0; }
+  100% { left: 107%; top: 29%; opacity: 0; }
+}
+.animate-whale-swim {
+  position: absolute;
+  animation: whaleSwimPath 14s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Hvalens kroppssvømming — subtil bølgebevegelse */
+@keyframes whaleWiggle {
+  0%   { transform: scaleX(-1) rotate(0deg)    translateY(0px); }
+  20%  { transform: scaleX(-1) rotate(2deg)    translateY(-3px); }
+  50%  { transform: scaleX(-1) rotate(0deg)    translateY(0px); }
+  70%  { transform: scaleX(-1) rotate(-1.5deg) translateY(2px); }
+  100% { transform: scaleX(-1) rotate(0deg)    translateY(0px); }
+}
+.animate-whale-wiggle {
+  animation: whaleWiggle 1.4s ease-in-out infinite;
+}
+
+/* Hval svømmer rolig med klokka */
+@keyframes whaleFront {
+  0%   { transform: translateX(0px)   translateY(-16px) rotate(-1.5deg); } /* topp    */
+  25%  { transform: translateX(18px)  translateY(0px)   rotate(2deg); }    /* høyre   */
+  50%  { transform: translateX(0px)   translateY(16px)  rotate(1.5deg); }  /* bunn    */
+  75%  { transform: translateX(-18px) translateY(0px)   rotate(-2deg); }   /* venstre */
+  100% { transform: translateX(0px)   translateY(-16px) rotate(-1.5deg); } /* topp    */
+}
+.animate-whale-front {
+  animation: whaleFront 7s linear infinite;
+}
+
+@keyframes journeyPathIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-journey-in {
+  animation: journeyPathIn 1.15s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes heroLabelUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-hero-up {
+  animation: heroLabelUp 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.35s forwards;
+  opacity: 0;
+}
+
+/* Forside — flytende logo «drift» */
+@keyframes heroLogoDrift {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate(5px, -8px) rotate(2deg);
+  }
+  66% {
+    transform: translate(-4px, 6px) rotate(-1.5deg);
+  }
+}
+
+.animate-hero-logo-drift {
+  animation: heroLogoDrift 9s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-hero-logo-drift {
+    animation: none;
+  }
+}
+
+/* ── Forside hero: «above the fold» — lett innflyt & svung ── */
+@keyframes heroFoldIn {
+  from {
+    opacity: 0;
+    transform: translateY(1.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-hero-fold {
+  opacity: 0;
+  animation: heroFoldIn 1.05s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.hero-fold-delay-1 {
+  animation-delay: 0.06s;
+}
+.hero-fold-delay-2 {
+  animation-delay: 0.14s;
+}
+.hero-fold-delay-3 {
+  animation-delay: 0.24s;
+}
+.hero-fold-delay-4 {
+  animation-delay: 0.34s;
+}
+.hero-fold-delay-5 {
+  animation-delay: 0.44s;
+}
+.hero-fold-delay-6 {
+  animation-delay: 0.54s;
+}
+
+.hero-bullets-stagger > li:nth-child(1) {
+  animation-delay: 0.22s;
+}
+.hero-bullets-stagger > li:nth-child(2) {
+  animation-delay: 0.28s;
+}
+.hero-bullets-stagger > li:nth-child(3) {
+  animation-delay: 0.34s;
+}
+.hero-bullets-stagger > li:nth-child(4) {
+  animation-delay: 0.4s;
+}
+.hero-bullets-stagger > li:nth-child(5) {
+  animation-delay: 0.46s;
+}
+.hero-bullets-stagger > li:nth-child(6) {
+  animation-delay: 0.52s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-hero-fold,
+  .hero-bullets-stagger > li,
+  .animate-whale-front,
+  .animate-node-float,
+  .animate-glow-pulse,
+  .animate-journey-in,
+  .animate-hero-up,
+  .animate-rav-pulse {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
