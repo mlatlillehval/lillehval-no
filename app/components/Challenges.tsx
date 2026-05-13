@@ -1,4 +1,5 @@
 import Image from "next/image";
+import SectionKicker from "./SectionKicker";
 
 const challenges = [
   {
@@ -49,9 +50,7 @@ export default function Challenges() {
       <div className="max-w-7xl mx-auto">
         {/* Section header */}
         <div className="text-center mb-14">
-          <span className="inline-block mb-3 text-sm font-semibold uppercase tracking-widest" style={{ color: "#15803d" }}>
-            Hvorfor det er krevende
-          </span>
+          <SectionKicker>Hvorfor det er krevende</SectionKicker>
           <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#1a3320]">
             AI er ikke én ting.
           </h2>

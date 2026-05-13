@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import AIReadinessAnalysis from "../components/AIReadinessAnalysis";
+import PageShell from "../components/PageShell";
 
 export const metadata: Metadata = {
   title: "AI-beredskap | Lillehval",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function AIBeredskapPage() {
-  return <AIReadinessAnalysis />;
+  return (
+    <PageShell>
+      <AIReadinessAnalysis />
+    </PageShell>
+  );
 }

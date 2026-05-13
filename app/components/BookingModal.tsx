@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-
-const TIME_SLOTS = ["09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00"];
+import { MOETE_TID_SLOTS } from "@/lib/moetebookingTimes";
+import { isBlockedBookingDayUtc } from "@/lib/norwegianPublicHolidays";
 
 function getDaysInMonth(year: number, month: number) {
   return new Date(year, month + 1, 0).getDate();
@@ -58,19 +58,6 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
     else setViewMonth(m => m + 1);
   };
 
-  const isPast = (day: number) => {
-    const d = new Date(viewYear, viewMonth, day);
-    d.setHours(0, 0, 0, 0);
-    const t = new Date();
-    t.setHours(0, 0, 0, 0);
-    return d < t;
-  };
-
-  const isWeekend = (day: number) => {
-    const d = new Date(viewYear, viewMonth, day);
-    return d.getDay() === 0 || d.getDay() === 6;
-  };
-
   const isSelected = (day: number) => {
     if (!selectedDate) return false;
     return (
@@ -89,7 +76,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
   };
 
   const handleDayClick = (day: number) => {
-    if (isPast(day) || isWeekend(day)) return;
+    if (isBlockedBookingDayUtc(viewYear, viewMonth, day)) return;
     setSelectedDate(new Date(viewYear, viewMonth, day));
     setSelectedTime(null);
   };
@@ -249,7 +236,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                   {Array.from({ length: firstDay }).map((_, i) => <div key={`e-${i}`} />)}
                   {Array.from({ length: daysInMonth }).map((_, i) => {
                     const day = i + 1;
-                    const disabled = isPast(day) || isWeekend(day);
+                    const disabled = isBlockedBookingDayUtc(viewYear, viewMonth, day);
                     const selected = isSelected(day);
                     const todayCell = isToday(day);
                     return (
@@ -286,19 +273,22 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                     );
                   })}
                 </div>
+                <p className="text-xs text-gray-400 mt-2 leading-snug">
+                  Helger og norske helligdager (inkl. skjærtorsdag) kan ikke velges.
+                </p>
               </div>
 
               {/* Time slots */}
               {selectedDate && (
                 <div>
                   <p className="text-sm font-semibold text-gray-700 mb-3">
-                    Velg tidspunkt —{" "}
+                    Velg tidspunkt (10:00–14:00) —{" "}
                     <span className="text-green-400">
                       {selectedDate.toLocaleDateString("nb-NO", { weekday: "long", day: "numeric", month: "long" })}
                     </span>
                   </p>
                   <div className="grid grid-cols-4 gap-2">
-                    {TIME_SLOTS.map((t) => (
+                    {MOETE_TID_SLOTS.map((t) => (
                       <button
                         key={t}
                         onClick={() => setSelectedTime(t)}

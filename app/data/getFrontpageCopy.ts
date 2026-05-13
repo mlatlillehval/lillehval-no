@@ -8,7 +8,7 @@ import {
 /** Samme innhold som GET /api/frontpage-content — brukes på server for første paint uten layout-hop. */
 export async function getFrontpageCopy(): Promise<FrontpageCopy> {
   try {
-    const sb = createSupabaseServerClient() as any;
+    const sb = createSupabaseServerClient();
 
     const { data, error } = await sb
       .from("frontpage_content")

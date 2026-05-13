@@ -1,4 +1,5 @@
 import Image from "next/image";
+import SectionKicker from "./SectionKicker";
 
 const services = [
   {
@@ -62,9 +63,7 @@ export default function UseCases() {
 
         {/* Header */}
         <div className="text-center mb-16">
-          <span className="inline-block mb-3 text-sm font-semibold uppercase tracking-widest" style={{ color: "#15803d" }}>
-            Hva vi leverer
-          </span>
+          <SectionKicker>Hva vi leverer</SectionKicker>
           <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#1a3320]">
             Fire tjenesteområder
           </h2>

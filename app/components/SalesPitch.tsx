@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import {
   FRONT_PAGE_DEFAULTS,
+  mergeFrontpageDefaultsFromApi,
   type FrontpageCopy,
 } from "../data/frontpageCopy";
 
@@ -70,8 +71,8 @@ export default function SalesPitch({ initialCopy = FRONT_PAGE_DEFAULTS }: SalesP
     const run = async () => {
       try {
         const res = await fetch("/api/frontpage-content");
-        const json = (await res.json()) as Partial<FrontpageCopy>;
-        setCopy({ ...FRONT_PAGE_DEFAULTS, ...(json as any) });
+        const json: unknown = await res.json();
+        setCopy(mergeFrontpageDefaultsFromApi(json));
       } catch {
         // fallback til defaults
       }

@@ -1,0 +1,44 @@
+<svg width="480" height="80" viewBox="0 0 480 80" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#15803d" opacity="0.85"/>
+    </marker>
+  </defs>
+
+  <!-- STARTNODE — amber -->
+  <circle cx="16" cy="52" r="7" fill="#f59e0b"/>
+
+  <!-- LINJE 1 -->
+  <line x1="23" y1="50" x2="68" y2="28" stroke="#f59e0b" stroke-width="2.2" opacity="0.8"/>
+  <!-- NODE 1 -->
+  <circle cx="68" cy="28" r="7" fill="#d4840a"/>
+
+  <!-- LINJE 2 -->
+  <line x1="75" y1="30" x2="118" y2="52" stroke="#c8a020" stroke-width="2.2" opacity="0.75"/>
+  <!-- NODE 2 -->
+  <circle cx="118" cy="52" r="6" fill="#8aad94"/>
+
+  <!-- LINJE 3 -->
+  <line x1="124" y1="50" x2="168" y2="28" stroke="#8aad94" stroke-width="2.4" opacity="0.8"/>
+  <!-- NODE 3 -->
+  <circle cx="168" cy="28" r="6.5" fill="#4a7a55"/>
+
+  <!-- LINJE 4 — til endnode -->
+  <line x1="175" y1="30" x2="208" y2="48" stroke="#15803d" stroke-width="2.6" opacity="0.85"/>
+
+  <!-- ENDNODE — justert størrelse, naturlig overgang til tekst -->
+  <circle cx="214" cy="52" r="10" fill="#15803d"/>
+  <circle cx="214" cy="52" r="6" fill="#14532d"/>
+
+  <!-- TEKST — tettere inntil endnoden -->
+  <text
+    x="230"
+    y="62"
+    font-family="'Plus Jakarta Sans', sans-serif"
+    font-size="52"
+    font-weight="700"
+    fill="#1a3320"
+    letter-spacing="-0.5"
+  >Lillehval</text>
+
+</svg>

@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { createBrowserClient } from "@supabase/ssr";
 import { useRouter } from "next/navigation";
 import FrontpageTextEditor from "../components/admin/FrontpageTextEditor";
+import PageShell from "../components/PageShell";
 
 type Tab = "ai" | "bookings" | "projects" | "frontpage";
 
@@ -266,6 +267,7 @@ export default function AdminPage() {
   };
 
   return (
+    <PageShell>
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-6">
@@ -680,6 +682,7 @@ export default function AdminPage() {
         ) : null}
       </div>
     </div>
+    </PageShell>
   );
 }
 

@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import BookingModal from "./BookingModal";
 import {
   FRONT_PAGE_DEFAULTS,
+  mergeFrontpageDefaultsFromApi,
   type FrontpageCopy,
 } from "../data/frontpageCopy";
 
@@ -18,8 +19,12 @@ const HERO_BULLETS_HEADING = "Vi leder deg trygt gjennom AI-reisen";
 
 const HERO_BULLETS: BulletSegment[][] = [
   [
-    { text: "AI-potensialet er stort" , highlight: true },
+    { text: "AI-potensialet er stort", highlight: true },
     { text: ", men de færreste bedrifter vet hvor de skal begynne eller hva som faktisk er relevant for dem." },
+  ],
+  [
+    { text: "Flere får øynene opp for AI", highlight: true },
+    { text: " og ønsker å lære og forstå." },
   ],
   [
     { text: "Å navigere mulighetene krever " },
@@ -70,8 +75,8 @@ export default function Hero({ initialCopy = FRONT_PAGE_DEFAULTS }: HeroProps) {
     const run = async () => {
       try {
         const res = await fetch("/api/frontpage-content");
-        const json = (await res.json()) as Partial<FrontpageCopy>;
-        setCopy({ ...FRONT_PAGE_DEFAULTS, ...(json as any) });
+        const json: unknown = await res.json();
+        setCopy(mergeFrontpageDefaultsFromApi(json));
       } catch {
         // fallback til defaults
       }
@@ -91,7 +96,7 @@ export default function Hero({ initialCopy = FRONT_PAGE_DEFAULTS }: HeroProps) {
     if (/^som\s+/i.test(highlight)) {
       highlight = highlight.replace(/^som\s+/i, "").trim();
     }
-    let mid = copy.hero_headline_mid.trim();
+    const mid = copy.hero_headline_mid.trim();
 
     if (/^AI\s+/i.test(top)) {
       if (!greenLead) greenLead = "AI";
@@ -99,14 +104,6 @@ export default function Hero({ initialCopy = FRONT_PAGE_DEFAULTS }: HeroProps) {
     }
 
     top = top.trim();
-
-    // Tidligere layout: «mulighet» sto i top, uthevet var «mange bedrifter».
-    if (/^mange bedrifter$/i.test(highlight) && /\bmulighet\s*$/i.test(top)) {
-      const oldHighlight = highlight;
-      top = top.replace(/\s*mulighet\s*$/i, "").trimEnd();
-      highlight = "mulighet";
-      mid = oldHighlight;
-    }
 
     return {
       heroHeadlineGreenLead: greenLead,
@@ -184,9 +181,8 @@ export default function Hero({ initialCopy = FRONT_PAGE_DEFAULTS }: HeroProps) {
                 {heroHeadlineGreenLead ? (
                   <><span style={{ color: "rgba(159, 199, 170, 1)" }}>{heroHeadlineGreenLead}</span>{" "}</>
                 ) : null}
-                {"er en "}
-                <span style={{ color: "rgba(159, 199, 170, 1)" }}>mulighet</span>
-                {" og et "}
+                <span>{heroHeadlineTop}</span>
+                {" "}
                 <span style={{ color: "rgba(159, 199, 170, 1)" }}>{heroHeadlineHighlight}</span>
                 <br />
                 {heroHeadlineMid}
@@ -203,7 +199,7 @@ export default function Hero({ initialCopy = FRONT_PAGE_DEFAULTS }: HeroProps) {
                 <button
                   onClick={() => setModalOpen(true)}
                   className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl text-base font-bold shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-xl active:scale-95 text-center flex-shrink-0 outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#15803d]"
-                  style={{ background: "#f59e0b", color: "#052016", boxShadow: "0 4px 24px rgba(245,158,11,0.45)", maxWidth: "200px", lineHeight: "1.3" }}
+                  style={{ background: "#f59e0b", color: "#052016", boxShadow: "0 4px 24px rgba(245,158,11,0.45)", maxWidth: "min(100%, 22rem)", lineHeight: "1.3" }}
                 >
                   {copy.hero_cta_text}
                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>

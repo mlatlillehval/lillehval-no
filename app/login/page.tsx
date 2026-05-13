@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { createBrowserClient } from "@supabase/ssr";
 import { useRouter } from "next/navigation";
+import PageShell from "../components/PageShell";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -39,6 +40,7 @@ export default function LoginPage() {
   };
 
   return (
+    <PageShell>
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
         <h1 className="text-2xl font-bold mb-6 text-gray-800">
@@ -83,6 +85,7 @@ export default function LoginPage() {
         </button>
       </div>
     </div>
+    </PageShell>
   );
 }
 

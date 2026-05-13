@@ -1,15 +1,6 @@
-import Phases from "../components/Phases";
-import type { Metadata } from "next";
+import { permanentRedirect } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "AI-metodikk – Lillehval",
-  description: "AI-reisen i seks faser. Fra forvirring til full utnyttelse.",
-};
-
-export default function AIMetodikk() {
-  return (
-    <main>
-      <Phases />
-    </main>
-  );
+/** Tidligere egen side; illustrasjon og faser ligger under AI-reisen på /ai-tjenester. */
+export default function AIMetodikkPage() {
+  permanentRedirect("/ai-tjenester");
 }

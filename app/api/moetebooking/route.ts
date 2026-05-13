@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { isAllowedMoeteTid } from "@/lib/moetebookingTimes";
+import { isBlockedBookingDayUtc, parseYmdParts } from "@/lib/norwegianPublicHolidays";
 type Body = {
   navn: string;
   epost: string;
@@ -27,6 +29,28 @@ export async function POST(request: Request) {
       { error: "Navn og e-post er påkrevd." },
       { status: 400 }
     );
+  }
+
+  if (body.onsketDato) {
+    const parsed = parseYmdParts(body.onsketDato);
+    if (!parsed) {
+      return NextResponse.json({ error: "Ugyldig datoformat." }, { status: 400 });
+    }
+    if (isBlockedBookingDayUtc(parsed.y, parsed.m, parsed.d)) {
+      return NextResponse.json(
+        { error: "Valgt dato er i fortiden, på en helg eller på en norsk helligdag og kan ikke bookes." },
+        { status: 400 }
+      );
+    }
+  }
+
+  if (body.onsketTid != null && String(body.onsketTid).trim() !== "") {
+    if (!isAllowedMoeteTid(typeof body.onsketTid === "string" ? body.onsketTid : "")) {
+      return NextResponse.json(
+        { error: "Møtetid må være et helt klokkeslett mellom 10:00 og 14:00." },
+        { status: 400 }
+      );
+    }
   }
 
   let melding = typeof body.melding === "string" ? body.melding.trim() : "";

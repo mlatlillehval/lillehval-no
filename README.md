@@ -1,20 +1,32 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+## Kom i gang
 
-First, run the development server:
+Kopier miljøvariabler og fyll inn verdier (se `.env.example`):
+
+```bash
+cp .env.example .env.local
+```
+
+Start utviklingsserveren:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Åpne **http://127.0.0.1:3000** i nettleseren (samme vert som `npm run dev` bruker).
+
+### Feilsøking
+
+- **«Kan ikke koble til» / blank side:** Sjekk terminalen etter `npm run dev` — hvis port 3000 er opptatt, prøver Next automatisk 3001, 3002, … og viser riktig URL der. Stopp andre `next dev`-prosesser eller kjør `lsof -i :3000` og avslutt prosessen som ligger der.
+- **`localhost` vs `127.0.0.1`:** Dev-serveren er satt til `127.0.0.1` for å unngå kjente problemer med Next som leser nettverksgrensesnitt (kan feile i noen miljøer). Bruk alltid URL-en terminalen skriver ut.
+- **Supabase:** Uten `NEXT_PUBLIC_SUPABASE_URL` og anon-nøkkel i `.env.local` fungerer forsiden med standardtekst, men innlogging og admin krever Supabase.
+
+### Produksjon (www.lillehval.no + www.lillehval.ai)
+
+1. I **Vercel** → prosjektet → **Domains**: legg til begge `www.lillehval.no` og `www.lillehval.ai` (DNS som Vercel viser).
+2. I **Vercel** → **Settings** → **Environment Variables** (Production), sett **`NEXT_PUBLIC_SITE_URL`** til `https://www.lillehval.no` (brukes som kanonisk base for metadata, sitemap og Stripe-retur).
+3. I **Supabase** → Authentication → URL Configuration: tillat redirect for begge domener (se `.env.example`).
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 

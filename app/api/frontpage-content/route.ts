@@ -23,9 +23,9 @@ function isAdminUserEmail(email: string | null | undefined) {
   return allowed.includes(email.toLowerCase());
 }
 
-export async function GET(_request: NextRequest) {
+export async function GET() {
   try {
-    const sb = createSupabaseServerClient() as any;
+    const sb = createSupabaseServerClient();
 
     const { data, error } = await sb
       .from("frontpage_content")
@@ -41,7 +41,7 @@ export async function GET(_request: NextRequest) {
     for (const row of data ?? []) {
       const k = row.key as keyof FrontpageCopy;
       if (FRONT_PAGE_KEYS.includes(k) && typeof row.value === "string") {
-        (overrides as any)[k] = row.value;
+        overrides[k] = row.value;
       }
     }
 
@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
             return request.cookies.getAll();
           },
           setAll(cookiesToSet) {
-            cookiesToSet.forEach(({ name, value, options }) => {
+            cookiesToSet.forEach(({ name, value }) => {
               request.cookies.set(name, value);
             });
 
@@ -116,15 +116,15 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const sbAdmin = createSupabaseServerClient() as any;
+    const sbAdmin = createSupabaseServerClient();
     const rows = FRONT_PAGE_KEYS.map((key) => ({
       key,
-      value: (updates as any)[key] as string,
+      value: updates[key],
     }));
 
     const { error } = await sbAdmin
       .from("frontpage_content")
-      .upsert(rows as any, { onConflict: "key" });
+      .upsert(rows, { onConflict: "key" });
 
     if (error) {
       return NextResponse.json(

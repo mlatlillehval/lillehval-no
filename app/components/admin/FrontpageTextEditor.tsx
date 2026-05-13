@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import {
   FRONT_PAGE_DEFAULTS,
-  FRONT_PAGE_KEYS,
+  mergeFrontpageDefaultsFromApi,
   type FrontpageCopy,
 } from "@/app/data/frontpageCopy";
 
@@ -11,14 +11,18 @@ function labelForKey(key: keyof FrontpageCopy) {
   switch (key) {
     case "hero_badge_text":
       return "Hero: badge tekst";
+    case "hero_headline_green_lead":
+      return "Hero: første grønne ord";
     case "hero_headline_top":
-      return "Hero: overskrift (linje 1)";
+      return "Hero: tekst mellom grønne ord (svart)";
     case "hero_headline_highlight":
-      return "Hero: overskrift (uthevet)";
+      return "Hero: andre grønne ord";
+    case "hero_headline_mid":
+      return "Hero: overskrift (linje 2)";
     case "hero_headline_bottom":
       return "Hero: overskrift (linje 3)";
     case "hero_subheadline":
-      return "Hero: undertekst";
+      return "Hero: undertekst (én linje = ett kulepunkt)";
     case "hero_cta_text":
       return "Hero: CTA-knapp tekst";
     case "hero_trust_line":
@@ -46,8 +50,8 @@ export default function FrontpageTextEditor() {
         setLoading(true);
         setError(null);
         const res = await fetch("/api/frontpage-content");
-        const json = (await res.json()) as Partial<FrontpageCopy>;
-        setCopy({ ...FRONT_PAGE_DEFAULTS, ...(json as any) });
+        const json: unknown = await res.json();
+        setCopy(mergeFrontpageDefaultsFromApi(json));
       } catch (e) {
         setError(e instanceof Error ? e.message : "Kunne ikke laste innhold.");
       } finally {
@@ -109,7 +113,23 @@ export default function FrontpageTextEditor() {
                   />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-3">
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-600 mb-1">
+                      {labelForKey("hero_headline_green_lead")}
+                    </label>
+                    <input
+                      value={copy.hero_headline_green_lead}
+                      onChange={(e) =>
+                        setCopy((d) => ({
+                          ...d,
+                          hero_headline_green_lead: e.target.value,
+                        }))
+                      }
+                      className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+
                   <div>
                     <label className="block text-xs font-semibold text-gray-600 mb-1">
                       {labelForKey("hero_headline_top")}
@@ -136,6 +156,22 @@ export default function FrontpageTextEditor() {
                         setCopy((d) => ({
                           ...d,
                           hero_headline_highlight: e.target.value,
+                        }))
+                      }
+                      className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-600 mb-1">
+                      {labelForKey("hero_headline_mid")}
+                    </label>
+                    <input
+                      value={copy.hero_headline_mid}
+                      onChange={(e) =>
+                        setCopy((d) => ({
+                          ...d,
+                          hero_headline_mid: e.target.value,
                         }))
                       }
                       className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"

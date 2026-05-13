@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import BookingModal from "./BookingModal";
 import BrandLogo from "./BrandLogo";
-import { SITE_PHONE_DISPLAY, SITE_PHONE_TEL } from "../data/siteContact";
 
 const navLinks = [
   { label: "Produkter og tjenester", href: "/ai-tjenester" },
@@ -13,6 +12,7 @@ const navLinks = [
   { label: "AI aktualitet", href: "/siste-nyheter" },
   { label: "Prosjekter", href: "/pagaende-prosjekter" },
   { label: "Om oss", href: "/hvorfor-oss" },
+  { label: "Sommerjobb & AI-partner", href: "/sommervikar" },
 ];
 
 export default function Navbar() {

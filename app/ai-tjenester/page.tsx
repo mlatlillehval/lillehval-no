@@ -1,17 +1,19 @@
-import UseCases from "../components/UseCases";
-import Challenges from "../components/Challenges";
+import PageShell from "../components/PageShell";
+import ProdukterOgTjenester from "../components/ProdukterOgTjenester";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "AI-tjenester – Lillehval",
-  description: "Fire tjenesteområder og hva AI kan gjøre for deg.",
+  title: "Produkter og tjenester – Lillehval",
+  description:
+    "Lillehval Assistenter, ti standardpakker og AI-reisen — fra kartlegging til pilot, utrulling og forbedring.",
 };
 
-export default function AITjenester() {
+export default function ProdukterOgTjenesterPage() {
   return (
-    <main>
-      <UseCases />
-      <Challenges />
-    </main>
+    <PageShell>
+      <main>
+        <ProdukterOgTjenester />
+      </main>
+    </PageShell>
   );
 }

@@ -1,0 +1,33 @@
+<svg width="320" height="80" viewBox="0 0 320 80" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- STARTNODE — amber pulserende (fra hvalens hale) -->
+  <circle cx="12" cy="52" r="6" fill="#f59e0b" opacity="0.85"/>
+
+  <!-- LINJE 1 — amber -->
+  <line x1="18" y1="50" x2="60" y2="28" stroke="#f59e0b" stroke-width="2" opacity="0.75"/>
+  <!-- NODE 1 -->
+  <circle cx="60" cy="28" r="6" fill="#d4840a"/>
+
+  <!-- LINJE 2 — amber/gull overgang -->
+  <line x1="66" y1="30" x2="108" y2="52" stroke="#c8a020" stroke-width="2" opacity="0.7"/>
+  <!-- NODE 2 -->
+  <circle cx="108" cy="52" r="5.5" fill="#8aad94"/>
+
+  <!-- LINJE 3 — lysegrønn -->
+  <line x1="114" y1="50" x2="156" y2="28" stroke="#8aad94" stroke-width="2.2" opacity="0.75"/>
+  <!-- NODE 3 -->
+  <circle cx="156" cy="28" r="6" fill="#4a7a55"/>
+
+  <!-- LINJE 4 — grønn med pil -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#15803d" opacity="0.9"/>
+    </marker>
+  </defs>
+  <line x1="162" y1="30" x2="200" y2="50" stroke="#15803d" stroke-width="2.5" opacity="0.8" marker-end="url(#arrowhead)"/>
+  <!-- ENDNODE — stor grønn -->
+  <circle cx="208" cy="54" r="11" fill="#15803d"/>
+  <!-- Indre ring på endnode -->
+  <circle cx="208" cy="54" r="7" fill="#14532d"/>
+
+</svg>

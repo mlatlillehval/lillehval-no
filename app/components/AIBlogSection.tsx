@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import SectionKicker from "./SectionKicker";
 import Image from "next/image";
 import { AI_BLOG_POSTS, type AIBlogPost } from "../data/aiBlogPosts";
 
@@ -35,12 +36,7 @@ export default function AIBlogSection() {
       <div id="ai-bloggen" className="mb-16 scroll-mt-24">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
           <div>
-            <span
-              className="inline-block mb-2 text-sm font-semibold uppercase tracking-widest"
-              style={{ color: "#15803d" }}
-            >
-              AI-bloggen
-            </span>
+            <SectionKicker className="!mb-2">AI-bloggen</SectionKicker>
             <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#1a3320]">
               Ti perspektiver på AI for norske bedrifter
             </h2>

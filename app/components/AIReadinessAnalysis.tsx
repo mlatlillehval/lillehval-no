@@ -3,9 +3,14 @@
 import { useMemo, useState, useCallback, useRef, useEffect } from "react";
 import type { Json } from "@/types/supabase";
 import Link from "next/link";
+import { MARIUS_EMAIL } from "@/app/data/siteContact";
 
-/** Bytt ut med ekte Calendly-URL når den er klar */
-export const CALENDLY_URL = "https://calendly.com/lillehval/placeholder";
+/** Settes i prod: `NEXT_PUBLIC_CALENDLY_URL` (full https-URL). Mangler den, brukes mailto til Marius. */
+function getBookSamtaleHref(): string {
+  const raw = process.env.NEXT_PUBLIC_CALENDLY_URL?.trim();
+  if (raw && /^https?:\/\//i.test(raw)) return raw;
+  return `mailto:${MARIUS_EMAIL}?subject=${encodeURIComponent("30 min gratis samtale (etter AI-beredskap)")}`;
+}
 
 const PRIMARY = "#1D9E75";
 const PRIMARY_HOVER = "#0F6E56";
@@ -93,8 +98,44 @@ const GOAL_BOOST: Record<string, string[]> = {
   konkurranse: ["tilbud", "kundeservice", "rapportering"],
 };
 
+const Q8_GOAL_OPTIONS = [
+  { id: "kostnad", label: "Redusere kostnader og spare tid" },
+  { id: "salg", label: "Øke salgsinntekter" },
+  { id: "kvalitet", label: "Bedre kvalitet og færre feil" },
+  { id: "konkurranse", label: "Skaffe konkurransefortrinn" },
+  { id: "effektivitet", label: "Øke effektiviteten — fra manuelt til automatisert" },
+  { id: "hastighet", label: "Øke hastigheten — fra treg til rask" },
+  { id: "oversikt", label: "Få bedre oversikt — fra spredt til samlet informasjon" },
+] as const;
+
+/** Tidshorisont (steg 10) — poeng 0–3 som før; flere tekster kan ha samme poeng. */
+const Q9_TIME_OPTIONS = [
+  { id: "innen_3m", score: 3, label: "Vi vil se noe innen 3 måneder" },
+  { id: "uker_par_mnd", score: 3, label: "Umiddelbare resultater — fra uker til et par måneder" },
+  { id: "mnd_6_12", score: 2, label: "6–12 måneder er greit" },
+  { id: "pilot_skalering", score: 2, label: "Pilot først, deretter skalering i neste fase" },
+  { id: "ar_1_2", score: 1, label: "Vi investerer langsiktig – 1–2 år" },
+  { id: "ar_2_5", score: 1, label: "2–5 år er realistisk for oss" },
+  { id: "vet_ikke", score: 0, label: "Vi vet ikke – trenger råd" },
+  { id: "avhenger_eksternt", score: 0, label: "Avhenger av budsjett, leverandør eller godkjenninger" },
+] as const;
+
+/** Barrierer (steg 11) — flervalg + valgfri kommentar. */
+const Q10_BARRIER_OPTIONS = [
+  { id: "usikkerhet_maal", label: "Usikkerhet om hva AI faktisk kan gjøre for oss" },
+  { id: "sikkerhet_gdpr", label: "Sikkerhet og GDPR-bekymringer" },
+  { id: "manko_kompetanse", label: "Manglende intern kompetanse" },
+  { id: "ressurs_prioritet", label: "Ressurser og prioritering" },
+  { id: "budsjett_roi", label: "Budsjett eller uklar forretningscase (ROI)" },
+  { id: "kultur_endring", label: "Organisasjonskultur eller endringsmotstand" },
+  { id: "data_integrasjon", label: "Datatilgang, kvalitet eller integrasjoner" },
+  { id: "mandat_eierskap", label: "Manglende tydelig mandat eller eierskap" },
+  { id: "compliance_juridisk", label: "Juridiske rammer utover GDPR / compliance" },
+  { id: "vendor_strategi", label: "Avhengighet av leverandør eller plattformstrategi" },
+] as const;
+
 function computeScore(q4: number, q5: number, q7: number, q9: number): number {
-  let s = 20 + q4 * 8 + q5 * 8 + q7 * 8 + q9 * 8;
+  const s = 20 + q4 * 8 + q5 * 8 + q7 * 8 + q9 * 8;
   return Math.max(15, Math.min(100, Math.round(s)));
 }
 
@@ -129,14 +170,16 @@ function scoreBand(score: number): { label: string; description: string } {
 
 type PackageRow = { tag: string; name: string; sentence: string };
 
-function pickPackages(q6Ids: string[], q8: string | null): PackageRow[] {
+function pickPackages(q6Ids: string[], q8Ids: string[]): PackageRow[] {
   const ordered: string[] = [];
   for (const id of q6Ids) {
     if (PACKAGES[id] && !ordered.includes(id)) ordered.push(id);
   }
-  const boost = q8 ? GOAL_BOOST[q8] ?? [] : [];
-  for (const id of boost) {
-    if (PACKAGES[id] && !ordered.includes(id)) ordered.push(id);
+  for (const goalId of q8Ids) {
+    const boost = GOAL_BOOST[goalId] ?? [];
+    for (const id of boost) {
+      if (PACKAGES[id] && !ordered.includes(id)) ordered.push(id);
+    }
   }
   const fallback = ["dokument", "rapportering", "kundeservice"];
   for (const id of fallback) {
@@ -153,15 +196,31 @@ export default function AIReadinessAnalysis() {
 
   const [companyName, setCompanyName] = useState("");
   const [q1, setQ1] = useState<string | null>(null);
+  const [q1AnnetText, setQ1AnnetText] = useState("");
+  const [q3AnnetText, setQ3AnnetText] = useState("");
   const [q2, setQ2] = useState<string | null>(null);
   const [q3, setQ3] = useState<string | null>(null);
   const [q4, setQ4] = useState<number | null>(null);
+  /** Eget svar datakvalitet (steg 5) — gjensidig utelukkende med q4-knapper; poeng 2 ved kun fritekst. */
+  const [q4Custom, setQ4Custom] = useState("");
   const [q5, setQ5] = useState<number | null>(null);
+  /** Eget svar AI-bruk (steg 6) — samme mønster som q4. */
+  const [q5Custom, setQ5Custom] = useState("");
   const [q6, setQ6] = useState<string[]>([]);
+  /** Fritekst-prosesser (steg 7 / spørsmål om manuell tid) — lagres som q6_egne. */
+  const [q6Custom, setQ6Custom] = useState<string[]>([]);
   const [q7, setQ7] = useState<number | null>(null);
-  const [q8, setQ8] = useState<string | null>(null);
-  const [q9, setQ9] = useState<number | null>(null);
-  const [q10, setQ10] = useState<string | null>(null);
+  /** Eget svar på kapasitetsspørsmålet (steg 8) — gjensidig utelukkende med q7-knapper; poeng settes da til 2. */
+  const [q7Custom, setQ7Custom] = useState("");
+  const [q8, setQ8] = useState<string[]>([]);
+  /** Eget mål (steg 9) — gjensidig utelukkende med flervalg over; brukes når ingen ferdigdefinerte passer. */
+  const [q8Custom, setQ8Custom] = useState("");
+  const [q9Id, setQ9Id] = useState<string | null>(null);
+  /** Egen tidshorisont — gjensidig utelukkende med forhåndsvalg; poeng 2 ved kun fritekst. */
+  const [q9Custom, setQ9Custom] = useState("");
+  const [q10, setQ10] = useState<string[]>([]);
+  /** Valgfri utdyping til barrierer (steg 11). */
+  const [q10Comment, setQ10Comment] = useState("");
   const [q11, setQ11] = useState("");
 
   /** Valgfritt kontakt på resultatsiden — sendes til ai_beredskap.navn / epost */
@@ -180,10 +239,12 @@ export default function AIReadinessAnalysis() {
     svar: Json;
   } | null>(null);
 
-  resultContactRef.current = {
-    navn: resultContactNavn,
-    epost: resultContactEpost,
-  };
+  useEffect(() => {
+    resultContactRef.current = {
+      navn: resultContactNavn,
+      epost: resultContactEpost,
+    };
+  }, [resultContactNavn, resultContactEpost]);
 
   const totalFlowSteps = 12;
   const progressPct =
@@ -193,16 +254,40 @@ export default function AIReadinessAnalysis() {
         : Math.round(((stepIndex + 1) / totalFlowSteps) * 100)
       : 0;
 
+  const q4ForScore = useMemo(() => {
+    if (q4 !== null) return q4;
+    if (q4Custom.trim().length > 0) return 2;
+    return null;
+  }, [q4, q4Custom]);
+
+  const q5ForScore = useMemo(() => {
+    if (q5 !== null) return q5;
+    if (q5Custom.trim().length > 0) return 2;
+    return null;
+  }, [q5, q5Custom]);
+
+  const q7ForScore = useMemo(() => {
+    if (q7 !== null) return q7;
+    if (q7Custom.trim().length > 0) return 2;
+    return null;
+  }, [q7, q7Custom]);
+
+  const q9ForScore = useMemo(() => {
+    if (q9Custom.trim().length > 0) return 2;
+    if (q9Id !== null) {
+      const row = Q9_TIME_OPTIONS.find((o) => o.id === q9Id);
+      return row !== undefined ? row.score : null;
+    }
+    return null;
+  }, [q9Id, q9Custom]);
+
   const score = useMemo(() => {
-    if (q4 === null || q5 === null || q7 === null || q9 === null) return null;
-    return computeScore(q4, q5, q7, q9);
-  }, [q4, q5, q7, q9]);
+    if (q4ForScore === null || q5ForScore === null || q7ForScore === null || q9ForScore === null) return null;
+    return computeScore(q4ForScore, q5ForScore, q7ForScore, q9ForScore);
+  }, [q4ForScore, q5ForScore, q7ForScore, q9ForScore]);
 
   const band = score !== null ? scoreBand(score) : null;
-  const recommended = useMemo(
-    () => (q8 !== null ? pickPackages(q6, q8) : []),
-    [q6, q8]
-  );
+  const recommended = useMemo(() => pickPackages(q6, q8), [q6, q8]);
 
   const resetFlow = useCallback(() => {
     setStepIndex(0);
@@ -211,12 +296,19 @@ export default function AIReadinessAnalysis() {
     setQ2(null);
     setQ3(null);
     setQ4(null);
+    setQ4Custom("");
     setQ5(null);
+    setQ5Custom("");
     setQ6([]);
+    setQ6Custom([]);
     setQ7(null);
-    setQ8(null);
-    setQ9(null);
-    setQ10(null);
+    setQ7Custom("");
+    setQ8([]);
+    setQ8Custom("");
+    setQ9Id(null);
+    setQ9Custom("");
+    setQ10([]);
+    setQ10Comment("");
     setQ11("");
     setResultContactNavn("");
     setResultContactEpost("");
@@ -293,25 +385,34 @@ export default function AIReadinessAnalysis() {
       case 0:
         return true;
       case 1:
-        return q1 !== null;
+        return q1 !== null && (q1 !== "Annet" || q1AnnetText.trim().length > 0);
       case 2:
         return q2 !== null;
       case 3:
-        return q3 !== null;
+        return q3 !== null && (q3 !== "Annet" || q3AnnetText.trim().length > 0);
       case 4:
-        return q4 !== null;
+        return q4 !== null || q4Custom.trim().length > 0;
       case 5:
-        return q5 !== null;
-      case 6:
-        return q6.length > 0;
+        return q5 !== null || q5Custom.trim().length > 0;
+      case 6: {
+        const hasPreset = q6.length > 0;
+        const hasCustom = q6Custom.some((s) => s.trim().length > 0);
+        return hasPreset || hasCustom;
+      }
       case 7:
-        return q7 !== null;
-      case 8:
-        return q8 !== null;
+        return q7 !== null || q7Custom.trim().length > 0;
+      case 8: {
+        const hasGoals = q8.length > 0;
+        const hasCustom = q8Custom.trim().length > 0;
+        return hasGoals || hasCustom;
+      }
       case 9:
-        return q9 !== null;
-      case 10:
-        return q10 !== null;
+        return q9Id !== null || q9Custom.trim().length > 0;
+      case 10: {
+        const hasBarriers = q10.length > 0;
+        const hasComment = q10Comment.trim().length > 0;
+        return hasBarriers || hasComment;
+      }
       case 11:
         return true;
       default:
@@ -322,10 +423,26 @@ export default function AIReadinessAnalysis() {
   const goNext = () => {
     if (!canProceed()) return;
     if (stepIndex === 11) {
-      if (q4 === null || q5 === null || q7 === null || q9 === null) return;
-      const s = computeScore(q4, q5, q7, q9);
+      if (q4ForScore === null || q5ForScore === null || q7ForScore === null || q9ForScore === null) return;
+      const s = computeScore(q4ForScore, q5ForScore, q7ForScore, q9ForScore);
       const b = scoreBand(s);
-      const rec = q8 !== null ? pickPackages(q6, q8) : [];
+      const rec = pickPackages(q6, q8);
+      const q10Kommentar = q10Comment.trim() || null;
+      const q10Etiketter = q10.map(
+        (id) => Q10_BARRIER_OPTIONS.find((o) => o.id === id)?.label ?? id
+      );
+      const q6Egne = q6Custom.map((s) => s.trim()).filter((s) => s.length > 0);
+      const q4Egen = q4Custom.trim() || null;
+      const q5Egen = q5Custom.trim() || null;
+      const q7Egen = q7Custom.trim() || null;
+      const q8Egen = q8Custom.trim() || null;
+      const q9Egen = q9Custom.trim() || null;
+      const q9Numeric =
+        q9Egen !== null
+          ? null
+          : q9Id !== null
+            ? (Q9_TIME_OPTIONS.find((o) => o.id === q9Id)?.score ?? null)
+            : null;
       aiSavePayloadRef.current = {
         total_score: s,
         score_kategori: b.label,
@@ -336,13 +453,22 @@ export default function AIReadinessAnalysis() {
           q1,
           q2,
           q3,
-          q4,
-          q5,
+          q4: q4Egen ? null : q4,
+          q4_egen: q4Egen,
+          q5: q5Egen ? null : q5,
+          q5_egen: q5Egen,
           q6: [...q6],
-          q7,
-          q8,
-          q9,
-          q10,
+          q6_egne: q6Egne,
+          q7: q7Egen ? null : q7,
+          q7_egen: q7Egen,
+          q8: [...q8],
+          q8_egen: q8Egen,
+          q9: q9Numeric,
+          q9_preset: q9Egen ? null : q9Id,
+          q9_egen: q9Egen,
+          q10: [...q10],
+          q10_etiketter: q10Etiketter,
+          q10_kommentar: q10Kommentar,
           q11,
           band_label: b.label,
           band_description: b.description,
@@ -382,6 +508,19 @@ export default function AIReadinessAnalysis() {
     );
   };
 
+  const toggleQ8 = (id: string) => {
+    setQ8Custom("");
+    setQ8((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
+  };
+
+  const toggleQ10 = (id: string) => {
+    setQ10((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
+  };
+
   const scoredOption = (
     value: number,
     label: string,
@@ -391,7 +530,6 @@ export default function AIReadinessAnalysis() {
     <button
       type="button"
       onClick={() => onSelect(value)}
-      title={`Poeng: ${value}`}
       className="w-full text-left rounded-xl border-2 px-4 py-3 text-sm transition-all duration-200 hover:shadow-md"
       style={{
         borderColor: selected === value ? PRIMARY : "rgba(8, 80, 65, 0.15)",
@@ -400,12 +538,6 @@ export default function AIReadinessAnalysis() {
       }}
     >
       <span className="font-medium">{label}</span>
-      <span
-        className="mt-1 block text-xs opacity-70"
-        style={{ color: DARK_TEXT }}
-      >
-        Poeng: {value}
-      </span>
     </button>
   );
 
@@ -423,8 +555,8 @@ export default function AIReadinessAnalysis() {
           Hvor AI-klar er bedriften deres?
         </h1>
         <p className="text-lg leading-relaxed mb-10 opacity-90 max-w-xl mx-auto">
-          Elleve korte spørsmål (pluss valgfritt bedriftsnavn) gir dere en indikasjon på modenhet,
-          mulige flaskehalser og hvor dere kan hente raskest effekt — uten forpliktelser.
+          Elleve korte spørsmål gir dere en indikasjon på modenhet, mulige flaskehalser og hvor dere kan
+          hente raskest effekt — uten forpliktelser.
         </p>
         <div className="flex flex-wrap justify-center gap-6 text-sm mb-12 opacity-80">
           <span>✓ Tar ca. 5 minutter</span>
@@ -520,10 +652,7 @@ export default function AIReadinessAnalysis() {
               <div className="space-y-3 transition-opacity duration-300 ease-out">
                 {stepIndex === 0 && (
                   <>
-                    <p className="text-sm opacity-80 mb-4">
-                      Bedriftsnavn er valgfritt — brukes bare for å personalisere resultatet.
-                    </p>
-                    <label className="block text-sm font-semibold mb-2">Bedriftsnavn (valgfritt)</label>
+                    <label className="block text-sm font-semibold mb-2">Bedriftsnavn</label>
                     <input
                       type="text"
                       value={companyName}
@@ -537,26 +666,46 @@ export default function AIReadinessAnalysis() {
 
                 {stepIndex === 1 && (
                   <div className="grid gap-2 max-h-[50vh] overflow-y-auto pr-1">
-                    {Q1_OPTIONS.map((opt) => (
-                      <button
-                        key={opt}
-                        type="button"
-                        onClick={() => setQ1(opt)}
-                        className="text-left rounded-xl border-2 px-4 py-3 text-sm font-medium transition-all"
-                        style={{
-                          borderColor: q1 === opt ? PRIMARY : "rgba(8, 80, 65, 0.15)",
-                          background: q1 === opt ? "rgba(29, 158, 117, 0.1)" : LIGHT_BG,
-                          color: DARK_TEXT,
-                        }}
-                      >
-                        {opt}
-                      </button>
-                    ))}
+                    {Q1_OPTIONS.map((opt) =>
+                      opt === "Annet" ? (
+                        <input
+                          key={opt}
+                          type="text"
+                          value={q1AnnetText}
+                          onFocus={() => setQ1("Annet")}
+                          onChange={(e) => {
+                            setQ1("Annet");
+                            setQ1AnnetText(e.target.value);
+                          }}
+                          placeholder="Annet - Skriv inn egen bransje her"
+                          className="w-full rounded-xl border-2 px-4 py-3 text-sm outline-none transition-all"
+                          style={{
+                            borderColor: q1 === "Annet" ? PRIMARY : "rgba(8, 80, 65, 0.15)",
+                            background: q1 === "Annet" ? "rgba(29, 158, 117, 0.1)" : LIGHT_BG,
+                            color: DARK_TEXT,
+                          }}
+                        />
+                      ) : (
+                        <button
+                          key={opt}
+                          type="button"
+                          onClick={() => setQ1(opt)}
+                          className="text-left rounded-xl border-2 px-4 py-3 text-sm font-medium transition-all"
+                          style={{
+                            borderColor: q1 === opt ? PRIMARY : "rgba(8, 80, 65, 0.15)",
+                            background: q1 === opt ? "rgba(29, 158, 117, 0.1)" : LIGHT_BG,
+                            color: DARK_TEXT,
+                          }}
+                        >
+                          {opt}
+                        </button>
+                      )
+                    )}
                   </div>
                 )}
 
                 {stepIndex === 2 &&
-                  ["10–50", "50–200", "200–500", "Over 500"].map((opt) => (
+                  ["1", "2–9", "10–50", "50–200", "200–500", "Over 500"].map((opt) => (
                     <button
                       key={opt}
                       type="button"
@@ -579,83 +728,177 @@ export default function AIReadinessAnalysis() {
                     "IT- / digitaliseringsansvarlig",
                     "Avdelingsleder",
                     "Annet",
-                  ].map((opt) => (
-                    <button
-                      key={opt}
-                      type="button"
-                      onClick={() => setQ3(opt)}
-                      className="w-full text-left rounded-xl border-2 px-4 py-3 text-sm font-medium mb-2"
-                      style={{
-                        borderColor: q3 === opt ? PRIMARY : "rgba(8, 80, 65, 0.15)",
-                        background: q3 === opt ? "rgba(29, 158, 117, 0.1)" : LIGHT_BG,
-                        color: DARK_TEXT,
-                      }}
-                    >
-                      {opt}
-                    </button>
-                  ))}
+                  ].map((opt) =>
+                    opt === "Annet" ? (
+                      <input
+                        key={opt}
+                        type="text"
+                        value={q3AnnetText}
+                        onFocus={() => setQ3("Annet")}
+                        onChange={(e) => {
+                          setQ3("Annet");
+                          setQ3AnnetText(e.target.value);
+                        }}
+                        placeholder="Annet - Skriv inn din rolle her"
+                        className="w-full rounded-xl border-2 px-4 py-3 text-sm outline-none transition-all mb-2"
+                        style={{
+                          borderColor: q3 === "Annet" ? PRIMARY : "rgba(8, 80, 65, 0.15)",
+                          background: q3 === "Annet" ? "rgba(29, 158, 117, 0.1)" : LIGHT_BG,
+                          color: DARK_TEXT,
+                        }}
+                      />
+                    ) : (
+                      <button
+                        key={opt}
+                        type="button"
+                        onClick={() => setQ3(opt)}
+                        className="w-full text-left rounded-xl border-2 px-4 py-3 text-sm font-medium mb-2"
+                        style={{
+                          borderColor: q3 === opt ? PRIMARY : "rgba(8, 80, 65, 0.15)",
+                          background: q3 === opt ? "rgba(29, 158, 117, 0.1)" : LIGHT_BG,
+                          color: DARK_TEXT,
+                        }}
+                      >
+                        {opt}
+                      </button>
+                    )
+                  )}
 
                 {stepIndex === 4 && (
                   <div className="space-y-2">
-                    {scoredOption(
-                      0,
-                      "Vi samler lite data og har ingen felles systemer",
-                      q4,
-                      setQ4
-                    )}
+                    {scoredOption(0, "Vi samler lite data og har ingen felles systemer", q4, (n) => {
+                      setQ4(n);
+                      setQ4Custom("");
+                    })}
                     {scoredOption(
                       1,
                       "Vi har data i ERP/CRM, men det er spredt og lite brukt",
                       q4,
-                      setQ4
+                      (n) => {
+                        setQ4(n);
+                        setQ4Custom("");
+                      }
                     )}
                     {scoredOption(
                       2,
                       "Data er samlet og tilgjengelig, men vi analyserer sjelden",
                       q4,
-                      setQ4
+                      (n) => {
+                        setQ4(n);
+                        setQ4Custom("");
+                      }
                     )}
                     {scoredOption(
                       3,
                       "Vi tar aktivt beslutninger basert på data og har god datadisiplin",
                       q4,
-                      setQ4
+                      (n) => {
+                        setQ4(n);
+                        setQ4Custom("");
+                      }
                     )}
+
+                    <div className="pt-3 mt-2 border-t border-black/10 space-y-2">
+                      <label htmlFor="q4-egen" className="block text-xs font-semibold" style={{ color: DARK_TEXT }}>
+                        Eller beskriv kort med egne ord
+                      </label>
+                      <input
+                        id="q4-egen"
+                        type="text"
+                        value={q4Custom}
+                        onChange={(e) => {
+                          const v = e.target.value;
+                          setQ4Custom(v);
+                          if (v.trim().length > 0) setQ4(null);
+                        }}
+                        placeholder="Beskriv datakvaliteten …"
+                        className="w-full rounded-xl border-2 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-green-600/30"
+                        style={{
+                          borderColor:
+                            q4 === null && q4Custom.trim().length > 0
+                              ? PRIMARY
+                              : "rgba(8, 80, 65, 0.2)",
+                          background: "#fff",
+                          color: DARK_TEXT,
+                        }}
+                      />
+                      <p className="text-xs opacity-70 m-0">
+                        Skriver du her, fjernes valget over — og motsatt.
+                      </p>
+                    </div>
                   </div>
                 )}
 
                 {stepIndex === 5 && (
                   <div className="space-y-2">
-                    {scoredOption(
-                      0,
-                      "Nei, ingen AI eller automatisering brukes",
-                      q5,
-                      setQ5
-                    )}
+                    {scoredOption(0, "Nei, ingen AI eller automatisering brukes", q5, (n) => {
+                      setQ5(n);
+                      setQ5Custom("");
+                    })}
                     {scoredOption(
                       1,
                       "Noen enkeltpersoner eksperimenterer på egen hånd",
                       q5,
-                      setQ5
+                      (n) => {
+                        setQ5(n);
+                        setQ5Custom("");
+                      }
                     )}
                     {scoredOption(
                       2,
                       "Én eller flere avdelinger bruker AI-verktøy med varierende resultater",
                       q5,
-                      setQ5
+                      (n) => {
+                        setQ5(n);
+                        setQ5Custom("");
+                      }
                     )}
                     {scoredOption(
                       3,
                       "Vi har implementert AI i konkrete prosesser med målbare resultater",
                       q5,
-                      setQ5
+                      (n) => {
+                        setQ5(n);
+                        setQ5Custom("");
+                      }
                     )}
+
+                    <div className="pt-3 mt-2 border-t border-black/10 space-y-2">
+                      <label htmlFor="q5-egen" className="block text-xs font-semibold" style={{ color: DARK_TEXT }}>
+                        Eller beskriv kort med egne ord
+                      </label>
+                      <input
+                        id="q5-egen"
+                        type="text"
+                        value={q5Custom}
+                        onChange={(e) => {
+                          const v = e.target.value;
+                          setQ5Custom(v);
+                          if (v.trim().length > 0) setQ5(null);
+                        }}
+                        placeholder="Beskriv dagens bruk av AI / automatisering …"
+                        className="w-full rounded-xl border-2 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-green-600/30"
+                        style={{
+                          borderColor:
+                            q5 === null && q5Custom.trim().length > 0
+                              ? PRIMARY
+                              : "rgba(8, 80, 65, 0.2)",
+                          background: "#fff",
+                          color: DARK_TEXT,
+                        }}
+                      />
+                      <p className="text-xs opacity-70 m-0">
+                        Skriver du her, fjernes valget over — og motsatt.
+                      </p>
+                    </div>
                   </div>
                 )}
 
                 {stepIndex === 6 && (
                   <div className="space-y-2">
-                    <p className="text-xs opacity-70 mb-2">Velg én eller flere</p>
+                    <p className="text-xs opacity-70 mb-2">
+                      Velg én eller flere fra listen, og/eller legg til egne prosesser nederst.
+                    </p>
                     {Q6_OPTIONS.map(({ id, label }) => (
                       <button
                         key={id}
@@ -672,85 +915,276 @@ export default function AIReadinessAnalysis() {
                         {label}
                       </button>
                     ))}
+
+                    <div className="space-y-2 pt-3 mt-2 border-t border-black/10">
+                      <p className="text-xs font-semibold" style={{ color: DARK_TEXT }}>
+                        Egne prosesser (valgfritt)
+                      </p>
+                      {q6Custom.map((line, i) => (
+                        <div key={i} className="flex gap-2 items-center">
+                          <input
+                            type="text"
+                            value={line}
+                            onChange={(e) =>
+                              setQ6Custom((prev) =>
+                                prev.map((x, j) => (j === i ? e.target.value : x))
+                              )
+                            }
+                            placeholder="Beskriv prosessen …"
+                            className="flex-1 min-w-0 rounded-xl border-2 px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-green-600/30"
+                            style={{
+                              borderColor: "rgba(8, 80, 65, 0.2)",
+                              color: DARK_TEXT,
+                            }}
+                            aria-label={`Egen prosess ${i + 1}`}
+                          />
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setQ6Custom((prev) => prev.filter((_, j) => j !== i))
+                            }
+                            className="shrink-0 px-3 py-2 text-xs font-semibold rounded-xl border-2 transition-colors hover:bg-black/5"
+                            style={{ borderColor: "rgba(8, 80, 65, 0.2)", color: DARK_TEXT }}
+                          >
+                            Fjern
+                          </button>
+                        </div>
+                      ))}
+                      <button
+                        type="button"
+                        onClick={() => setQ6Custom((prev) => [...prev, ""])}
+                        className="w-full py-2.5 rounded-xl text-sm font-semibold border-2 border-dashed transition-colors hover:bg-black/[0.04]"
+                        style={{ borderColor: "rgba(29, 158, 117, 0.45)", color: PRIMARY }}
+                      >
+                        + Legg til egen linje
+                      </button>
+                    </div>
                   </div>
                 )}
 
                 {stepIndex === 7 && (
                   <div className="space-y-2">
-                    {scoredOption(
-                      0,
-                      "Nei, vi har ingen teknisk ressurs internt",
-                      q7,
-                      setQ7
-                    )}
-                    {scoredOption(
-                      1,
-                      "Vi har én person med delansvar for IT",
-                      q7,
-                      setQ7
-                    )}
-                    {scoredOption(2, "Vi har en IT-avdeling", q7, setQ7)}
-                    {scoredOption(
-                      3,
-                      "Vi har dedikert digitaliserings- eller innovasjonsansvarlig",
-                      q7,
-                      setQ7
-                    )}
+                    {scoredOption(0, "Nei, vi har ingen teknisk ressurs internt", q7, (n) => {
+                      setQ7(n);
+                      setQ7Custom("");
+                    })}
+                    {scoredOption(1, "Vi har én person med delansvar for IT", q7, (n) => {
+                      setQ7(n);
+                      setQ7Custom("");
+                    })}
+                    {scoredOption(2, "Vi har en IT-avdeling", q7, (n) => {
+                      setQ7(n);
+                      setQ7Custom("");
+                    })}
+                    {scoredOption(3, "Vi har dedikert digitaliserings- eller innovasjonsansvarlig", q7, (n) => {
+                      setQ7(n);
+                      setQ7Custom("");
+                    })}
+
+                    <div className="pt-3 mt-2 border-t border-black/10 space-y-2">
+                      <label
+                        htmlFor="q7-egen"
+                        className="block text-xs font-semibold"
+                        style={{ color: DARK_TEXT }}
+                      >
+                        Eller beskriv kort med egne ord
+                      </label>
+                      <input
+                        id="q7-egen"
+                        type="text"
+                        value={q7Custom}
+                        onChange={(e) => {
+                          const v = e.target.value;
+                          setQ7Custom(v);
+                          if (v.trim().length > 0) setQ7(null);
+                        }}
+                        placeholder="F.eks. ekstern partner, blandet modell …"
+                        className="w-full rounded-xl border-2 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-green-600/30"
+                        style={{
+                          borderColor:
+                            q7 === null && q7Custom.trim().length > 0
+                              ? PRIMARY
+                              : "rgba(8, 80, 65, 0.2)",
+                          background: "#fff",
+                          color: DARK_TEXT,
+                        }}
+                      />
+                      <p className="text-xs opacity-70 m-0">
+                        Skriver du her, fjernes valget over — og motsatt.
+                      </p>
+                    </div>
                   </div>
                 )}
 
-                {stepIndex === 8 &&
-                  [
-                    { id: "kostnad", label: "Redusere kostnader og spare tid" },
-                    { id: "salg", label: "Øke salgsinntekter" },
-                    { id: "kvalitet", label: "Bedre kvalitet og færre feil" },
-                    { id: "konkurranse", label: "Skaffe konkurransefortrinn" },
-                  ].map(({ id, label }) => (
-                    <button
-                      key={id}
-                      type="button"
-                      onClick={() => setQ8(id)}
-                      className="w-full text-left rounded-xl border-2 px-4 py-3 text-sm font-medium mb-2"
-                      style={{
-                        borderColor: q8 === id ? PRIMARY : "rgba(8, 80, 65, 0.15)",
-                        background: q8 === id ? "rgba(29, 158, 117, 0.1)" : LIGHT_BG,
-                        color: DARK_TEXT,
-                      }}
-                    >
-                      {label}
-                    </button>
-                  ))}
+                {stepIndex === 8 && (
+                  <div className="space-y-2">
+                    <p className="text-xs opacity-70 mb-2">
+                      Velg ett eller flere mål, eller fyll inn nederst hvis ingen av alternativene passer.
+                    </p>
+                    {Q8_GOAL_OPTIONS.map(({ id, label }) => (
+                      <button
+                        key={id}
+                        type="button"
+                        onClick={() => toggleQ8(id)}
+                        className="w-full text-left rounded-xl border-2 px-4 py-3 text-sm font-medium mb-2"
+                        style={{
+                          borderColor: q8.includes(id) ? PRIMARY : "rgba(8, 80, 65, 0.15)",
+                          background: q8.includes(id) ? "rgba(29, 158, 117, 0.1)" : LIGHT_BG,
+                          color: DARK_TEXT,
+                        }}
+                      >
+                        {q8.includes(id) ? "✓ " : ""}
+                        {label}
+                      </button>
+                    ))}
+
+                    <div className="pt-3 mt-2 border-t border-black/10 space-y-2">
+                      <label
+                        htmlFor="q8-egen"
+                        className="block text-xs font-semibold"
+                        style={{ color: DARK_TEXT }}
+                      >
+                        Ingen av alternativene passer — skriv kort her
+                      </label>
+                      <input
+                        id="q8-egen"
+                        type="text"
+                        value={q8Custom}
+                        onChange={(e) => {
+                          const v = e.target.value;
+                          setQ8Custom(v);
+                          if (v.trim().length > 0) setQ8([]);
+                        }}
+                        placeholder="Beskriv målet med AI-investeringen …"
+                        className="w-full rounded-xl border-2 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-green-600/30"
+                        style={{
+                          borderColor:
+                            q8.length === 0 && q8Custom.trim().length > 0
+                              ? PRIMARY
+                              : "rgba(8, 80, 65, 0.2)",
+                          background: "#fff",
+                          color: DARK_TEXT,
+                        }}
+                      />
+                      <p className="text-xs opacity-70 m-0">
+                        Skriver du her, fjernes valgene over — og motsatt.
+                      </p>
+                    </div>
+                  </div>
+                )}
 
                 {stepIndex === 9 && (
-                  <div className="space-y-2">
-                    {scoredOption(3, "Vi vil se noe innen 3 måneder", q9, setQ9)}
-                    {scoredOption(2, "6–12 måneder er greit", q9, setQ9)}
-                    {scoredOption(1, "Vi investerer langsiktig – 1–2 år", q9, setQ9)}
-                    {scoredOption(0, "Vi vet ikke – trenger råd", q9, setQ9)}
+                  <div className="space-y-2 max-h-[52vh] overflow-y-auto pr-1">
+                    <p className="text-xs opacity-70 mb-2">
+                      Velg det som passer best, eller skriv egen tidshorisont nederst.
+                    </p>
+                    {Q9_TIME_OPTIONS.map(({ id, label }) => (
+                      <button
+                        key={id}
+                        type="button"
+                        onClick={() => {
+                          setQ9Custom("");
+                          setQ9Id(id);
+                        }}
+                        className="w-full text-left rounded-xl border-2 px-4 py-3 text-sm transition-all duration-200 hover:shadow-md mb-2"
+                        style={{
+                          borderColor:
+                            q9Id === id && q9Custom.trim().length === 0
+                              ? PRIMARY
+                              : "rgba(8, 80, 65, 0.15)",
+                          background:
+                            q9Id === id && q9Custom.trim().length === 0
+                              ? "rgba(29, 158, 117, 0.12)"
+                              : "#fff",
+                          color: DARK_TEXT,
+                        }}
+                      >
+                        <span className="font-medium">{label}</span>
+                      </button>
+                    ))}
+
+                    <div className="pt-3 mt-2 border-t border-black/10 space-y-2">
+                      <label
+                        htmlFor="q9-egen"
+                        className="block text-xs font-semibold"
+                        style={{ color: DARK_TEXT }}
+                      >
+                        Egen tidshorisont
+                      </label>
+                      <input
+                        id="q9-egen"
+                        type="text"
+                        value={q9Custom}
+                        onChange={(e) => {
+                          const v = e.target.value;
+                          setQ9Custom(v);
+                          if (v.trim().length > 0) setQ9Id(null);
+                        }}
+                        placeholder="F.eks. «Første leveranse Q3», «Etter ERP-bytte» …"
+                        className="w-full rounded-xl border-2 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-green-600/30"
+                        style={{
+                          borderColor:
+                            q9Custom.trim().length > 0 ? PRIMARY : "rgba(8, 80, 65, 0.2)",
+                          background: "#fff",
+                          color: DARK_TEXT,
+                        }}
+                      />
+                      <p className="text-xs opacity-70 m-0">
+                        Skriver du her, fjernes valget over — og motsatt.
+                      </p>
+                    </div>
                   </div>
                 )}
 
-                {stepIndex === 10 &&
-                  [
-                    "Usikkerhet om hva AI faktisk kan gjøre for oss",
-                    "Sikkerhet og GDPR-bekymringer",
-                    "Manglende intern kompetanse",
-                    "Ressurser og prioritering",
-                  ].map((opt) => (
-                    <button
-                      key={opt}
-                      type="button"
-                      onClick={() => setQ10(opt)}
-                      className="w-full text-left rounded-xl border-2 px-4 py-3 text-sm mb-2"
-                      style={{
-                        borderColor: q10 === opt ? PRIMARY : "rgba(8, 80, 65, 0.15)",
-                        background: q10 === opt ? "rgba(29, 158, 117, 0.1)" : LIGHT_BG,
-                        color: DARK_TEXT,
-                      }}
-                    >
-                      {opt}
-                    </button>
-                  ))}
+                {stepIndex === 10 && (
+                  <div className="space-y-2 max-h-[52vh] overflow-y-auto pr-1">
+                    <p className="text-xs opacity-70 mb-2">
+                      Velg ett eller flere som gjelder. Du kan utdype i kommentarfeltet nederst.
+                    </p>
+                    {Q10_BARRIER_OPTIONS.map(({ id, label }) => (
+                      <button
+                        key={id}
+                        type="button"
+                        onClick={() => toggleQ10(id)}
+                        className="w-full text-left rounded-xl border-2 px-4 py-3 text-sm font-medium mb-2"
+                        style={{
+                          borderColor: q10.includes(id) ? PRIMARY : "rgba(8, 80, 65, 0.15)",
+                          background: q10.includes(id) ? "rgba(29, 158, 117, 0.1)" : LIGHT_BG,
+                          color: DARK_TEXT,
+                        }}
+                      >
+                        {q10.includes(id) ? "✓ " : ""}
+                        {label}
+                      </button>
+                    ))}
+
+                    <div className="pt-3 mt-2 border-t border-black/10 space-y-2 shrink-0">
+                      <label
+                        htmlFor="q10-kommentar"
+                        className="block text-xs font-semibold"
+                        style={{ color: DARK_TEXT }}
+                      >
+                        Kommentar (valgfritt)
+                      </label>
+                      <input
+                        id="q10-kommentar"
+                        type="text"
+                        value={q10Comment}
+                        onChange={(e) => setQ10Comment(e.target.value)}
+                        placeholder="Utdyp kort — f.eks. hva som bremser dere i praksis …"
+                        className="w-full rounded-xl border-2 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-green-600/30"
+                        style={{
+                          borderColor:
+                            q10Comment.trim().length > 0
+                              ? PRIMARY
+                              : "rgba(8, 80, 65, 0.2)",
+                          background: "#fff",
+                          color: DARK_TEXT,
+                        }}
+                      />
+                    </div>
+                  </div>
+                )}
 
                 {stepIndex === 11 && (
                   <>
@@ -832,6 +1266,9 @@ function ResultsPanel({
   onContactEpostChange: (v: string) => void;
   onClose: () => void;
 }) {
+  const bookSamtaleHref = useMemo(() => getBookSamtaleHref(), []);
+  const isExternalCalendar = bookSamtaleHref.startsWith("http");
+
   const circumference = 2 * Math.PI * 52;
   const offset = circumference - (score / 100) * circumference;
 
@@ -984,9 +1421,10 @@ function ResultsPanel({
       </div>
 
       <a
-        href={CALENDLY_URL}
-        target="_blank"
-        rel="noopener noreferrer"
+        href={bookSamtaleHref}
+        {...(isExternalCalendar
+          ? { target: "_blank" as const, rel: "noopener noreferrer" }
+          : {})}
         className="flex w-full items-center justify-center gap-2 py-4 rounded-xl font-bold text-white text-center"
         style={{ background: PRIMARY }}
       >

@@ -1,0 +1,13 @@
+<svg width="480" height="80" viewBox="0 0 480 80" xmlns="http://www.w3.org/2000/svg">
+  <line x1="16" y1="52" x2="68" y2="28" stroke="#f59e0b" stroke-width="2.2" opacity="0.8"/>
+  <line x1="68" y1="28" x2="118" y2="52" stroke="#c8a020" stroke-width="2.2" opacity="0.75"/>
+  <line x1="118" y1="52" x2="168" y2="28" stroke="#8aad94" stroke-width="2.4" opacity="0.8"/>
+  <line x1="168" y1="28" x2="214" y2="52" stroke="#15803d" stroke-width="2.6" opacity="0.85"/>
+  <circle cx="16"  cy="52" r="7"   fill="#f59e0b"/>
+  <circle cx="68"  cy="28" r="7"   fill="#d4840a"/>
+  <circle cx="118" cy="52" r="6"   fill="#8aad94"/>
+  <circle cx="168" cy="28" r="6.5" fill="#4a7a55"/>
+  <circle cx="214" cy="52" r="10"  fill="#15803d"/>
+  <circle cx="214" cy="52" r="6"   fill="#14532d"/>
+  <text x="230" y="62" font-family="'Plus Jakarta Sans', sans-serif" font-size="52" font-weight="700" fill="#1a3320" letter-spacing="-0.5">Lillehval</text>
+</svg>
