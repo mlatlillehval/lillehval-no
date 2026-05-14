@@ -40,7 +40,7 @@ const SHORTS: Short[] = [
     caption: "En praktisk guide til de første skrittene — uten å bruke en formue.",
     duration: "0:52",
     embedUrl: null,
-    profileUrl: "https://www.youtube.com/@lillehval",
+    profileUrl: "https://www.youtube.com/@Lillehval",
     accentColor: "#FF0000",
     bgGradient: "linear-gradient(160deg, #1a0000 0%, #2d0000 100%)",
   },

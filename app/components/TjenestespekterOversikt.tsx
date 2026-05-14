@@ -1,8 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 
-/** Brukes til Next/Image `sizes` for ytterkolonner (ca. 1/6 av layoutbredden). */
-const OUTER_COL_IMAGE_SIZES = "(max-width: 900px) 45vw, 17vw";
+/** Next/Image `sizes`: full bredde under lg (stablet), ~1/6 av rad på desktop. */
+const OUTER_COL_IMAGE_SIZES = "(max-width: 1023px) 95vw, 17vw";
+
+const MID_HERO_SIZES = "(max-width: 1023px) 95vw, 800px";
 
 /* ─────────────── Data ─────────────── */
 
@@ -243,16 +245,20 @@ function OuterCol({
   outcomes,
   href,
   borderRight,
-}: typeof leftCol & { borderRight?: boolean }) {
+  stackDividerBelow,
+}: typeof leftCol & { borderRight?: boolean; stackDividerBelow?: boolean }) {
   return (
     <Link
       href={href}
-      className={columnLinkClass}
+      className={
+        columnLinkClass +
+        (stackDividerBelow ? " max-lg:border-b max-lg:border-[#e5e7eb]" : "") +
+        (borderRight ? " lg:border-r lg:border-[#e5e7eb]" : "")
+      }
       aria-label={`Les mer om ${title}`}
       style={{
         width: "100%",
         minWidth: 0,
-        borderRight: borderRight ? "1px solid #e5e7eb" : undefined,
       }}
     >
       {/* Image */}
@@ -347,32 +353,21 @@ export default function TjenestespekterOversikt() {
           </p>
         </div>
 
-        {/* ── Table: 1fr + 4fr + 1fr → hver ytterkolonne = én midt-underkolonne (1/6 hver); skalerer uten fast min-bredde ── */}
-        <div style={{ overflowX: "auto", marginLeft: -24, marginRight: -24, paddingLeft: 24, paddingRight: 24 }}>
+        {/* ── Table: desktop (lg+) uendret 1fr+4fr+1fr; mobil/tablet: vertikal stakk uten horisontal scroll ── */}
+        <div className="max-lg:mx-0 max-lg:overflow-x-visible max-lg:px-0 lg:-mx-6 lg:overflow-x-auto lg:px-6">
           <div
+            className="flex w-full min-w-0 flex-col overflow-hidden border border-[#d1d5db] bg-white lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,4fr)_minmax(0,1fr)]"
             style={{
-              display: "grid",
-              gridTemplateColumns: "minmax(0, 1fr) minmax(0, 4fr) minmax(0, 1fr)",
-              width: "100%",
-              minWidth: 0,
-              border: "1px solid #d1d5db",
               borderRadius: 4,
-              background: "#fff",
             }}
           >
 
             {/* LEFT — AI-kartlegging og strategi */}
-            <OuterCol {...leftCol} borderRight />
+            <OuterCol {...leftCol} borderRight stackDividerBelow />
 
             {/* MIDDLE — AI-prosessautomatisering group */}
             <div
-              style={{
-                minWidth: 0,
-                width: "100%",
-                display: "flex",
-                flexDirection: "column",
-                borderRight: "1px solid #e5e7eb",
-              }}
+              className="flex min-h-0 w-full min-w-0 flex-col max-lg:border-b max-lg:border-[#e5e7eb] lg:border-r lg:border-[#e5e7eb]"
             >
               {/* Group header */}
               <div
@@ -390,7 +385,7 @@ export default function TjenestespekterOversikt() {
                     alt="Akvarell: AI-prosessautomatisering"
                     fill
                     className="object-cover object-center"
-                    sizes="800px"
+                    sizes={MID_HERO_SIZES}
                   />
                 </div>
 
@@ -421,42 +416,55 @@ export default function TjenestespekterOversikt() {
                 </div>
               </div>
 
-              {/* Fire like brede kolonner — samme brøk som venstre/høyre (1/6 av total tabellbredde hver) */}
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-                  flex: 1,
-                  minWidth: 0,
-                }}
-              >
+              {/* Fire kolonner: 1 kolonne mobil → 2 kol tablet → 4 kol desktop (lg+) */}
+              <div className="grid min-h-0 min-w-0 flex-1 grid-cols-1 gap-px bg-[#e5e7eb] min-[480px]:grid-cols-2 lg:grid-cols-4 lg:gap-0 lg:bg-white">
                 {midGroup.subCols.map((col, idx) => (
                   <Link
                     key={col.id}
                     href={col.href}
-                    className={columnLinkClass}
+                    className={
+                      columnLinkClass +
+                      " bg-white" +
+                      (idx < midGroup.subCols.length - 1 ? " lg:border-r lg:border-[#e5e7eb]" : "")
+                    }
                     aria-label={`Les mer om ${col.title}`}
                     style={{
                       minWidth: 0,
                       width: "100%",
-                      borderRight:
-                        idx < midGroup.subCols.length - 1 ? "1px solid #e5e7eb" : undefined,
                     }}
                   >
-                    {/* Colored top bar */}
+                    {/* Farget toppstripe: mobil = tjenestenavn, desktop = løsningstype */}
                     <div
+                      className="max-lg:px-3 max-lg:py-1.5 lg:px-2.5 lg:py-1"
                       style={{
                         background: col.bar.bg,
                         color: col.bar.fg,
-                        fontSize: 9,
-                        fontWeight: 700,
-                        letterSpacing: "0.1em",
-                        textTransform: "uppercase",
-                        padding: "4px 10px",
                         flexShrink: 0,
                       }}
                     >
-                      {col.bar.label}
+                      <span
+                        className="hidden lg:inline"
+                        style={{
+                          fontSize: 9,
+                          fontWeight: 700,
+                          letterSpacing: "0.1em",
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        {col.bar.label}
+                      </span>
+                      <span
+                        className="lg:hidden"
+                        style={{
+                          fontSize: 13,
+                          fontWeight: 800,
+                          letterSpacing: "-0.02em",
+                          lineHeight: 1.25,
+                          textTransform: "none",
+                        }}
+                      >
+                        {col.title}
+                      </span>
                     </div>
 
                     {/* Col content */}
@@ -469,17 +477,11 @@ export default function TjenestespekterOversikt() {
                         gap: 0,
                       }}
                     >
-                      {/* Fixed-height title+desc block so Utvalgte leveranser inkluderer aligns across all columns */}
-                      <div style={{ minHeight: 110, flexShrink: 0 }}>
+                      {/* Desktop: tittel + beskrivelse. Mobil: kun beskrivelse + markør for løsningstype */}
+                      <div className="min-h-0 shrink-0 max-lg:min-h-0 lg:min-h-[110px]">
                         <p
-                          style={{
-                            fontSize: 11,
-                            fontWeight: 800,
-                            color: "#111827",
-                            margin: 0,
-                            marginBottom: 5,
-                            lineHeight: 1.35,
-                          }}
+                          className="mb-1.5 hidden text-[11px] font-extrabold leading-snug text-[#111827] lg:mb-[5px] lg:block"
+                          style={{ margin: 0 }}
                         >
                           {col.title}
                         </p>
@@ -493,6 +495,27 @@ export default function TjenestespekterOversikt() {
                         >
                           {col.desc}
                         </p>
+                        <div
+                          className="mt-3 flex items-center gap-2 lg:hidden"
+                        >
+                          <span
+                            className="animate-rav-pulse h-2 w-2 shrink-0 rounded-full"
+                            style={{
+                              background:
+                                col.bar.bg === "#f59e0b" ? "#ea580c" : "#15803d",
+                              boxShadow:
+                                col.bar.bg === "#f59e0b"
+                                  ? "0 0 0 1px rgba(234,88,12,0.35)"
+                                  : "0 0 0 1px rgba(21,128,61,0.25)",
+                            }}
+                          />
+                          <span
+                            className="text-[10px] font-semibold uppercase tracking-wide"
+                            style={{ color: "rgba(55,65,81,0.72)" }}
+                          >
+                            {col.bar.label}
+                          </span>
+                        </div>
                       </div>
 
                       <div style={{ borderTop: "1px solid #f3f4f6", paddingTop: 7, marginBottom: 8 }}>

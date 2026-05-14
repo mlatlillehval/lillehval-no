@@ -191,7 +191,8 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                 <strong className="text-gray-700">
                   {selectedDate?.toLocaleDateString("nb-NO", { weekday: "long", day: "numeric", month: "long" })} kl. {selectedTime}
                 </strong>.
-                Du vil snart motta en bekreftelse på <strong className="text-gray-700">{form.email}</strong>.
+                Du vil snart motta en bekreftelse på <strong className="text-gray-700">{form.email}</strong>
+                {" "}(sjekk gjerne søppelpost om du ikke ser den).
               </p>
               <button
                 type="button"

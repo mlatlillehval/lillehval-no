@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { isAllowedMoeteTid } from "@/lib/moetebookingTimes";
 import { isBlockedBookingDayUtc, parseYmdParts } from "@/lib/norwegianPublicHolidays";
+import { formatMoeteSlotNb, sendMoeteBookingEmails } from "@/lib/sendMoeteBookingEmails";
 type Body = {
   navn: string;
   epost: string;
@@ -76,6 +77,20 @@ export async function POST(request: Request) {
         { status: 500 }
       );
     }
+
+    const slotLabel =
+      body.onsketDato && body.onsketTid
+        ? formatMoeteSlotNb(body.onsketDato, body.onsketTid)
+        : undefined;
+
+    await sendMoeteBookingEmails({
+      navn,
+      epost,
+      slotLabel,
+      bedrift: body.bedrift?.trim() || null,
+      melding: melding || null,
+      telefon: body.telefon?.trim() || null,
+    });
 
     return NextResponse.json({ ok: true });
   } catch (e) {

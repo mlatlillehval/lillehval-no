@@ -5,12 +5,12 @@ export const SOCIAL_LINKS = [
   {
     id: "meta",
     label: "Lillehval på Facebook (Meta)",
-    href: "https://www.facebook.com/lillehval.no",
+    href: "https://www.facebook.com/profile.php?id=61589753697693",
   },
   {
     id: "instagram",
     label: "Lillehval på Instagram",
-    href: "https://www.instagram.com/lillehvalas?igsh=MTVmODZtaTI2YTFhdw%3D%3D&utm_source=qr",
+    href: "https://www.instagram.com/lillehvalas/",
   },
   {
     id: "linkedin",
@@ -20,6 +20,6 @@ export const SOCIAL_LINKS = [
   {
     id: "youtube",
     label: "Lillehval på YouTube",
-    href: "https://www.youtube.com/@lillehval",
+    href: "https://www.youtube.com/@Lillehval",
   },
 ] as const;
