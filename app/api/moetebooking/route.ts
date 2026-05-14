@@ -83,7 +83,7 @@ export async function POST(request: Request) {
         ? formatMoeteSlotNb(body.onsketDato, body.onsketTid)
         : undefined;
 
-    await sendMoeteBookingEmails({
+    const confirmationEmailSent = await sendMoeteBookingEmails({
       navn,
       epost,
       slotLabel,
@@ -92,7 +92,7 @@ export async function POST(request: Request) {
       telefon: body.telefon?.trim() || null,
     });
 
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({ ok: true, confirmationEmailSent });
   } catch (e) {
     console.error("[moetebooking]", e);
     return NextResponse.json(

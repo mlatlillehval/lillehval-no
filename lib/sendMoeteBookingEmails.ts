@@ -29,15 +29,16 @@ type BookingEmailPayload = {
 /**
  * Bekreftelse til kunde + varsel til Lillehval. Krever RESEND_API_KEY og RESEND_FROM.
  * Ved manglende konfigurasjon eller feil logges det — booking i DB skal ikke feile.
+ * @returns true bare hvis bekreftelsen til kunden ble sendt uten Resend-feil.
  */
-export async function sendMoeteBookingEmails(payload: BookingEmailPayload): Promise<void> {
+export async function sendMoeteBookingEmails(payload: BookingEmailPayload): Promise<boolean> {
   const apiKey = process.env.RESEND_API_KEY?.trim();
   const from = process.env.RESEND_FROM?.trim();
   if (!apiKey || !from) {
     console.warn(
       "[moetebooking] E-post er ikke konfigurert (mangler RESEND_API_KEY eller RESEND_FROM). Ingen bekreftelse sendes."
     );
-    return;
+    return false;
   }
 
   const resend = new Resend(apiKey);
@@ -83,12 +84,15 @@ export async function sendMoeteBookingEmails(payload: BookingEmailPayload): Prom
   });
 
   const outcomes = await Promise.allSettled([userSend, internalSend]);
-  for (const o of outcomes) {
+  let customerEmailOk = false;
+  outcomes.forEach((o, index) => {
     if (o.status === "rejected") {
       console.error("[moetebooking] E-postfeil:", o.reason);
-      continue;
+      return;
     }
     const { error } = o.value;
     if (error) console.error("[moetebooking] Resend:", error);
-  }
+    else if (index === 0) customerEmailOk = true;
+  });
+  return customerEmailOk;
 }

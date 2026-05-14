@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { MARIUS_EMAIL } from "@/app/data/siteContact";
 import { MOETE_TID_SLOTS } from "@/lib/moetebookingTimes";
 import { isBlockedBookingDayUtc } from "@/lib/norwegianPublicHolidays";
 
@@ -40,6 +41,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [confirmationEmailSent, setConfirmationEmailSent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
@@ -103,11 +105,17 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
           onsketTid: selectedTime,
         }),
       });
-      const data = (await res.json().catch(() => ({}))) as { error?: string };
+      const data = (await res.json().catch(() => ({}))) as {
+        error?: string;
+        confirmationEmailSent?: boolean;
+      };
       if (!res.ok) {
         setSubmitError(data.error ?? "Noe gikk galt. Prøv igjen.");
         return;
       }
+      // Kun vis «bekreftelse sendt» når API eksplisitt bekrefter det — ellers blir teksten
+      // misvisende (f.eks. manglende RESEND_* gir ingen Resend-logs og ingen e-post).
+      setConfirmationEmailSent(data.confirmationEmailSent === true);
       setSubmitted(true);
     } catch {
       setSubmitError("Nettverksfeil. Sjekk tilkoblingen og prøv igjen.");
@@ -122,6 +130,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
     setSelectedTime(null);
     setForm({ company: "", firstName: "", lastName: "", email: "", message: "" });
     setSubmitted(false);
+    setConfirmationEmailSent(false);
     setSubmitting(false);
     setSubmitError(null);
     onClose();
@@ -190,9 +199,25 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                 Vi har mottatt din booking for{" "}
                 <strong className="text-gray-700">
                   {selectedDate?.toLocaleDateString("nb-NO", { weekday: "long", day: "numeric", month: "long" })} kl. {selectedTime}
-                </strong>.
-                Du vil snart motta en bekreftelse på <strong className="text-gray-700">{form.email}</strong>
-                {" "}(sjekk gjerne søppelpost om du ikke ser den).
+                </strong>
+                .
+                {confirmationEmailSent ? (
+                  <>
+                    {" "}
+                    Du vil snart motta en bekreftelse på <strong className="text-gray-700">{form.email}</strong>{" "}
+                    (sjekk gjerne søppelpost om du ikke ser den).
+                  </>
+                ) : (
+                  <>
+                    {" "}
+                    Vi kunne ikke sende automatisk bekreftelse til <strong className="text-gray-700">{form.email}</strong>{" "}
+                    akkurat nå, men forespørselen er registrert. Vi tar kontakt — eller send oss en e-post på{" "}
+                    <a href={`mailto:${MARIUS_EMAIL}`} className="font-semibold text-green-700 underline">
+                      {MARIUS_EMAIL}
+                    </a>
+                    .
+                  </>
+                )}
               </p>
               <button
                 type="button"
