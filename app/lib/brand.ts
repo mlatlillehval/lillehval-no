@@ -21,6 +21,14 @@ export type BrandLogoKind =
 
 const LOGO_BASE = "/logo-manual-v1.1";
 
+/** Per-segment encoding so spaces, «+», and non-ASCII filenames work in mobile Safari and other strict clients. */
+function encodePublicPath(path: string): string {
+  return path
+    .split("/")
+    .map((segment) => (segment === "" ? "" : encodeURIComponent(segment)))
+    .join("/");
+}
+
 const brandLogoMap: Record<BrandLogoKind, Record<BrandSurface, string>> = {
   wordmarkWithJourney: {
     light: `${LOGO_BASE}/Logo - Lillehval mørk + reise - lys bakgrunn.svg`,
@@ -50,5 +58,5 @@ const brandLogoMap: Record<BrandLogoKind, Record<BrandSurface, string>> = {
 };
 
 export function getBrandLogoSrc(kind: BrandLogoKind, surface: BrandSurface): string {
-  return brandLogoMap[kind][surface];
+  return encodePublicPath(brandLogoMap[kind][surface]);
 }

@@ -94,7 +94,8 @@ export default function SommervikarPage() {
             </section>
 
             <section
-              className="rounded-2xl border-2 flex flex-col min-h-0 overflow-hidden"
+              id="ai-partner"
+              className="rounded-2xl border-2 flex flex-col min-h-0 overflow-hidden scroll-mt-24"
               style={{
                 borderColor: "rgba(245, 158, 11, 0.45)",
                 background: "rgba(255,255,255,0.65)",

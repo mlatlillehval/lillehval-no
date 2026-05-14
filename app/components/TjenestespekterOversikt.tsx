@@ -13,7 +13,8 @@ const leftCol = {
   imageAlt: "Akvarell: kompass og kart for AI-strategi",
   title: "AI-kartlegging og strategi",
   href: "/ai-tjenester/kartlegging",
-  desc: "Forstå hvor AI er nå, målrettet kartlegging inkluderer prioritering og ROI-estimering av brukscase per team.",
+  desc:
+    "Forstå hvor AI faktisk treffer arbeidshverdagen i dag. Målrettet kartlegging betyr at vi går inn i utvalgte prosesser og roller — samtaler, dokumentasjon og avklaring av data og systemer — og oversetter det til en tydelig shortlist: hvilke brukscaser som bør testes først, med prioritering og ROI-estimat per team. Omfang og dybde tilpasses behovene og ønskene til dem som tar kontakt.",
   includes: [
     "AI-modenhetsvurdering",
     "Prioritert shortlist (2–5 case)",
@@ -21,7 +22,7 @@ const leftCol = {
     "AI-veikart (6–18 mnd)",
   ],
   outcomes: [
-    "Vite nøyaktig hva AI gir verdi",
+    "Vite nøyaktig hva og hvor AI gir verdi",
     "Klar prioriteringsliste til neste steg",
     "Internt eierskap og forankring",
     "Klar til ekstern implementering",
@@ -30,7 +31,8 @@ const leftCol = {
 
 const midGroup = {
   title: "AI-prosessautomatisering",
-  desc: "Automatiser eksisterende prosesser med målbare effekter",
+  desc:
+    "Vi kobler AI til arbeidsflyten der effekten skal merkes — som assistent ved siden av medarbeideren, som agenter som utfører flerstegsprosesser, eller som funksjonalitet inne i egne systemer. Målrettet prosessautomatisering betyr at vi starter der dere har volum, gjentakelse eller feilkilder, og designer løsninger som kan måles i tid, kvalitet og kostnad. Omfang, integrasjonsdybde og driftsnivå tilpasses behovene og ønskene til dem som tar kontakt.",
   subCols: [
     {
       id: "assistent",
@@ -49,7 +51,7 @@ const midGroup = {
       outcomes: [
         "+1 til hvert teammedlem",
         "Konsistent kvalitet på tvers",
-        "Klar på 1–3 uker",
+        "Rask implementering",
         "Ingen teknisk bakgrunn nødvendig",
       ],
     },
@@ -92,26 +94,28 @@ const midGroup = {
         "AI i kjernen av produktet",
         "Skreddersydd UX",
         "Lavere leverandøravhengighet",
+        "Lansering og videreutvikling i eget tempo",
       ],
     },
     {
       id: "egenutviklet",
       showPlusOne: true,
       href: "/ai-tjenester/egenutviklet",
-      concept: { label: "Din egen", badge: "+1" },
+      concept: { label: "Ferdig produkt", badge: "Kjøp" },
       bar: { bg: "#f59e0b", fg: "#fff", label: "Standard løsning" },
-      title: "AI-applikasjon (egenutviklet)",
-      desc: "Nyutvikling av en komplett AI-løsning — fra arkitektur og modellvalg til ferdig produkt i drift.",
+      title: "Ferdige AI-applikasjoner",
+      desc: "Ferdigutviklede AI-applikasjoner som hyllevare — kjøp direkte og få hjelp til integrasjon, sikkerhet og oppstart.",
       includes: [
-        "Fullstack utvikling og AI-kjerne",
-        "Datasett, finjustering og konfigurasjon",
-        "Sikkerhet, policy og compliance",
-        "Lansering og videreutvikling",
+        "Utvalg ferdige AI-applikasjoner til direktekjøp",
+        "Lisens og prismodell per produkt",
+        "Integrasjon, sikkerhet og brukerdokumentasjon",
+        "Oppstart, opplæring og avtalt support",
       ],
       outcomes: [
-        "Komplett, skalerbart AI-produkt",
-        "Full kontroll over data og kode",
-        "Skreddersydd til eksakte behov",
+        "Kortere vei fra kjøp til produktiv bruk",
+        "Forutsigbar kost og dokumentert funksjonalitet",
+        "Trygg integrasjon og drift med vår bistand",
+        "Oppdateringer og videre hjelp etter avtale",
       ],
     },
   ],
@@ -122,7 +126,8 @@ const rightCol = {
   imageAlt: "Akvarell: team i opplæring rundt laptop",
   title: "AI-opplæring og erfaring",
   href: "/ai-tjenester/opplaering",
-  desc: "Bygg intern kompetanse som holder — gjennom skreddersydde workshops, hands-on trening, metodikk og prompt engineering.",
+  desc:
+    "Målrettet opplæring betyr workshops og kursing, sammen med innlegg for de ansatte — tilpasset deres roller, systemer og risiko — og metodikk og prompt-praksis dere tar i bruk i ekte saker med en gang. Innhold, varighet og format tilpasses behovene og ønskene til dem som tar kontakt.",
   includes: [
     "Skreddersydde workshops og kurs",
     "Gjennomgang av verktøy og metodikk",
@@ -186,18 +191,23 @@ function ReadMoreFooter() {
   return (
     <div style={{ borderTop: "1px solid #e5e7eb", marginTop: "auto", paddingTop: 8 }}>
       <span
-        className="transition-colors group-hover:text-[#166534]"
+        className="tjeneste-read-more-cta w-full justify-center transition-[filter,transform] duration-200 group-hover:brightness-110 group-hover:scale-[1.02]"
         style={{
           display: "inline-flex",
           alignItems: "center",
-          gap: 4,
+          gap: 6,
           fontSize: 11,
           fontWeight: 700,
-          color: "#15803d",
+          letterSpacing: "0.01em",
+          color: "#f2ede3",
+          background: "#0a2e1a",
+          padding: "9px 10px",
+          borderRadius: 8,
+          lineHeight: 1.2,
         }}
       >
         Trykk her for å lese mer
-        <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+        <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden>
           <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
         </svg>
       </span>
@@ -344,9 +354,11 @@ export default function TjenestespekterOversikt() {
               marginBottom: 6,
             }}
           >
-            Tjenestespekteret vårt dekker hele løpet —
+            Fra innsikt til drift med AI —
             <br />
-            <span style={{ color: "#15803d" }}>fra AI-behovskartlegging og prioritering til AI-prosessautomatisering i drift, inkludert opplæring og kursing</span>
+            <span style={{ color: "#15803d" }}>
+              kartlegging, AI-automatiserte prosesser og opplæring og kursing i samme spekter.
+            </span>
           </h2>
           <p style={{ fontSize: 13, color: "rgba(26,51,32,0.55)", margin: 0 }}>
             Fokus på skreddersydde løsninger, men også mulighet for standardprodukt avhengig av behov og modenhet.
@@ -389,30 +401,37 @@ export default function TjenestespekterOversikt() {
                   />
                 </div>
 
-                {/* Title + desc below image */}
-                <div style={{ padding: "8px 14px 9px", borderTop: "1px solid #e5e7eb" }}>
-                  <p
-                    style={{
-                      fontSize: 11,
-                      fontWeight: 800,
-                      color: "#111827",
-                      margin: 0,
-                      marginBottom: 2,
-                      lineHeight: 1.3,
-                    }}
-                  >
-                    {midGroup.title}
-                  </p>
-                  <p
-                    style={{
-                      fontSize: 11,
-                      color: "rgba(55,65,81,0.7)",
-                      margin: 0,
-                      lineHeight: 1.4,
-                    }}
-                  >
-                    {midGroup.desc}
-                  </p>
+                {/* Title + desc — samme mønster som ytterkolonne (kartlegging) */}
+                <div
+                  style={{
+                    borderTop: "1px solid #e5e7eb",
+                    padding: "10px 12px",
+                  }}
+                >
+                  <div style={{ minHeight: 110, flexShrink: 0 }}>
+                    <p
+                      style={{
+                        fontSize: 11,
+                        fontWeight: 800,
+                        color: "#111827",
+                        margin: 0,
+                        marginBottom: 5,
+                        lineHeight: 1.35,
+                      }}
+                    >
+                      {midGroup.title}
+                    </p>
+                    <p
+                      style={{
+                        fontSize: 11,
+                        color: "rgba(55,65,81,0.85)",
+                        margin: 0,
+                        lineHeight: 1.5,
+                      }}
+                    >
+                      {midGroup.desc}
+                    </p>
+                  </div>
                 </div>
               </div>
 

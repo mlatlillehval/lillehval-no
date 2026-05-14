@@ -18,7 +18,8 @@ export const tjenester: Tjeneste[] = [
     kicker: "Startpunktet",
     kickerColor: "#15803d",
     tagline: "Forstå nøyaktig hva AI kan gjøre for din bedrift — og hvor du bør starte.",
-    desc: "Vi kartlegger prosessene deres, vurderer AI-modenhet og identifiserer de brukscasene som gir raskest og størst verdi. Resultatet er et konkret veikart — ikke generelle råd, men en prioritert plan tilpasset din virksomhet.",
+    desc:
+      "Vi kartlegger prosessene deres og vurderer AI-modenhet. Målrettet kartlegging betyr at arbeidet forankres i reelle arbeidsflyter — intervjuer, dokumentgjennomgang og avklaring av data og systemer — slik at vi identifiserer brukscasene som gir raskest og størst verdi, med tydelig prioritering og ROI-estimat per team. Resultatet er et konkret veikart dere kan handle etter, ikke generelle råd. Omfang og innhold tilpasses behovene og ønskene til dem som tar kontakt.",
     image: "/service-kartlegging-akvarell.png",
     imageAlt: "Akvarell: kompass og kart for AI-strategi",
     includes: [
@@ -28,7 +29,7 @@ export const tjenester: Tjeneste[] = [
       "AI-veikart (6–18 mnd)",
     ],
     outcomes: [
-      "Vite nøyaktig hva AI gir verdi",
+      "Vite nøyaktig hva og hvor AI gir verdi",
       "Klar prioriteringsliste til neste steg",
       "Internt eierskap og forankring",
       "Klar til ekstern implementering",
@@ -52,7 +53,7 @@ export const tjenester: Tjeneste[] = [
     outcomes: [
       "+1 til hvert teammedlem",
       "Konsistent kvalitet på tvers",
-      "Klar på 1–3 uker",
+      "Rask implementering",
       "Ingen teknisk bakgrunn nødvendig",
     ],
   },
@@ -97,27 +98,31 @@ export const tjenester: Tjeneste[] = [
       "AI i kjernen av produktet",
       "Skreddersydd UX",
       "Lavere leverandøravhengighet",
+      "Lansering og videreutvikling i eget tempo",
     ],
   },
   {
     slug: "egenutviklet",
-    title: "AI-applikasjon (egenutviklet)",
-    kicker: "Fullstack AI",
+    title: "Ferdige AI-applikasjoner",
+    kicker: "Hyllevare",
     kickerColor: "#92400e",
-    tagline: "Bygg en komplett AI-løsning fra bunnen — fra arkitektur til ferdig produkt i drift.",
-    desc: "For virksomheter som ønsker full kontroll over sin egen AI-plattform. Vi tar hånd om alt fra datamodellering og modellvalg til produksjonssetting og videreutvikling — med en arkitektur som er bygget for å skalere.",
+    tagline:
+      "Ferdigutviklede AI-applikasjoner fra Lillehval som hyllevare — kjøp direkte, forutsigbar pris og rask vei til bruk i eget miljø.",
+    desc:
+      "Vi tilbyr et utvalg av egne, ferdigutviklede AI-applikasjoner dere kan kjøpe som ferdige produkter: dokumentert funksjonalitet, kjent omfang og kortere vei til verdi enn å starte fra null. Vi bistår med integrasjon mot systemene deres, sikkerhet, tilgangsstyring og opplæring slik at teamet kommer trygt i gang. Tillegg og tilpasninger kan avtales der det trengs — utgangspunktet er hyllevare dere kan ta i bruk raskt.",
     image: "/analogi-ai-modell-motor.png",
-    imageAlt: "Akvarell: AI-modell som motor",
+    imageAlt: "Akvarell: ferdige AI-produkter",
     includes: [
-      "Fullstack utvikling og AI-kjerne",
-      "Datasett, finjustering og konfigurasjon",
-      "Sikkerhet, policy og compliance",
-      "Lansering og videreutvikling",
+      "Utvalg ferdige AI-applikasjoner til direktekjøp",
+      "Lisens og prismodell per produkt",
+      "Integrasjon, sikkerhet og brukerdokumentasjon",
+      "Oppstart, opplæring og avtalt support",
     ],
     outcomes: [
-      "Komplett, skalerbart AI-produkt",
-      "Full kontroll over data og kode",
-      "Skreddersydd til eksakte behov",
+      "Kortere vei fra kjøp til produktiv bruk",
+      "Forutsigbar kost og dokumentert funksjonalitet",
+      "Trygg integrasjon og drift med vår bistand",
+      "Oppdateringer og videre hjelp etter avtale",
     ],
   },
   {
@@ -126,7 +131,7 @@ export const tjenester: Tjeneste[] = [
     kicker: "Kompetansebygging",
     kickerColor: "#15803d",
     tagline: "Bygg intern AI-kompetanse som holder — praktisk, skreddersydd og over tid.",
-    desc: "Vi holder workshops, kurs og løpende veiledning tilpasset teamets nivå og hverdag. Målet er at ansatte faktisk bruker AI — ikke bare vet at det finnes. Fra grunnleggende forståelse til avansert prompt engineering og metodikk.",
+    desc: "Vi holder workshops, kurs, innlegg for de ansatte og løpende veiledning tilpasset teamets nivå og hverdag. Målet er at ansatte faktisk bruker AI — ikke bare vet at det finnes. Fra grunnleggende forståelse til avansert prompt engineering og metodikk.",
     image: "/service-opplaering-akvarell.png",
     imageAlt: "Akvarell: team i opplæring rundt laptop",
     includes: [
