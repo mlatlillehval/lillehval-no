@@ -509,11 +509,11 @@ function NewsletterCard({ nl }: { nl: Newsletter }) {
             Din leserekkefølge · trykk på et steg
           </p>
           <nav
-            className="overflow-x-auto pb-1 -mx-1 px-1 sm:overflow-visible"
+            className="overflow-x-auto overscroll-x-contain touch-pan-x pb-1 -mx-1 px-1 sm:overflow-visible"
             aria-label="Leserekkefølge for denne utgaven"
             style={{ scrollbarColor: "rgba(138,173,148,0.35) transparent" }}
           >
-            <div className="relative mx-auto min-w-[28rem] max-w-full px-0.5 sm:min-w-0">
+            <div className="relative mx-auto w-max min-w-full px-0.5 sm:min-w-0 sm:w-auto">
               <div
                 className="pointer-events-none absolute left-[7%] right-[7%] top-[15px] z-0 h-[2px] rounded-full sm:top-[16px]"
                 style={{

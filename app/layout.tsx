@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Image from "next/image";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -70,6 +70,13 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#e8e2d4",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -78,9 +85,9 @@ export default function RootLayout({
   return (
     <html
       lang="no"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full overflow-x-clip antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col overflow-x-clip font-sans">
         <NeuralNetworkBackground />
         <Navbar />
 
@@ -88,7 +95,7 @@ export default function RootLayout({
         <CtaBand />
 
         <footer
-          className="relative z-10 isolate mt-auto py-8 px-6 text-sm"
+          className="relative z-10 isolate mt-auto pl-[max(1.5rem,env(safe-area-inset-left,0px))] pr-[max(1.5rem,env(safe-area-inset-right,0px))] pt-8 pb-[max(2rem,env(safe-area-inset-bottom,0px))] text-sm"
           style={{
             background: "#e8e2d4",
             borderTop: "2px solid rgba(34, 139, 70, 0.2)",

@@ -130,9 +130,9 @@ export default function AiAdopsjonReise() {
         </div>
       </div>
 
-      {/* Chart */}
+      {/* Chart — horisontal scroll kun innenfor boksen; hindrer scroll-chaining */}
       <div
-        className="mx-auto mt-8 max-w-5xl overflow-x-auto rounded-2xl border px-2 py-4 sm:px-4 sm:py-6"
+        className="mx-auto mt-8 max-w-5xl overflow-x-auto overscroll-x-contain touch-pan-x isolate rounded-2xl border px-2 py-4 sm:px-4 sm:py-6"
         style={{
           background: "linear-gradient(180deg, rgba(34,197,94,0.06) 0%, rgba(255,255,255,0.9) 100%)",
           borderColor: "rgba(21,128,61,0.12)",

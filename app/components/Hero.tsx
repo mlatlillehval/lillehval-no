@@ -272,10 +272,10 @@ export default function Hero({ initialCopy = FRONT_PAGE_DEFAULTS }: HeroProps) {
             }}
           />
 
-          {/* Story label — skjult på mobil */}
+          {/* Story label — skjult på mobil (sm+ for å unngå overlap med illustrasjon) */}
           <div
-            className="absolute z-20 animate-hero-up"
-            style={{ top: "14px", left: "max(24px, calc(50% - 512px))", fontSize: "12px", fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(138,173,148,0.35)", animationDelay: "0.4s" }}
+            className="absolute z-20 animate-hero-up hidden sm:block left-4 right-4 top-3.5 max-w-[min(42rem,calc(100vw-2rem))] text-balance leading-snug sm:left-[max(1rem,calc(50%-32rem))] sm:right-auto md:max-w-[min(48rem,calc(100vw-3rem))]"
+            style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(138,173,148,0.35)", animationDelay: "0.4s" }}
           >
             Selskapets reise fra usikkerhet til Handling - Lillehval guider deg på veien
           </div>
@@ -397,11 +397,8 @@ export default function Hero({ initialCopy = FRONT_PAGE_DEFAULTS }: HeroProps) {
             style={{ height: "30%", background: "linear-gradient(to top, rgba(4,14,8,0.6) 0%, transparent 100%)", zIndex: 15 }}
           />
 
-          {/* Legend — mobil og desktop */}
-          <div
-            className="absolute z-20"
-            style={{ bottom: "12px", left: "max(24px, calc(50% - 512px))" }}
-          >
+          {/* Legend — wrap på smal skjerm for å unngå horisontal overflow */}
+          <div className="absolute z-20 bottom-3 left-3 right-3 max-w-full sm:left-[max(1rem,calc(50%-32rem))] sm:right-auto sm:max-w-[min(52rem,calc(100vw-2rem))]">
             <div
               style={{
                 background: "rgba(6,20,12,0.72)",
@@ -411,20 +408,17 @@ export default function Hero({ initialCopy = FRONT_PAGE_DEFAULTS }: HeroProps) {
                 padding: "6px 12px",
                 display: "flex",
                 flexDirection: "column",
-                gap: "3px",
+                gap: "6px",
               }}
             >
-              <span style={{ fontSize: "clamp(8px, 1.8vw, 11px)", fontWeight: 800, letterSpacing: "0.18em", textTransform: "uppercase", color: "rgba(245,158,11,0.85)" }}>
+              <span className="text-balance" style={{ fontSize: "clamp(8px, 1.8vw, 11px)", fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(245,158,11,0.85)" }}>
                 Selskapers AI-reise fra Usikkerhet til Handling
               </span>
-              <div style={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "nowrap", justifyContent: "space-between" }}>
-                {JOURNEY_NODES.map((node, i) => (
-                  <div key={node.label} style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5">
+                {JOURNEY_NODES.map((node) => (
+                  <div key={node.label} className="flex items-center gap-1.5">
                     <span style={{ width: "5px", height: "5px", borderRadius: "50%", background: node.color, flexShrink: 0, display: "inline-block" }} />
-                    <span style={{ fontSize: "clamp(8px, 1.8vw, 12px)", fontWeight: 600, color: "rgba(242,237,227,0.6)", whiteSpace: "nowrap" }}>{node.label}</span>
-                    {i < JOURNEY_NODES.length - 1 && (
-                      <span style={{ fontSize: "10px", color: "rgba(138,173,148,0.3)", marginLeft: "1px" }}>·</span>
-                    )}
+                    <span className="leading-tight" style={{ fontSize: "clamp(8px, 1.8vw, 12px)", fontWeight: 600, color: "rgba(242,237,227,0.6)" }}>{node.label}</span>
                   </div>
                 ))}
               </div>

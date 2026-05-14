@@ -9,7 +9,7 @@ export default function CtaBand() {
   return (
     <>
       <div
-        className="relative z-10 isolate px-6 py-16 text-center"
+        className="relative z-10 isolate pl-[max(1.5rem,env(safe-area-inset-left,0px))] pr-[max(1.5rem,env(safe-area-inset-right,0px))] pt-16 pb-[calc(4rem+env(safe-area-inset-bottom,0px))] text-center"
         style={{
           background: "#e8e2d4",
           borderTop: "2px solid rgba(34,139,70,0.2)",

@@ -40,7 +40,7 @@ export default function Navbar() {
   return (
     <>
       <header
-        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 pt-[env(safe-area-inset-top,0px)]"
         style={{
           background: scrolled
             ? "rgba(235, 229, 214, 0.97)"
@@ -122,11 +122,14 @@ export default function Navbar() {
               Book et møte
             </button>
 
-            {/* Hamburger (mobile) */}
+            {/* Hamburger (mobil / tablet under lg) — min. 44×44 px trykkflate */}
             <button
+              type="button"
               onClick={() => setMenuOpen((o) => !o)}
-              className="lg:hidden flex flex-col gap-1.5 p-2"
-              aria-label="Meny"
+              className="lg:hidden inline-flex h-11 w-11 shrink-0 flex-col items-center justify-center gap-1.5 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-[#15803d] focus-visible:ring-offset-2"
+              aria-label={menuOpen ? "Lukk meny" : "Åpne meny"}
+              aria-expanded={menuOpen}
+              aria-controls="site-nav-mobile"
             >
               {[0, 1, 2].map((i) => (
                 <span
@@ -142,7 +145,8 @@ export default function Navbar() {
         {/* Mobile dropdown */}
         {menuOpen && (
           <div
-            className="lg:hidden px-6 pb-5 pt-2 flex flex-col gap-1"
+            id="site-nav-mobile"
+            className="lg:hidden px-6 pt-2 pb-[max(1.25rem,env(safe-area-inset-bottom,0px))] flex flex-col gap-1"
             style={{ background: "#e8e2d4", borderTop: "1px solid rgba(34,139,70,0.2)" }}
           >
             {navLinks.map((link) => (

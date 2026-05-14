@@ -72,7 +72,7 @@ export default function Challenges() {
               >
                 {card.icon}
               </div>
-              <h3 className="text-lg font-bold text-[#1a3320] leading-snug whitespace-nowrap flex-shrink-0">
+              <h3 className="text-lg font-bold text-[#1a3320] leading-snug text-balance">
                 {card.title}
               </h3>
               <p className="leading-relaxed text-base flex-1" style={{ color: "rgba(26,51,32,0.6)" }}>

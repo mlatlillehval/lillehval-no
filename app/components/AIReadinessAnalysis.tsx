@@ -587,14 +587,14 @@ export default function AIReadinessAnalysis() {
       {/* Modal flow */}
       {phase === "flow" && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
+          className="fixed inset-0 z-[100] flex items-center justify-center pl-[max(1rem,env(safe-area-inset-left,0px))] pr-[max(1rem,env(safe-area-inset-right,0px))] pt-[max(1rem,env(safe-area-inset-top,0px))] pb-[max(1rem,env(safe-area-inset-bottom,0px))]"
           style={{ background: "rgba(8, 80, 65, 0.45)" }}
           role="dialog"
           aria-modal="true"
           aria-labelledby="readiness-dialog-title"
         >
           <div
-            className={`relative w-full max-h-[90vh] overflow-hidden flex flex-col rounded-2xl shadow-2xl transition-all duration-300 ${showResults ? "max-w-xl" : "max-w-lg"}`}
+            className={`relative w-full max-h-[min(90vh,calc(100dvh-env(safe-area-inset-top)-env(safe-area-inset-bottom)-1.5rem))] overflow-hidden flex flex-col rounded-2xl shadow-2xl transition-all duration-300 ${showResults ? "max-w-xl" : "max-w-lg"}`}
             style={{ background: "#fff" }}
           >
             {/* Progress */}
@@ -618,7 +618,7 @@ export default function AIReadinessAnalysis() {
               </div>
             </div>
 
-            <div className="overflow-y-auto flex-1 px-5 py-6">
+            <div className="overflow-y-auto flex-1 min-h-0 px-5 py-6">
               {showResults && score !== null && band ? (
                 <ResultsPanel
                   score={score}
@@ -665,7 +665,7 @@ export default function AIReadinessAnalysis() {
                 )}
 
                 {stepIndex === 1 && (
-                  <div className="grid gap-2 max-h-[50vh] overflow-y-auto pr-1">
+                  <div className="grid gap-2 max-h-[min(50vh,45dvh,320px)] overflow-y-auto overscroll-y-contain pr-1">
                     {Q1_OPTIONS.map((opt) =>
                       opt === "Annet" ? (
                         <input
@@ -1074,7 +1074,7 @@ export default function AIReadinessAnalysis() {
                 )}
 
                 {stepIndex === 9 && (
-                  <div className="space-y-2 max-h-[52vh] overflow-y-auto pr-1">
+                  <div className="space-y-2 max-h-[min(52vh,45dvh,320px)] overflow-y-auto overscroll-y-contain pr-1">
                     <p className="text-xs opacity-70 mb-2">
                       Velg det som passer best, eller skriv egen tidshorisont nederst.
                     </p>
@@ -1137,7 +1137,7 @@ export default function AIReadinessAnalysis() {
                 )}
 
                 {stepIndex === 10 && (
-                  <div className="space-y-2 max-h-[52vh] overflow-y-auto pr-1">
+                  <div className="space-y-2 max-h-[min(52vh,45dvh,320px)] overflow-y-auto overscroll-y-contain pr-1">
                     <p className="text-xs opacity-70 mb-2">
                       Velg ett eller flere som gjelder. Du kan utdype i kommentarfeltet nederst.
                     </p>

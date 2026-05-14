@@ -31,7 +31,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
 }
 
 .green-card {
@@ -179,12 +179,6 @@ body {
   animation: heroLogoDrift 9s ease-in-out infinite;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .animate-hero-logo-drift {
-    animation: none;
-  }
-}
-
 /* ── Forside hero: «above the fold» — lett innflyt & svung ── */
 @keyframes heroFoldIn {
   from {
@@ -241,9 +235,21 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .plus-one-logo {
+    animation: none;
+    background-position: 0% 50%;
+  }
+  .animate-marquee {
+    animation: none !important;
+  }
+  .animate-hero-logo-drift {
+    animation: none;
+  }
   .animate-hero-fold,
   .hero-bullets-stagger > li,
   .animate-whale-front,
+  .animate-whale-swim,
+  .animate-whale-wiggle,
   .animate-node-float,
   .animate-glow-pulse,
   .animate-journey-in,

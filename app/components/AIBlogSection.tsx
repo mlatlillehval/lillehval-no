@@ -48,7 +48,7 @@ export default function AIBlogSection() {
             <button
               type="button"
               onClick={() => scrollBy(-1)}
-              className="w-10 h-10 rounded-full border-2 flex items-center justify-center transition-colors hover:bg-white/80"
+              className="h-11 w-11 rounded-full border-2 flex items-center justify-center transition-colors hover:bg-white/80 outline-none focus-visible:ring-2 focus-visible:ring-[#15803d] focus-visible:ring-offset-2"
               style={{ borderColor: "rgba(34,139,70,0.35)", color: "#1a3320" }}
               aria-label="Forrige"
             >
@@ -59,7 +59,7 @@ export default function AIBlogSection() {
             <button
               type="button"
               onClick={() => scrollBy(1)}
-              className="w-10 h-10 rounded-full border-2 flex items-center justify-center transition-colors hover:bg-white/80"
+              className="h-11 w-11 rounded-full border-2 flex items-center justify-center transition-colors hover:bg-white/80 outline-none focus-visible:ring-2 focus-visible:ring-[#15803d] focus-visible:ring-offset-2"
               style={{ borderColor: "rgba(34,139,70,0.35)", color: "#1a3320" }}
               aria-label="Neste"
             >
@@ -72,7 +72,7 @@ export default function AIBlogSection() {
 
         <div
           ref={scrollRef}
-          className="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-thin -mx-1 px-1"
+          className="flex gap-4 overflow-x-auto overscroll-x-contain touch-pan-x scroll-pl-4 scroll-pr-4 pb-2 snap-x snap-mandatory scrollbar-thin -mx-1 px-1"
           style={{ scrollbarColor: "rgba(34,139,70,0.4) transparent" }}
         >
           {AI_BLOG_POSTS.map((post) => (

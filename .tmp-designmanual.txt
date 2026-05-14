@@ -1,0 +1,410 @@
+LILLEHVAL
+Designmanual v1.1
+April 2026  ·  Intern referanse for design, innhold og utvikling
+
+Denne manualen samler all visuell og innholdsmessig retning for Lillehval AS. Den gjelder nettsiden, presentasjoner, markedsmateriell, kundedokumentasjon og interne verktøy. Bruk den som felles referanse og oppdater den når nye designvalg tas.
+
+1  Designprinsipper
+	•	Tydelig og trygg
+	•	Kommuniser kompetanse uten overdrivelser.
+	•	Menneskelig
+	•	Varme flater, vennlig språk, konkrete budskap.
+	•	Handlingsorientert
+	•	Hver seksjon skal hjelpe brukeren videre til neste steg.
+	•	Konsekvent
+	•	Samme visuelle logikk på tvers av sider og komponenter.
+
+2  Fargepalett
+Bruk alltid hex-verdiene under. Unngå tilnærming-farger eller egne tolkninger.
+
+Primærfarger
+Farge
+Navn
+Hex
+Bruk
+ 
+Primær grønn
+#15803d
+Knapper, lenker, bullets, aksenter
+ 
+Mørk grønn
+#14532d
+Sekundær CTA, kortborder, headere
+ 
+Dyp grønn
+#0a2e1a
+Mørke bakgrunner, pitch, footere
+ 
+Amber / gull — start
+#f59e0b
+Gradient CTA, aksent, highlight, konstellasjonspunkt 1
+ 
+Mørk amber
+#d4840a
+Konstellasjonslinje, gradient mellomton
+ 
+Lysegrønn
+#8aad94
+Konstellasjonspunkt 3, svak tekst, meta
+ 
+Mellomgrønn
+#4a7a55
+Konstellasjonspunkt 4, dempet tekst
+ 
+Hero beige
+#f2ede3
+Hero-bakgrunn, sitatflater, lys bg
+ 
+Seksjonsbakgrunn
+#edf4ea
+Prosjektseksjoner, kort, tabeller
+
+Tekstfarger
+
+Navn
+Hex / verdi
+Bruk
+ 
+Hovedtekst
+#1a3320
+Brødtekst, overskrifter
+ 
+Dempet tekst
+#4a7a55
+rgba(26,51,32,0.75) — ingresser, forklaringer
+ 
+Svak tekst
+#8aad94
+rgba(26,51,32,0.5) — meta, kaptioner
+ 
+Hvit tekst
+#ffffff
+Tekst på mørk bakgrunn / overlay
+
+Gradient og overlay
+Primær gradient (CTA): linear-gradient(135deg, #f59e0b 0%, #15803d 100%)
+Mørk overlay på bilder: rgba(0,0,0,0.55)
+
+3  Typografi
+Lillehval bruker to fontfamilier med tydelig atskilt rolle: Georgia Bold til logo og display-bruk, Plus Jakarta Sans til all innholdstypografi.
+
+Logofont — Georgia Bold
+Georgia Bold brukes utelukkende i logoen og ordmerket 'Lillehval'. Den skal ikke brukes til brødtekst, overskrifter eller annet innhold.
+	•	Bruk: Kun i SVG-logofilene
+	•	Vekt: Bold (700)
+	•	Farge lys bakgrunn: Dyp grønn #0a2e1a
+	•	Farge mørk bakgrunn: Hero beige #f2ede3
+	•	Georgia er forhåndsinstallert på alle plattformer — ingen nedlasting nødvendig
+
+Innholdsfont — Plus Jakarta Sans
+Plus Jakarta Sans brukes til all innholdstypografi: overskrifter, brødtekst, labels, knapper og presentasjoner. Fallback: Calibri for Word/PowerPoint, Inter for web.
+
+Nivå
+Vekt
+Størrelse
+Bruk
+Hero / H1
+700 (ExtraBold)
+48–64px / 36–44pt
+Forsideoverskrifter, hero-tittel
+Seksjonstittel / H2
+700 (Bold)
+28–36px / 20–28pt
+Seksjonsoverskrifter
+Kortittel / H3
+600 (SemiBold)
+18–22px / 14–18pt
+Korttitler, listepunkter
+Brødtekst
+400 (Regular)
+16px / 12pt
+All løpende tekst
+Badge / kicker
+600 (SemiBold)
+11–13px / 9–10pt
+Uppercase, letter-spacing: 0.1em
+
+Implementering
+	•	Web: Google Fonts CDN — Plus Jakarta Sans, weights 400, 600, 700. Tailwind: legg til i fontFamily.
+	•	PowerPoint / Canva: Last ned og installer lokalt. Fallback: Calibri.
+	•	Word-dokumenter: Calibri er standard — bruk tilsvarende størrelser som tabellen over.
+	•	Georgia er systemfont — ingen installasjon nødvendig, men brukes kun i logofilene.
+
+4  Spacing og layout
+Containere
+	•	Maksbredde: max-w-7xl
+	•	Horisontal padding: px-6 (desktop: lg:px-12)
+
+Vertikal rytme
+	•	Seksjonsluft: py-20 til py-24
+	•	Elementgrupper: gap-3, gap-5, gap-12 etter innholdstype
+
+Hero-spesifikt
+	•	Venstrekolonne på store skjermer: lg:w-[38%] og lg:h-[740px]
+	•	Subheadline, CTA og trust-line grupperes slik at CTA ligger lavt i kolonnen på desktop
+
+5  Komponentregler
+Knapper
+Primær CTA
+	•	Bakgrunn: amber-til-grønn gradient (se seksjon 2)
+	•	Tekst: hvit (#ffffff)
+	•	Form: rounded-full
+	•	Interaksjon: hover:scale-105, tydelig skygge
+
+Sekundær CTA
+	•	Bakgrunn: mørk grønn (#14532d)
+	•	Tekst: lys
+	•	Diskret border
+
+Badges og labels
+	•	Avrundet pill, uppercase, tett tracking
+	•	Overlay-badges på bilder: alltid hvit tekst
+
+Kort
+	•	Hjørner: rounded-2xl eller rounded-3xl
+	•	Lett border i grønn tone (#c8d9c0)
+	•	Myk bakgrunn (#edf4ea) med moderat kontrast
+
+Lister
+	•	Bruk grønne bullets: marker:text-[#15803d]
+	•	Hold punkttekster korte og handlingsorienterte
+
+6  Logobruk
+Logoen består av et konstellasjonssymbol og ordmerket 'Lillehval'. Konstellasjonssymbolet er en graf med noder og kanter som graderer fra amber (#f59e0b) til dyp grønn (#14532d) — et visuelt narrativ om AI-transformasjon. Ordmerket er satt i Georgia Bold, farge #0a2e1a på lys bakgrunn og #f2ede3 (hero beige) på mørk bakgrunn.
+
+Logofiler
+	•	lillehval-logo-lys.svg — Symbol + ordmerke. Lys bakgrunn (beige/hvit). Standardversjon.
+	•	lillehval-logo-hval-mork-ned.svg — Symbol + ordmerke + hvalillustrasjon. Mørk bakgrunn (#0a2e1a).
+	•	lillehval-logo-symbol-alene.svg — Kun konstellasjonssymbol. Brukes der plass er begrenset.
+
+Godkjente versjoner
+Versjon
+Bakgrunn
+Bruk
+Standard / lys
+Beige (#f2ede3) eller hvit
+Nettside, Canva, standard print, e-postsignatur
+Mørk bakgrunn
+Dyp grønn (#0a2e1a)
+Pitch-presentasjoner, dark slides, mørke flater
+Symbol alene
+Hvit, beige eller mørk grønn
+Favicon, profilbilde, begrenset plass (min. 24px)
+
+Frie soner og minimumsstørrelser
+	•	Minimum 16px luft rundt logoen på alle sider
+	•	Hval-ikonet alene: minimum 24px bredde
+	•	Med ordmerke: minimum 120px totalbredde
+
+Ikke tillatt
+	•	Strekk eller forvreng logoen
+	•	Roter logoen
+	•	Sett logoen på støyende bakgrunner uten overlay
+	•	Bruk andre farger enn de tre godkjente versjonene
+
+7  Illustrasjonsbibliotek
+Alle illustrasjoner er i akvarellstil med grønn-beige-gull-palett. To stiler skal holdes konsistent:
+
+Stil A — Akvarell med papirkant
+	•	Kvadratisk format med hvit teksturbord
+	•	Brukes til: blogginnlegg, artikler, LinkedIn
+	•	Aldri beskjær bort papirborden
+
+Stil B — Akvarell uten ramme
+	•	Breddeformat (16:9 eller 3:2), flyter ut i bakgrunnen
+	•	Brukes til: nettsideseksjoner, pitch-bakgrunner
+	•	Krever beige eller hvit bakgrunn bak
+
+Portrettillustrasjoner
+	•	Kun godkjente versjoner (Marius, Hein)
+	•	Alltid på beige/crem bakgrunn
+	•	Ikke beskjær under skuldrene
+	•	Bruk kun der teamet presenteres
+
+Agentillustrasjoner (Aria, Byte, Loop, Nexus)
+	•	Brukes til å illustrere AI-tjenester — hver agent har fast tilknyttet tjeneste
+	•	Ikke bland stiler på samme flate
+	•	Kun på beige eller hvit bakgrunn
+
+Nye illustrasjoner
+Nye illustrasjoner skal alltid lages i akvarellstil med varm palett (grønn-beige-gull). Lag alltid både papirkant-versjon og rammeløs versjon med samme prompt-logikk som eksisterende materiale.
+
+8  Bilder og foto
+	•	Prioriter ekte, troverdige motiver med mennesker og arbeidssituasjoner
+	•	Legg mørk gradient over bilder der tekst ligger oppå
+	•	Unngå støyende bilder som konkurrerer med CTA
+
+9  Bevegelse og interaksjon
+	•	Overganger: duration-150 til duration-300
+	•	Hover: små bevegelser, ikke dramatisk animasjon
+	•	Marquee: jevn, rolig bevegelse som ikke tar fokus fra budskap
+
+10  Presentasjonsdesign
+Mal med 6 lysbilserver er tilgjengelig som Lillehval-Presentasjonsmal.pptx.
+
+Lysbildetyper
+Type
+Bakgrunn
+Bruk
+Forsidelysbilde
+Dyp grønn #0a2e1a
+Åpningslysbilde i pitch
+Innholdslysbilde
+Beige #f2ede3
+Vanlige innholdslysbilder
+Kapittelskiller
+Mørk grønn #14532d
+Mellom seksjoner
+Prosess / trinn
+Hvit #ffffff
+4-stegs prosess
+Sitatlysbilder
+Beige #f2ede3
+Kundeutsagn, egne sitater
+Avslutningslysbilde
+Dyp grønn #0a2e1a
+Siste lysbilde med CTA
+
+Regler for presentasjoner
+	•	Ikke bland mørke og lyse bakgrunner på samme lysbilde
+	•	Aldri hvit tekst direkte på beige-bakgrunn — bruk mørkere grønntone
+	•	Alltid venstrejustert brødtekst (kun titler sentreres)
+	•	Hval-logoen vises på tittel- og avslutningslysbilder
+
+11  Innhold og tone-of-voice
+	•	Skriv konkret og enkelt
+	•	Unngå buzzwords uten forklaring
+	•	Vis verdi med klare utfall: mindre rot, bedre flyt, tydelige neste steg
+	•	CTA-tekster skal være inviterende, ikke pressende
+
+12  Tilgjengelighet
+	•	Sikre kontrast mellom tekst og bakgrunn (WCAG AA minimum)
+	•	Bruk tydelige focus-states på interaktive elementer
+	•	Knapper og lenker: minimum ~44px klikkflate
+	•	Ikke bruk kun farge for å formidle mening
+
+13  QA-sjekkliste før publisering
+	•	Farger følger tokenlisten i denne manualen
+	•	CTA-knapper ser like ut på tvers av sider
+	•	Teksthierarki er tydelig (H1, H2, brødtekst)
+	•	Overlay-tekst på bilder er lesbar på mobil og desktop
+	•	Seksjoner har jevn spacing og bryter ikke layout på store skjermer
+	•	Navigasjon/logo sender alltid til riktig sted
+	•	Presentasjonsfont er installert lokalt på alle maskiner
+	•	Logoen er i riktig versjon for bakgrunnen den brukes på
+
+14  Endringsregel
+Ved nye komponenter eller redesign skal denne manualen oppdateres samtidig, slik at designvalg blir dokumentert og delbare. Oppgi versjonsnummer og dato ved endringer.
+
+
+
+15  Eksempelbibliotek
+Denne seksjonen viser det visuelle uttrykket i praksis — logo i alle versjoner, typografihierarki, fargepalett og layouteksempler for presentasjon og dokument.
+
+15.1  Logo — godkjente versjoner
+Lillehval har 19 logoversjoner organisert i fem kategorier. Velg alltid versjonen som passer bakgrunnsfargen og konteksten. Alle filer er SVG.
+
+A) Kun ordmerke — plain tekst
+DYP GRØNN — PÅ LYS BAKGRUNN
+
+Enklest mulig versjon. Brukes der konstellasjonen ikke passer — f.eks. small print, vannmerke, enkle dokumenthoder. Font: Georgia Bold.
+
+HERO BEIGE — PÅ MØRK BAKGRUNN
+
+Brukes på mørk bakgrunn der konstellasjonen ikke passer. Tekst i hero beige #f2ede3.
+
+B) Ordmerke + reise (trailing)
+DYP GRØNN TEKST — LYS BAKGRUNN
+
+Fil: Logo_-_Lillehval_mørk___reise_-_lys_bakgrunn.svg. Standardversjon for lys bakgrunn — nettside, tilbud, rapporter.
+
+BEIGE TEKST — MØRK BAKGRUNN
+
+Fil: Logo_-_Lillehval_lys___reise_-_mørk_bakgrunn_.svg. Brukes på pitch-forsider, mørke slides og dark mode.
+
+C) Reise inkl. i ordmerket (overlapp)
+DYP GRØNN — LYS BAKGRUNN
+
+Fil: Logo_-_Lillehval_mørk_inkl_reise_lys_-_bakgrunn.svg. Primærversjon for profilflater der høyde er tilgjengelig — presentasjoner, bannere, profil.
+
+BEIGE — MØRK BAKGRUNN
+
+Fil: Logo_-_Lillehval_lys_inkl_reise_-__mørk_bakgrunn.svg. Brukes på mørke pitchflater, forsidelysbilde.
+
+D) Reise alene
+LYS BAKGRUNN
+
+Fil: Logo_-_Reise_alene_-_lys_bakgrunn.svg. Brukes som dekorativt element, separator, favicon-variant.
+
+MØRK BAKGRUNN
+
+Fil: Logo_-_Lillehval_reise_alene_-_mørk_bakggrunn.svg.
+
+E) Hval + reise
+HVAL HØYRE — LYS BAKGRUNN
+
+Fil: Logo_-_Hval_høyre___reise_lys_-_bakgrunn.svg. Brukes som hero-illustrasjon, bannertopp, sosiale medier.
+
+HVAL HØYRE — MØRK BAKGRUNN
+
+Fil: Logo_-_Hval_høyre___reise_-_mørk_bakgrunn.svg.
+
+HVAL VENSTRE — LYS BAKGRUNN
+
+Fil: Logo_-_Hval_venstre___reise_-_lys_bakgrunn.svg.
+
+HVAL VENSTRE — MØRK BAKGRUNN
+
+Fil: Logo_-_Hval_venstre____reise_-_mørk_bakgrunn.svg.
+
+15.2  Fargepalett — visuell oversikt
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Amber  →  Primær grønn  →  Dyp grønn    |  Beige og seksjonsbakgrunn for flater  |  Tekstfarger og borders
+
+15.3  Typografi — hierarki
+Overskrift H1 — 32pt ExtraBold
+Seksjonstittel H2 — 24pt Bold
+Kortittel H3 — 18pt SemiBold
+Brødtekst — 12pt Regular. Vi kartlegger prosessene dine, identifiserer de tre stedene der AI gir raskest gevinst, og hjelper deg i gang — uten unødvendig kompleksitet.
+KICKER / BADGE  •  9PT SEMIBOLD  •  UPPERCASE  •  LETTER-SPACING
+
+15.4  Presentasjonslayout — eksempler
+MØRKT TITTELLYSBILDE
+LILLEHVAL  ·  AI-RÅDGIVNING
+Tittel på presentasjon
+Undertittel eller kort beskrivelse av innholdet
+
+LYST INNHOLDSLYSBILDE
+SEKSJONSTITTEL
+Overskrift på lysbildet
+Brødtekst som forklarer innholdet på lysbildet. Hold det konkret og handlingsorientert.
+
+15.5  E-postsignatur
+Kopier og tilpass følgende struktur. Bruk Calibri 10pt i e-postklienten.
+Marius Langsrud
+
+Partner og daglig leder  |  Lillehval AS
+ml@lillehval.no  |  lillehval.no
++47 48 16 55 93  |  linkedin.com/in/mariuslangsrud
+
+Endringslogg
+Versjon
+Dato
+Endring
+v1.0
+2026
+Opprinnelig designmanual publisert
+v1.1
+Apr 2026
+Tillegg: typografi (seksjon 3), logobruk (seksjon 6), mørke flater og presentasjonsdesign (seksjon 10), illustrasjonsbibliotek (seksjon 7), konstellasjonspalett (seksjon 2+6), eksempelbibliotek (seksjon 15)
