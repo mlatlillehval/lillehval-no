@@ -3,6 +3,9 @@
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import BookingModal from "./BookingModal";
+import HeroAiJourneyBulletList, {
+  type HeroBulletSegment,
+} from "./HeroAiJourneyBulletList";
 import {
   FRONT_PAGE_DEFAULTS,
   mergeFrontpageDefaultsFromApi,
@@ -13,11 +16,9 @@ const WHALE_SRC = "/lillehval-hval-snudd-v2.svg";
 const JOURNEY_PATH_IMG =
   "/logo-manual-v1.1/Logo%20-%20Reise%20alene%20-%20transparent.svg";
 
-type BulletSegment = { text: string; highlight?: boolean };
-
 const HERO_BULLETS_HEADING = "Vi leder deg trygt gjennom AI-reisen";
 
-const HERO_BULLETS: BulletSegment[][] = [
+const HERO_BULLETS: HeroBulletSegment[][] = [
   [
     { text: "AI-potensialet er stort", highlight: true },
     { text: ", men de færreste bedrifter vet hvor de skal begynne eller hva som faktisk er relevant for dem." },
@@ -215,36 +216,10 @@ export default function Hero({ initialCopy = FRONT_PAGE_DEFAULTS }: HeroProps) {
 
             {/* HØYRE: Bullets — strekker seg til samme høyde som venstre */}
             <div className="flex min-h-0 min-w-0 flex-col gap-4 rounded-2xl border border-[rgba(21,128,61,0.12)] bg-[rgba(252,253,252,0.96)] px-4 py-5 backdrop-blur-sm shadow-[0_8px_32px_rgba(21,128,61,0.06)] sm:px-5 sm:py-6 h-full">
-              <p className="m-0 shrink-0 text-xs font-bold uppercase tracking-widest animate-hero-fold hero-fold-delay-3" style={{ color: "#15803d" }}>
-                {HERO_BULLETS_HEADING}
-              </p>
-              <ul className="m-0 flex min-h-0 flex-1 list-none flex-col justify-start gap-2.5 pl-0 hero-bullets-stagger">
-                {HERO_BULLETS.map((segments, i) => (
-                  <li key={i} className="flex items-start gap-2.5 animate-hero-fold">
-                    <span
-                      className="flex-shrink-0 mt-1.5 w-1.5 h-1.5 rounded-full"
-                      style={{ background: "#15803d" }}
-                    />
-                    <span
-                      className="text-sm leading-relaxed"
-                      style={{ color: "rgba(26,51,32,0.75)" }}
-                    >
-                      {segments.map((seg, j) =>
-                        seg.highlight ? (
-                          <span
-                            key={j}
-                            style={{ color: "#14532d", fontWeight: 700 }}
-                          >
-                            {seg.text}
-                          </span>
-                        ) : (
-                          <span key={j}>{seg.text}</span>
-                        )
-                      )}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+              <HeroAiJourneyBulletList
+                heading={HERO_BULLETS_HEADING}
+                bullets={HERO_BULLETS}
+              />
             </div>
           </div>
 
