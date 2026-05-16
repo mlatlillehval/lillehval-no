@@ -4,13 +4,12 @@ import { getSiteUrl } from "@/lib/site-url";
 
 const STATIC_PATHS = [
   "/",
+  "/hjelp-med-ai",
   "/ai-beredskap",
   "/ai-forklart",
-  "/ai-metodikk",
   "/ai-tjenester",
   "/hvorfor-oss",
-  "/kjop/avbrutt",
-  "/kjop/takk",
+  "/ofte-stilte-sporsmal",
   "/pagaende-prosjekter",
   "/siste-nyheter",
   "/siste-nyheter/talkshow",
@@ -24,8 +23,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticEntries: MetadataRoute.Sitemap = STATIC_PATHS.map((path) => ({
     url: path === "/" ? `${base}/` : `${base}${path}`,
     lastModified: now,
-    changeFrequency: "weekly",
-    priority: path === "/" ? 1 : 0.75,
+    changeFrequency: path === "/" ? "weekly" : "weekly",
+    priority:
+      path === "/" ? 1 : path === "/hjelp-med-ai" ? 0.95 : path === "/ofte-stilte-sporsmal" ? 0.8 : 0.75,
   }));
 
   const tjenesteEntries: MetadataRoute.Sitemap = tjenester.map((t) => ({

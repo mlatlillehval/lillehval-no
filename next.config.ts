@@ -11,7 +11,10 @@ const nextConfig: NextConfig = {
     ],
   },
   async redirects() {
-    return [{ source: "/ai-utviklingen", destination: "/ai-forklart", permanent: true }];
+    return [
+      { source: "/ai-utviklingen", destination: "/ai-forklart", permanent: true },
+      { source: "/trenger-hjelp-med-ai", destination: "/hjelp-med-ai", permanent: true },
+    ];
   },
 };
 

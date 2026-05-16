@@ -1,14 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import PageShell from "../components/PageShell";
-import type { Metadata } from "next";
 import { MARIUS_EMAIL } from "../data/siteContact";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Sommerjobb & AI-partner – Lillehval",
+export const metadata = createPageMetadata({
+  path: "/sommervikar",
+  title: "Sommerjobb og AI-partner",
   description:
     "Samarbeid om å selge ferdigutviklet AI-applikasjon — avtale med Lillehval, salg og demo i kundemøter, vinn–vinn. Sommervikar for deg som allerede lever i AI-sporet.",
-};
+});
 
 export default function SommervikarPage() {
   return (

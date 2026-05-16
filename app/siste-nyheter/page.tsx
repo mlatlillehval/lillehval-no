@@ -1,11 +1,13 @@
 import NewsSection from "../components/NewsSection";
 import PageShell from "../components/PageShell";
-import type { Metadata } from "next";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Siste AI-nyheter – Lillehval",
-  description: "Kuraterte nyheter om AI-strategi, AI-implementering og AI-drevet prosessautomatisering fra Norge og verden.",
-};
+export const metadata = createPageMetadata({
+  path: "/siste-nyheter",
+  title: "Siste AI-nyheter",
+  description:
+    "Kuraterte nyheter om AI-strategi, AI-implementering og AI-drevet prosessautomatisering fra Norge og verden.",
+});
 
 export const revalidate = 3600;
 

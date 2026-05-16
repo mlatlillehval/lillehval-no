@@ -1,11 +1,13 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "../../components/PageShell";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Takk for kjøpet – Lillehval",
+export const metadata = createPageMetadata({
+  path: "/kjop/takk",
+  title: "Takk for kjøpet",
   description: "Vi har mottatt bestillingen din.",
-};
+  noIndex: true,
+});
 
 type Props = { searchParams: Promise<{ session_id?: string }> };
 

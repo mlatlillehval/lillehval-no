@@ -1,11 +1,13 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import type { Metadata } from "next";
 import AssistenterHylleproduktKolonne from "../../components/AssistenterHylleproduktKolonne";
+import JsonLd from "../../components/JsonLd";
 import PageShell from "../../components/PageShell";
 import StandardpakkerSeksjon from "../../components/StandardpakkerSeksjon";
 import { getTjeneste, tjenester } from "../../data/tjenester";
+import type { Metadata } from "next";
+import { breadcrumbsJsonLd, createPageMetadata, serviceJsonLd } from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -17,10 +19,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const t = getTjeneste(slug);
   if (!t) return {};
-  return {
-    title: `${t.title} – Lillehval`,
+  return createPageMetadata({
+    path: `/ai-tjenester/${slug}`,
+    title: t.title,
     description: t.tagline,
-  };
+    ogImage: t.image,
+  });
 }
 
 export default async function TjenestePage({ params }: Props) {
@@ -30,6 +34,16 @@ export default async function TjenestePage({ params }: Props) {
 
   return (
     <PageShell>
+    <JsonLd
+      data={[
+        serviceJsonLd(t),
+        breadcrumbsJsonLd([
+          { name: "Forside", path: "/" },
+          { name: "AI-tjenester", path: "/ai-tjenester" },
+          { name: t.title, path: `/ai-tjenester/${t.slug}` },
+        ]),
+      ]}
+    />
     <main className="min-h-screen" style={{ background: "#f2ede3" }}>
 
       {/* ── Hero ── */}

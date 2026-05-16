@@ -1,12 +1,15 @@
 import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import Image from "next/image";
+import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import NeuralNetworkBackground from "./components/NeuralNetworkBackground";
 import SocialMediaLinks from "./components/SocialMediaLinks";
 import CtaBand from "./components/CtaBand";
+import JsonLd from "./components/JsonLd";
+import { DEFAULT_OG_IMAGE, SITE_DESCRIPTION, organizationJsonLd, webSiteJsonLd } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-url";
 import {
   HEIN_EMAIL,
@@ -21,12 +24,9 @@ import {
 
 const WWF_KNOLHVAL_URL = "https://www.wwf.no/dyreleksikon/kn%C3%B8lhval";
 
-const defaultTitle = "Lillehval – AI-rådgivning for norske bedrifter";
-const defaultDescription =
-  "Vi hjelper norske bedrifter navigere AI-reisen. Fra forståelse til full utnyttelse.";
+const defaultTitle = "Lillehval – Hjelp med AI for norske bedrifter";
 
 const siteBase = getSiteUrl();
-const canonicalUrl = new URL("/", siteBase).toString();
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -44,30 +44,27 @@ export const metadata: Metadata = {
     default: defaultTitle,
     template: "%s – Lillehval",
   },
-  description: defaultDescription,
-  alternates: {
-    canonical: canonicalUrl,
-  },
+  description: SITE_DESCRIPTION,
   openGraph: {
     type: "website",
     locale: "nb_NO",
     siteName: "Lillehval",
     title: defaultTitle,
-    description: defaultDescription,
-    url: "/",
+    description: SITE_DESCRIPTION,
     images: [
       {
-        url: "/lillehval-logo-v4.svg",
-        width: 800,
-        height: 200,
-        alt: "Lillehval",
+        url: DEFAULT_OG_IMAGE,
+        width: 1200,
+        height: 630,
+        alt: "Lillehval – AI-rådgivning for norske bedrifter",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
     title: defaultTitle,
-    description: defaultDescription,
+    description: SITE_DESCRIPTION,
+    images: [DEFAULT_OG_IMAGE],
   },
 };
 
@@ -89,6 +86,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full overflow-x-clip antialiased`}
     >
       <body className="min-h-full flex flex-col overflow-x-clip font-sans">
+        <JsonLd data={[organizationJsonLd(), webSiteJsonLd()]} />
         <NeuralNetworkBackground />
         <Navbar />
 
@@ -212,6 +210,23 @@ export default function RootLayout({
             </div>
             <div className="lg:justify-self-end lg:pt-0 pt-2 border-t border-[rgba(34,139,70,0.15)] lg:border-t-0 w-full md:col-span-2 lg:col-span-1 md:max-lg:flex md:max-lg:justify-center">
               <SocialMediaLinks compact />
+              <p className="text-xs mt-3 md:max-lg:text-center lg:text-right">
+                <Link
+                  href="/hjelp-med-ai"
+                  className="font-semibold underline-offset-2 hover:underline"
+                  style={{ color: "#15803d" }}
+                >
+                  Hjelp med AI
+                </Link>
+                {" · "}
+                <Link
+                  href="/ofte-stilte-sporsmal"
+                  className="font-semibold underline-offset-2 hover:underline"
+                  style={{ color: "#15803d" }}
+                >
+                  FAQ
+                </Link>
+              </p>
             </div>
           </div>
         </footer>

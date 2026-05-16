@@ -1,10 +1,11 @@
 import WhyUs from "../components/WhyUs";
-import type { Metadata } from "next";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Hvorfor Lillehval? – Lillehval",
+export const metadata = createPageMetadata({
+  path: "/hvorfor-oss",
+  title: "Hvorfor Lillehval?",
   description: "Møt teamet bak Lillehval og se hva vi har levert.",
-};
+});
 
 /** Navbar offset (matcher PageShell: 4rem + safe-area-top). */
 export default function HvorforOss() {

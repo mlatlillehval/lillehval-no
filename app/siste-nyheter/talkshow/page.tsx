@@ -1,15 +1,16 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "../../components/PageShell";
 import TalkshowEpisodePlayer from "../../components/TalkshowEpisodePlayer";
 import { TALKSHOW_EPISODE_1 } from "../../data/talkshowEpisode1";
+import { createPageMetadata } from "@/lib/seo";
 
 const youtubeId = process.env.NEXT_PUBLIC_TALKSHOW_EP1_YOUTUBE_ID;
 
-export const metadata: Metadata = {
-  title: `${TALKSHOW_EPISODE_1.title} – Lillehval`,
+export const metadata = createPageMetadata({
+  path: "/siste-nyheter/talkshow",
+  title: TALKSHOW_EPISODE_1.title,
   description: TALKSHOW_EPISODE_1.topicLead,
-};
+});
 
 export default function TalkshowEpisodePage() {
   return (

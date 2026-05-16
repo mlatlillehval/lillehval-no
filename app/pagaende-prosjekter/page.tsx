@@ -1,12 +1,13 @@
 import PageShell from "../components/PageShell";
 import PagaendeProsjekterListe from "../components/PagaendeProsjekterListe";
-import type { Metadata } from "next";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Prosjekter – Lillehval",
+export const metadata = createPageMetadata({
+  path: "/pagaende-prosjekter",
+  title: "Prosjekter",
   description:
     "Se pågående prosjekter og hva Lillehval jobber med — case og AI-implementeringer.",
-};
+});
 
 export default function PagaendeProsjekterPage() {
   return (

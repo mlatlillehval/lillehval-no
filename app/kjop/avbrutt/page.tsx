@@ -1,11 +1,13 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "../../components/PageShell";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Betaling avbrutt – Lillehval",
+export const metadata = createPageMetadata({
+  path: "/kjop/avbrutt",
+  title: "Betaling avbrutt",
   description: "Du avbrøt betalingen.",
-};
+  noIndex: true,
+});
 
 export default function KjopAvbruttPage() {
   return (
