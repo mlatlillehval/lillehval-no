@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Analytics } from "@vercel/analytics/react";
 import Image from "next/image";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -214,6 +215,7 @@ export default function RootLayout({
             </div>
           </div>
         </footer>
+        <Analytics />
       </body>
     </html>
   );
