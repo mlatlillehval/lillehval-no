@@ -3,9 +3,6 @@
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import BookingModal from "./BookingModal";
-import HeroAiJourneyBulletList, {
-  type HeroBulletSegment,
-} from "./HeroAiJourneyBulletList";
 import {
   FRONT_PAGE_DEFAULTS,
   mergeFrontpageDefaultsFromApi,
@@ -16,9 +13,11 @@ const WHALE_SRC = "/lillehval-hval-snudd-v2.svg";
 const JOURNEY_PATH_IMG =
   "/logo-manual-v1.1/Logo%20-%20Reise%20alene%20-%20transparent.svg";
 
+type BulletSegment = { text: string; highlight?: boolean };
+
 const HERO_BULLETS_HEADING = "Vi leder deg trygt gjennom AI-reisen";
 
-const HERO_BULLETS: HeroBulletSegment[][] = [
+const HERO_BULLETS: BulletSegment[][] = [
   [
     { text: "AI-potensialet er stort", highlight: true },
     { text: ", men de færreste bedrifter vet hvor de skal begynne eller hva som faktisk er relevant for dem." },
@@ -61,6 +60,72 @@ const JOURNEY_NODES = [
   { label: "Mot",           x: 74.5, above: true,  color: "#1d6e3a", delay: "2.0s" },
   { label: "Handling",      x: 96.9, above: false, color: "#14532D", delay: "2.4s" },
 ] as const;
+
+const HERO_JOURNEY_STORY =
+  "Selskapets reise fra usikkerhet til Handling - Lillehval guider deg på veien";
+
+function HeroJourneyLegend({ compact }: { compact?: boolean }) {
+  return (
+    <div
+      style={{
+        background: "rgba(6,20,12,0.72)",
+        border: "1px solid rgba(138,173,148,0.18)",
+        backdropFilter: "blur(10px)",
+        borderRadius: "10px",
+        padding: compact ? "8px 10px" : "6px 12px",
+        display: "flex",
+        flexDirection: "column",
+        gap: compact ? "8px" : "6px",
+      }}
+    >
+      <span
+        className="text-balance"
+        style={{
+          fontSize: compact ? "10px" : "clamp(8px, 1.8vw, 11px)",
+          fontWeight: 800,
+          letterSpacing: "0.12em",
+          textTransform: "uppercase",
+          color: "rgba(245,158,11,0.85)",
+          lineHeight: 1.35,
+        }}
+      >
+        Selskapers AI-reise fra Usikkerhet til Handling
+      </span>
+      <div
+        className={
+          compact
+            ? "grid grid-cols-2 gap-x-2 gap-y-2"
+            : "flex flex-wrap items-center gap-x-2 gap-y-1.5"
+        }
+      >
+        {JOURNEY_NODES.map((node) => (
+          <div key={node.label} className="flex items-center gap-1.5 min-w-0">
+            <span
+              style={{
+                width: compact ? "6px" : "5px",
+                height: compact ? "6px" : "5px",
+                borderRadius: "50%",
+                background: node.color,
+                flexShrink: 0,
+                display: "inline-block",
+              }}
+            />
+            <span
+              className="leading-tight"
+              style={{
+                fontSize: compact ? "11px" : "clamp(8px, 1.8vw, 12px)",
+                fontWeight: 600,
+                color: "rgba(242,237,227,0.6)",
+              }}
+            >
+              {node.label}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 
 type HeroProps = {
@@ -216,10 +281,33 @@ export default function Hero({ initialCopy = FRONT_PAGE_DEFAULTS }: HeroProps) {
 
             {/* HØYRE: Bullets — strekker seg til samme høyde som venstre */}
             <div className="flex min-h-0 min-w-0 flex-col gap-4 rounded-2xl border border-[rgba(21,128,61,0.12)] bg-[rgba(252,253,252,0.96)] px-4 py-5 backdrop-blur-sm shadow-[0_8px_32px_rgba(21,128,61,0.06)] sm:px-5 sm:py-6 h-full">
-              <HeroAiJourneyBulletList
-                heading={HERO_BULLETS_HEADING}
-                bullets={HERO_BULLETS}
-              />
+              <p className="m-0 shrink-0 text-xs font-bold uppercase tracking-widest animate-hero-fold hero-fold-delay-3" style={{ color: "#15803d" }}>
+                {HERO_BULLETS_HEADING}
+              </p>
+              <ul className="hero-bullets-stagger m-0 flex min-h-0 flex-1 list-none flex-col justify-start gap-2.5 pl-0">
+                {HERO_BULLETS.map((segments, i) => (
+                  <li key={i} className="flex animate-hero-fold items-start gap-2.5">
+                    <span
+                      className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full"
+                      style={{ background: "#15803d" }}
+                    />
+                    <span
+                      className="text-sm leading-relaxed"
+                      style={{ color: "rgba(26,51,32,0.75)" }}
+                    >
+                      {segments.map((seg, j) =>
+                        seg.highlight ? (
+                          <span key={j} style={{ color: "#14532d", fontWeight: 700 }}>
+                            {seg.text}
+                          </span>
+                        ) : (
+                          <span key={j}>{seg.text}</span>
+                        )
+                      )}
+                    </span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
 
@@ -228,11 +316,14 @@ export default function Hero({ initialCopy = FRONT_PAGE_DEFAULTS }: HeroProps) {
 
       {/* ── HORISONTAL ILLUSTRASJONSBAR ── */}
       <div
-        className="relative z-10 w-full flex-shrink-0"
-        style={{ height: "clamp(260px, 32vw, 400px)", marginTop: "clamp(-28px, -3vw, -16px)" }}
+        className="relative z-10 w-full flex-shrink-0 min-h-[340px] sm:min-h-0"
+        style={{
+          height: "clamp(340px, 42vw, 400px)",
+          marginTop: "clamp(-28px, -3vw, -16px)",
+        }}
       >
         <div
-          className="w-full h-full relative overflow-hidden"
+          className="w-full h-full relative overflow-hidden pb-[88px] sm:pb-0"
           style={{
             background: "linear-gradient(160deg, #0a2e1a 0%, #061a10 60%, #071e12 100%)",
             borderRadius: "28px 28px 0 0",
@@ -247,18 +338,25 @@ export default function Hero({ initialCopy = FRONT_PAGE_DEFAULTS }: HeroProps) {
             }}
           />
 
-          {/* Story label — skjult på mobil (sm+ for å unngå overlap med illustrasjon) */}
+          {/* Story label — kompakt på mobil, full bredde på desktop */}
           <div
-            className="absolute z-20 animate-hero-up hidden sm:block left-4 right-4 top-3.5 max-w-[min(42rem,calc(100vw-2rem))] text-balance leading-snug sm:left-[max(1rem,calc(50%-32rem))] sm:right-auto md:max-w-[min(48rem,calc(100vw-3rem))]"
-            style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(138,173,148,0.35)", animationDelay: "0.4s" }}
+            className="absolute z-20 animate-hero-up left-3 right-3 top-2.5 max-w-[min(42rem,calc(100vw-1.5rem))] text-balance leading-snug sm:left-[max(1rem,calc(50%-32rem))] sm:right-auto sm:top-3.5 sm:max-w-[min(48rem,calc(100vw-3rem))]"
+            style={{
+              fontSize: "clamp(9px, 2.4vw, 11px)",
+              fontWeight: 700,
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
+              color: "rgba(138,173,148,0.45)",
+              animationDelay: "0.4s",
+            }}
           >
-            Selskapets reise fra usikkerhet til Handling - Lillehval guider deg på veien
+            {HERO_JOURNEY_STORY}
           </div>
 
           {/* Illustration: hval + reise */}
           <div
-            className="absolute flex items-center justify-center gap-2 sm:gap-4 w-[94%] sm:w-[80%]"
-            style={{ top: "50%", left: "50%", transform: "translate(-50%, -56%)", zIndex: 10 }}
+            className="absolute flex items-center justify-center gap-2 sm:gap-4 w-[94%] sm:w-[80%] top-[38%] sm:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 sm:-translate-y-[56%]"
+            style={{ zIndex: 10 }}
           >
             {/* Hval — liten på mobil, større på desktop */}
             <div style={{ position: "relative", width: "clamp(95px, 14vw, 200px)", flexShrink: 0 }}>
@@ -372,31 +470,13 @@ export default function Hero({ initialCopy = FRONT_PAGE_DEFAULTS }: HeroProps) {
             style={{ height: "30%", background: "linear-gradient(to top, rgba(4,14,8,0.6) 0%, transparent 100%)", zIndex: 15 }}
           />
 
-          {/* Legend — wrap på smal skjerm for å unngå horisontal overflow */}
+          {/* Legend — tydelig på mobil (2 kolonner), som på desktop */}
           <div className="absolute z-20 bottom-3 left-3 right-3 max-w-full sm:left-[max(1rem,calc(50%-32rem))] sm:right-auto sm:max-w-[min(52rem,calc(100vw-2rem))]">
-            <div
-              style={{
-                background: "rgba(6,20,12,0.72)",
-                border: "1px solid rgba(138,173,148,0.18)",
-                backdropFilter: "blur(10px)",
-                borderRadius: "10px",
-                padding: "6px 12px",
-                display: "flex",
-                flexDirection: "column",
-                gap: "6px",
-              }}
-            >
-              <span className="text-balance" style={{ fontSize: "clamp(8px, 1.8vw, 11px)", fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(245,158,11,0.85)" }}>
-                Selskapers AI-reise fra Usikkerhet til Handling
-              </span>
-              <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5">
-                {JOURNEY_NODES.map((node) => (
-                  <div key={node.label} className="flex items-center gap-1.5">
-                    <span style={{ width: "5px", height: "5px", borderRadius: "50%", background: node.color, flexShrink: 0, display: "inline-block" }} />
-                    <span className="leading-tight" style={{ fontSize: "clamp(8px, 1.8vw, 12px)", fontWeight: 600, color: "rgba(242,237,227,0.6)" }}>{node.label}</span>
-                  </div>
-                ))}
-              </div>
+            <div className="sm:hidden">
+              <HeroJourneyLegend compact />
+            </div>
+            <div className="hidden sm:block">
+              <HeroJourneyLegend />
             </div>
           </div>
         </div>
