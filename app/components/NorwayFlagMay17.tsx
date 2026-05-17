@@ -21,16 +21,15 @@ type Props = {
 export default function NorwayFlagMay17({ className = "" }: Props) {
   return (
     <span
-      className={`inline-flex shrink-0 items-center ${className}`.trim()}
-      role="img"
-      aria-label="17. mai — Grunnlovsdagen"
-      title="17. mai"
+      className={`inline-flex shrink-0 items-center gap-1.5 ${className}`.trim()}
+      title="17. mai — Gratulerer med dagen!"
     >
       <svg
         viewBox="0 0 22 16"
         xmlns="http://www.w3.org/2000/svg"
-        className="h-[1.125rem] w-auto rounded-[2px] border border-[rgba(26,51,32,0.12)] shadow-sm sm:h-5"
-        aria-hidden
+        className="h-[1.125rem] w-auto shrink-0 rounded-[2px] border border-[rgba(26,51,32,0.12)] shadow-sm sm:h-5"
+        role="img"
+        aria-label="Norsk flagg"
       >
         <rect width="22" height="16" fill="#BA0C2F" />
         <rect x="6" width="4" height="16" fill="#FFFFFF" />
@@ -38,6 +37,9 @@ export default function NorwayFlagMay17({ className = "" }: Props) {
         <rect x="7" width="2" height="16" fill="#00205B" />
         <rect y="7" width="22" height="2" fill="#00205B" />
       </svg>
+      <span className="text-[10px] font-semibold leading-tight text-[#BA0C2F] whitespace-nowrap sm:text-xs">
+        Gratulerer med dagen!
+      </span>
     </span>
   );
 }
