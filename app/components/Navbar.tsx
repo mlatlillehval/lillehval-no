@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import BookingModal from "./BookingModal";
 import BrandLogo from "./BrandLogo";
-import NorwayFlagMay17, { useShowNorwayFlagMay17 } from "./NorwayFlagMay17";
 
 const navLinks = [
   { label: "Produkter og tjenester", href: "/ai-tjenester" },
@@ -20,7 +19,6 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const showMay17Flag = useShowNorwayFlagMay17();
   const router = useRouter();
 
   useEffect(() => {
@@ -56,7 +54,7 @@ export default function Navbar() {
           {/* Logo — alltid til forsiden */}
           <Link
             href="/"
-            className="flex min-w-0 shrink-0 items-center gap-2 group"
+            className="flex min-w-0 shrink-0 items-center group"
             onClick={(e) => {
               setMenuOpen(false);
               if (typeof window !== "undefined" && window.location.pathname === "/") {
@@ -75,7 +73,6 @@ export default function Navbar() {
               decoding="async"
               className="h-7 w-auto max-w-[180px] object-contain object-left sm:h-6 sm:max-w-[185px] md:max-w-[min(100%,240px)]"
             />
-            {showMay17Flag ? <NorwayFlagMay17 /> : null}
           </Link>
 
           {/* CTA + Nav + Mobile menu */}

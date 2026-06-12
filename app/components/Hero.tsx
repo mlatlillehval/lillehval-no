@@ -15,6 +15,155 @@ const JOURNEY_PATH_IMG =
 
 type BulletSegment = { text: string; highlight?: boolean };
 
+type HeroHeadlineSlide = {
+  greenLead: string;
+  top: string;
+  highlight: string;
+  mid: string;
+  bottom?: string;
+};
+
+const HERO_HEADLINE_GREEN = "rgba(159, 199, 170, 1)" as const;
+const HERO_HEADLINE_DARK = "#052e16" as const;
+
+const HERO_HEADLINE_EXTRA: HeroHeadlineSlide[] = [
+  {
+    greenLead: "Vi",
+    top: "er guiden som gjør",
+    highlight: "AI-reisen konkret",
+    mid: "og gjennomførbar for deg",
+  },
+  {
+    greenLead: "Fra",
+    top: "idé til",
+    highlight: "virkelig verdi",
+    mid: "med partner som forstår både strategi og kode",
+  },
+  {
+    greenLead: "Skreddersydd",
+    top: "AI tilpasset",
+    highlight: "din virksomhet",
+    mid: "— ikke en standardpakke for alle",
+  },
+  {
+    greenLead: "Trygg",
+    top: "vei fra",
+    highlight: "kartlegging til drift",
+    mid: "for norske bedrifter som vil komme i gang",
+  },
+];
+
+function parseHeroHeadlineFromCopy(copy: FrontpageCopy): HeroHeadlineSlide {
+  let greenLead = copy.hero_headline_green_lead.trim();
+  let top = copy.hero_headline_top.trimEnd().replace(/\s+som\s*$/i, "");
+  let highlight = copy.hero_headline_highlight.trim();
+  if (/^som\s+/i.test(highlight)) {
+    highlight = highlight.replace(/^som\s+/i, "").trim();
+  }
+  const mid = copy.hero_headline_mid.trim();
+  const bottom = copy.hero_headline_bottom.trim();
+
+  if (/^AI\s+/i.test(top)) {
+    if (!greenLead) greenLead = "AI";
+    top = top.replace(/^AI\s+/i, "").trimEnd();
+  }
+
+  return {
+    greenLead,
+    top: top.trim(),
+    highlight,
+    mid,
+    bottom: bottom || undefined,
+  };
+}
+
+function HeroHeadlineContent({ slide }: { slide: HeroHeadlineSlide }) {
+  return (
+    <>
+      {slide.greenLead ? (
+        <span style={{ color: HERO_HEADLINE_GREEN }}>{slide.greenLead}</span>
+      ) : null}
+      {slide.greenLead ? " " : null}
+      <span>{slide.top}</span>{" "}
+      <span style={{ color: HERO_HEADLINE_GREEN }}>{slide.highlight}</span>
+      <br />
+      {slide.mid}
+      {slide.bottom ? (
+        <>
+          <br />
+          {slide.bottom}
+        </>
+      ) : null}
+    </>
+  );
+}
+
+function HeroHeadlineCarousel({ slides }: { slides: HeroHeadlineSlide[] }) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [motionOk, setMotionOk] = useState(true);
+
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setMotionOk(!media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+
+  useEffect(() => {
+    if (!motionOk || slides.length < 2) return;
+    const timer = window.setInterval(() => {
+      setActiveIndex((current) => (current + 1) % slides.length);
+    }, 6000);
+    return () => window.clearInterval(timer);
+  }, [motionOk, slides.length]);
+
+  return (
+    <div className="flex flex-col gap-4">
+      <div
+        className="relative min-h-[9.5rem] sm:min-h-[11rem] xl:min-h-[13rem]"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        <h1
+          className="text-4xl sm:text-5xl xl:text-6xl font-extrabold leading-[1.08] tracking-tight animate-hero-fold hero-fold-delay-2 m-0"
+          style={{ color: HERO_HEADLINE_DARK }}
+        >
+          <span key={activeIndex} className="block animate-hero-headline-swap">
+            <HeroHeadlineContent slide={slides[activeIndex]!} />
+          </span>
+        </h1>
+      </div>
+
+      {slides.length > 1 ? (
+        <div className="flex items-center gap-2" role="tablist" aria-label="Hero-overskrifter">
+          {slides.map((slide, index) => {
+            const isActive = index === activeIndex;
+            const label = [slide.greenLead, slide.top, slide.highlight, slide.mid]
+              .filter(Boolean)
+              .join(" ");
+            return (
+              <button
+                key={index}
+                type="button"
+                role="tab"
+                aria-selected={isActive}
+                aria-label={`Overskrift ${index + 1}: ${label}`}
+                onClick={() => setActiveIndex(index)}
+                className="h-2.5 rounded-full transition-all duration-300 outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#15803d]"
+                style={{
+                  width: isActive ? "1.75rem" : "0.5rem",
+                  background: isActive ? "#15803d" : "rgba(21,128,61,0.22)",
+                }}
+              />
+            );
+          })}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 const HERO_BULLETS_HEADING = "Vi leder deg trygt gjennom AI-reisen";
 
 const HERO_BULLETS: BulletSegment[][] = [
@@ -150,39 +299,16 @@ export default function Hero({ initialCopy = FRONT_PAGE_DEFAULTS }: HeroProps) {
     void run();
   }, []);
 
-  const {
-    heroHeadlineGreenLead,
-    heroHeadlineTop,
-    heroHeadlineHighlight,
-    heroHeadlineMid,
-  } = useMemo(() => {
-    let greenLead = copy.hero_headline_green_lead.trim();
-    let top = copy.hero_headline_top.trimEnd().replace(/\s+som\s*$/i, "");
-    let highlight = copy.hero_headline_highlight.trim();
-    if (/^som\s+/i.test(highlight)) {
-      highlight = highlight.replace(/^som\s+/i, "").trim();
-    }
-    const mid = copy.hero_headline_mid.trim();
-
-    if (/^AI\s+/i.test(top)) {
-      if (!greenLead) greenLead = "AI";
-      top = top.replace(/^AI\s+/i, "").trimEnd();
-    }
-
-    top = top.trim();
-
-    return {
-      heroHeadlineGreenLead: greenLead,
-      heroHeadlineTop: top,
-      heroHeadlineHighlight: highlight,
-      heroHeadlineMid: mid,
-    };
-  }, [
-    copy.hero_headline_green_lead,
-    copy.hero_headline_top,
-    copy.hero_headline_highlight,
-    copy.hero_headline_mid,
-  ]);
+  const heroHeadlineSlides = useMemo(
+    () => [parseHeroHeadlineFromCopy(copy), ...HERO_HEADLINE_EXTRA],
+    [
+      copy.hero_headline_green_lead,
+      copy.hero_headline_top,
+      copy.hero_headline_highlight,
+      copy.hero_headline_mid,
+      copy.hero_headline_bottom,
+    ],
+  );
 
   return (
     <section
@@ -239,23 +365,8 @@ export default function Hero({ initialCopy = FRONT_PAGE_DEFAULTS }: HeroProps) {
                 </span>
               </div>
 
-              {/* Headline */}
-              <h1
-                className="text-4xl sm:text-5xl xl:text-6xl font-extrabold leading-[1.08] tracking-tight animate-hero-fold hero-fold-delay-2"
-                style={{ color: "#052e16" }}
-              >
-                {heroHeadlineGreenLead ? (
-                  <><span style={{ color: "rgba(159, 199, 170, 1)" }}>{heroHeadlineGreenLead}</span>{" "}</>
-                ) : null}
-                <span>{heroHeadlineTop}</span>
-                {" "}
-                <span style={{ color: "rgba(159, 199, 170, 1)" }}>{heroHeadlineHighlight}</span>
-                <br />
-                {heroHeadlineMid}
-                {copy.hero_headline_bottom.trim() ? (
-                  <><br />{copy.hero_headline_bottom}</>
-                ) : null}
-              </h1>
+              {/* Headline — karusell med tre varianter */}
+              <HeroHeadlineCarousel slides={heroHeadlineSlides} />
 
               {/* ── CTA + Trust — festes til bunnen ved like høye kort ── */}
               <div

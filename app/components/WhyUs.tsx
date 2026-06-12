@@ -115,7 +115,7 @@ function FilosofiIcon({ kind }: { kind: (typeof PHILOSOPHY_PRINCIPLES)[number]["
   }
 }
 
-const team: {
+type TeamMember = {
   name: string;
   title: string;
   image: string;
@@ -127,10 +127,12 @@ const team: {
   email: string;
   linkedin: string;
   phone?: (typeof TEAM_PHONES)[keyof typeof TEAM_PHONES];
-  partnerAgentId: DigitalAgentId;
-  /** Vis kun rolle i hero (ingen navnelinje) — f.eks. anonymisert bilde */
-  hideNameOnHero?: boolean;
-}[] = [
+  partnerAgentId?: DigitalAgentId;
+  /** For anonymiserte kort — justerer utsnitt på samme bilde */
+  imageObjectPosition?: string;
+};
+
+const foundersTeam: TeamMember[] = [
   {
     name: "Marius Langsrud",
     title: "Medgründer & AI-rådgiver",
@@ -163,20 +165,277 @@ const team: {
     phone: TEAM_PHONES.hein,
     partnerAgentId: "byte",
   },
+];
+
+const extendedTeam: TeamMember[] = [
   {
     name: "Seniorutvikler",
     title: "Seniorutvikler/arkitekt",
-    image: "/seniorutvikler.jpg",
+    image: "/team-arkitekt-senior.jpg",
     quote:
       "«Når AI skal ut i drift, er solid arkitektur og ryddig kode minst like viktig som modellen dere velger. Det koster alltid mer å skalere noe som ikke var bygget for det fra start.»",
     tags: ["Utvikling", "Integrasjoner", "Full stack arkitekt", "DevOps", "Skalerbarhet", "Produksjon"],
     bio: "Sjefsarkitekt i et int. konsern med over 25 års erfaring fra softwareutvikling. Har tilbrakt hele karrieren med å bygge skalerbare løsninger som holder i produksjon og vedlikeholdes over tid. I dag integrerer han AI aktivt i både produkter og utviklingsprosesser — og bringer den samme grundigheten inn i hvert prosjekt.",
     email: "dev@lillehval.no",
     linkedin: "#",
-    partnerAgentId: "nexus",
-    hideNameOnHero: true,
+  },
+  {
+    name: "Integrasjonsarkitekt",
+    title: "Integrasjonsarkitekt",
+    image: "/team-arkitekt-integrasjon.jpg",
+    quote:
+      "«AI gir først verdi når den er koblet til systemene dere allerede bruker. Ryddige integrasjoner er grunnmuren — ikke et tillegg på slutten.»",
+    tags: ["API-design", "Systemintegrasjon", "Datapipelines", "Sikkerhet", "Skytjenester", "Drift"],
+    bio: "Erfaren integrasjonsarkitekt med bakgrunn fra komplekse enterprise-miljøer. Spesialiserer seg på å koble AI-løsninger til eksisterende systemlandskap — med fokus på pålitelighet, sporbarhet og enkel vedlikehold.",
+    email: "dev@lillehval.no",
+    linkedin: "#",
+  },
+  {
+    name: "AI-ingeniør",
+    title: "AI-ingeniør",
+    image: "/team-arkitekt-ai.jpg",
+    quote:
+      "«Modellen er bare halvparten av jobben. Det som skiller et pilotprosjekt fra noe som faktisk brukes, er evaluering, overvåking og kontinuerlig forbedring.»",
+    tags: ["LLM", "RAG", "Evaluering", "MLOps", "Prompting", "Produksjon"],
+    bio: "AI-ingeniør med erfaring fra å ta språkmodeller og agentløsninger fra prototype til produksjon. Jobber tett med utviklere og fagmiljøer for å sikre at løsningene holder mål i praksis — ikke bare i demo.",
+    email: "dev@lillehval.no",
+    linkedin: "#",
   },
 ];
+
+const ANONYMOUS_TAG_STYLE = {
+  background: "rgba(34,139,70,0.1)",
+  color: "#15803d",
+  border: "1px solid rgba(34,139,70,0.2)",
+} as const;
+
+function AnonymousTeamCard({ person }: { person: TeamMember }) {
+  return (
+    <article
+      className="flex h-full flex-col overflow-hidden rounded-2xl"
+      style={{
+        background: "rgba(255,255,255,0.75)",
+        border: "1px solid rgba(34,139,70,0.18)",
+      }}
+    >
+      <div className="relative h-[280px] w-full shrink-0 overflow-hidden bg-[#0a1628]">
+        <Image
+          src={person.image}
+          alt={person.title}
+          fill
+          className="object-cover object-center blur-md scale-105"
+          style={person.imageObjectPosition ? { objectPosition: person.imageObjectPosition } : undefined}
+        />
+        <div
+          className="absolute inset-0"
+          style={{ background: "linear-gradient(to bottom, transparent 50%, rgba(5,26,13,0.95) 100%)" }}
+        />
+        <div className="absolute bottom-0 left-0 p-5">
+          <h3 className="text-lg font-extrabold text-white sm:text-xl">{person.title}</h3>
+        </div>
+      </div>
+
+      <div
+        className="grid flex-1"
+        style={{ gridTemplateRows: "6.25rem 9.75rem 9.75rem 2.75rem" }}
+      >
+        <p
+          className="overflow-hidden px-5 pt-5 text-sm italic leading-relaxed sm:px-6"
+          style={{ color: "rgba(26,51,32,0.75)" }}
+        >
+          {person.quote}
+        </p>
+
+        <p
+          className="overflow-hidden px-5 text-sm leading-relaxed sm:px-6"
+          style={{ color: "rgba(26,51,32,0.5)" }}
+        >
+          {person.bio}
+        </p>
+
+        <div className="border-y border-slate-200 px-5 py-3 sm:px-6">
+          <div className="grid h-full grid-cols-2 grid-rows-3 gap-2">
+            {person.tags.map((tag) => (
+              <span
+                key={tag}
+                className="flex items-center justify-center rounded-full px-2 py-1 text-center text-[11px] font-semibold leading-tight sm:text-xs"
+                style={ANONYMOUS_TAG_STYLE}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex items-center px-5 sm:px-6">
+          <a
+            href="mailto:dev@lillehval.no"
+            className="inline-flex items-center gap-2 text-sm font-semibold transition-colors hover:opacity-80"
+            style={{ color: "#15803d" }}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+            dev@lillehval.no
+          </a>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function TeamMemberCard({ person }: { person: TeamMember }) {
+  const agent = person.partnerAgentId ? getDigitalAgent(person.partnerAgentId) : null;
+  const partnerSubject = person.name.split(" ")[0] ?? person.name;
+
+  return (
+    <div
+      className="rounded-2xl overflow-hidden flex flex-col h-full min-h-0"
+      style={{ background: "rgba(255,255,255,0.75)", border: "1px solid rgba(34,139,70,0.18)" }}
+    >
+      <div
+        className="relative w-full overflow-hidden"
+        style={{
+          height: "280px",
+          background:
+            person.name === "Marius Langsrud"
+              ? "radial-gradient(ellipse at 50% 40%, #1a5c35 0%, #0a2e1a 60%, #051a0d 100%)"
+              : "#0d1f14",
+        }}
+      >
+        <Image
+          src={person.image}
+          alt={person.name}
+          fill
+          className="object-cover object-center"
+        />
+        <div
+          className="absolute inset-0"
+          style={{ background: "linear-gradient(to bottom, transparent 50%, rgba(5,26,13,0.95) 100%)" }}
+        />
+        <div className="absolute bottom-0 left-0 p-5">
+          <h3 className="text-lg font-extrabold text-white sm:text-xl">{person.name}</h3>
+          <p className="text-xs font-medium sm:text-sm" style={{ color: "#15803d" }}>{person.title}</p>
+        </div>
+      </div>
+
+      <div className="p-5 flex flex-1 flex-col min-h-0 gap-3 sm:p-6 sm:gap-4">
+        <div className="flex flex-col gap-3 shrink-0">
+          <p className="text-sm italic leading-relaxed" style={{ color: "rgba(26,51,32,0.75)" }}>
+            {person.quote}
+          </p>
+
+          <p className="text-sm leading-relaxed" style={{ color: "rgba(26,51,32,0.5)" }}>
+            {person.bio}
+          </p>
+        </div>
+
+        <div className="flex-1 min-h-0 basis-0" aria-hidden />
+
+        <div className="flex flex-col gap-3 shrink-0">
+          <div className="flex flex-wrap content-start gap-2 border-y border-slate-200 py-3 min-h-[7.75rem] lg:min-h-[8rem]">
+            {person.pairedTags ? (
+              <div className="grid w-full grid-cols-[minmax(0,1fr)_auto] gap-x-2 gap-y-2 content-start items-center">
+                {person.pairedTags.long.map((tag, i) => (
+                  <Fragment key={tag}>
+                    <span
+                      className="px-3 py-1 rounded-full text-xs font-semibold min-w-0 w-fit max-w-full"
+                      style={{ background: "rgba(34,139,70,0.1)", color: "#15803d", border: "1px solid rgba(34,139,70,0.2)" }}
+                    >
+                      {tag}
+                    </span>
+                    <span
+                      className="px-3 py-1 rounded-full text-xs font-semibold shrink-0 justify-self-end"
+                      style={{ background: "rgba(34,139,70,0.1)", color: "#15803d", border: "1px solid rgba(34,139,70,0.2)" }}
+                    >
+                      {person.pairedTags!.short[i]}
+                    </span>
+                  </Fragment>
+                ))}
+              </div>
+            ) : null}
+          </div>
+
+          <div className="flex flex-col gap-2 min-h-[5.75rem]">
+            <a
+              href={person.linkedin}
+              {...(person.linkedin.startsWith("http")
+                ? { target: "_blank", rel: "noopener noreferrer" }
+                : {})}
+              className="inline-flex items-center gap-2 text-sm font-semibold transition-colors"
+              style={{ color: "rgba(26,51,32,0.4)" }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+              LinkedIn-profil
+            </a>
+            {person.phone ? (
+              <a
+                href={`tel:${person.phone.tel}`}
+                className="inline-flex items-center gap-2 text-sm font-semibold transition-colors hover:opacity-80"
+                style={{ color: "#15803d" }}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                  <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+                </svg>
+                {person.phone.display}
+              </a>
+            ) : (
+              <span className="inline-flex items-center gap-2 text-sm font-semibold invisible pointer-events-none select-none" aria-hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                  <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+                </svg>
+                +00 00 00 00 00
+              </span>
+            )}
+            <a
+              href={`mailto:${person.email}`}
+              className="inline-flex items-center gap-2 text-sm font-semibold transition-colors hover:opacity-80"
+              style={{ color: "#15803d" }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              {person.email}
+            </a>
+          </div>
+
+          {agent ? (
+            <div
+              className="rounded-xl border px-3 py-3 sm:px-4 sm:py-3.5 -mx-0.5 sm:mx-0 min-h-[12rem] flex flex-col"
+              style={{ borderColor: "rgba(21,128,61,0.14)", background: "rgba(255,255,255,0.55)" }}
+            >
+              <p className="text-[10px] font-bold uppercase tracking-wider mb-2" style={{ color: agent.color }}>
+                {partnerSubject} sin digitale +1
+              </p>
+              <div className="flex gap-3 items-start">
+                <div
+                  className="relative h-14 w-14 shrink-0 rounded-lg overflow-hidden border"
+                  style={{ borderColor: "rgba(21,128,61,0.12)", background: "#f7f4ee" }}
+                >
+                  <Image src={agent.image} alt={agent.name} fill className="object-contain p-1.5" sizes="56px" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-extrabold text-[#1a3320] leading-tight">
+                    {agent.name}
+                    <span className="font-semibold text-[rgba(26,51,32,0.45)]"> · </span>
+                    <span className="text-xs font-semibold" style={{ color: agent.color }}>
+                      {agent.role}
+                    </span>
+                  </p>
+                  <p className="text-xs leading-relaxed mt-1.5" style={{ color: "rgba(26,51,32,0.68)" }}>
+                    {agent.partnerFocus}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ) : null}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function WhyUs() {
   return (
@@ -211,7 +470,7 @@ export default function WhyUs() {
             <div className="relative flex flex-col lg:flex-row lg:items-stretch">
               {/* Venstre: visuelt spor + tall — på mobil under brødtekst */}
               <div
-                className="order-2 lg:order-1 flex flex-col justify-center gap-4 border-t px-6 py-6 sm:px-8 lg:w-[220px] lg:shrink-0 lg:border-t-0 lg:border-r lg:py-8"
+                className="order-2 lg:order-1 flex flex-col justify-center gap-4 border-t px-6 py-6 sm:px-8 lg:w-[240px] lg:shrink-0 lg:border-t-0 lg:border-r lg:py-8"
                 style={{ borderColor: "rgba(21,128,61,0.12)", background: "rgba(255,255,255,0.35)" }}
               >
                 <div className="hidden lg:block mx-auto w-full max-w-[180px]" aria-hidden>
@@ -238,11 +497,16 @@ export default function WhyUs() {
                     <text x="138" y="108" fill="#0a2e1a" fontSize="9" fontWeight="700" letterSpacing="0.12em" opacity="0.85">DRIFT</text>
                   </svg>
                 </div>
-                <dl className="grid grid-cols-3 gap-2 lg:grid-cols-1 lg:gap-3 m-0">
+                <dl className="grid grid-cols-2 gap-2 lg:grid-cols-1 lg:gap-3 m-0">
                   <div className="rounded-xl border px-2 py-2.5 text-center lg:text-left lg:px-3" style={{ borderColor: "rgba(21,128,61,0.14)", background: "rgba(255,255,255,0.65)" }}>
-                    <dt className="sr-only">Antall i kjerneteamet</dt>
+                    <dt className="sr-only">Antall gründere</dt>
+                    <dd className="m-0 text-xl font-extrabold tabular-nums leading-none" style={{ color: "#14532d" }}>2</dd>
+                    <dd className="m-0 mt-1 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider leading-tight" style={{ color: "rgba(26,51,32,0.45)" }}>Gründere</dd>
+                  </div>
+                  <div className="rounded-xl border px-2 py-2.5 text-center lg:text-left lg:px-3" style={{ borderColor: "rgba(21,128,61,0.14)", background: "rgba(255,255,255,0.65)" }}>
+                    <dt className="sr-only">Antall samarbeidspartnere</dt>
                     <dd className="m-0 text-xl font-extrabold tabular-nums leading-none" style={{ color: "#14532d" }}>3</dd>
-                    <dd className="m-0 mt-1 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider leading-tight" style={{ color: "rgba(26,51,32,0.45)" }}>i teamet</dd>
+                    <dd className="m-0 mt-1 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider leading-tight" style={{ color: "rgba(26,51,32,0.45)" }}>Samarbeidspartnere</dd>
                   </div>
                   <div className="rounded-xl border px-2 py-2.5 text-center lg:text-left lg:px-3" style={{ borderColor: "rgba(21,128,61,0.14)", background: "rgba(255,255,255,0.65)" }}>
                     <dt className="sr-only">Samlet erfaring</dt>
@@ -263,8 +527,8 @@ export default function WhyUs() {
                 <ul className="m-0 list-none space-y-3 p-0 text-sm leading-relaxed sm:text-base sm:space-y-3.5">
                   {[
                     "Vi i Lillehval har jobbet lenge med strategi, produkt og kode i virkelige miljøer — og startet selskapet for å gjøre AI tryggere og enklere å ta i bruk i norske bedrifter, med tydelig språk og uten unødvendig styr.",
-                    "Tre personer med komplementær bakgrunn fra rådgivning, forretningsutvikling, produktutvikling og softwareutvikling — som sammen dekker hele reisen fra strategi til implementering.",
-                    "To AI-rådgivere og én senior utvikler med til sammen over 50 års erfaring — ikke et stort konsulentbyrå med hundre ansatte og en standardpakke.",
+                    "To gründere og tre samarbeidspartnere med komplementær bakgrunn fra rådgivning, forretningsutvikling, produktutvikling og softwareutvikling — som sammen dekker hele reisen fra strategi til implementering.",
+                    "Over 50 års samlet erfaring — ikke et stort konsulentbyrå med hundre ansatte og en standardpakke.",
                     "Vi er store nok til å levere — men små nok til å bry oss. Vi er et lite selskap — og det er akkurat poenget.",
                     "Vi vet hva som kreves for å ta AI fra idé til virkelighet i en organisasjon.",
                   ].map((line) => (
@@ -291,180 +555,17 @@ export default function WhyUs() {
               >
                 Team med komplementære ferdigheter
               </p>
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3 lg:gap-8 lg:items-stretch">
-                {team.map((person) => {
-                  const agent = getDigitalAgent(person.partnerAgentId);
-                  const partnerSubject =
-                    person.title === "Seniorutvikler/arkitekt" ? "Utvikleren" : person.name.split(" ")[0] ?? person.name;
-                  return (
-                  <div
-                    key={person.email}
-                    className="rounded-2xl overflow-hidden flex flex-col h-full min-h-0"
-                    style={{ background: "rgba(255,255,255,0.75)", border: "1px solid rgba(34,139,70,0.18)" }}
-                  >
-                    <div
-                      className="relative w-full overflow-hidden"
-                      style={{
-                        height: "280px",
-                        background:
-                          person.name === "Marius Langsrud"
-                            ? "radial-gradient(ellipse at 50% 40%, #1a5c35 0%, #0a2e1a 60%, #051a0d 100%)"
-                            : person.title === "Seniorutvikler/arkitekt"
-                              ? "#0a1628"
-                              : "#0d1f14",
-                      }}
-                    >
-                      <Image
-                        src={person.image}
-                        alt={person.hideNameOnHero ? person.title : person.name}
-                        fill
-                        className={
-                          person.title === "Seniorutvikler/arkitekt"
-                            ? "object-cover object-center blur-sm scale-105"
-                            : "object-cover object-center"
-                        }
-                      />
-                      <div
-                        className="absolute inset-0"
-                        style={{ background: "linear-gradient(to bottom, transparent 50%, rgba(5,26,13,0.95) 100%)" }}
-                      />
-                      <div className="absolute bottom-0 left-0 p-5">
-                        {person.hideNameOnHero ? (
-                          <h3 className="text-lg font-extrabold text-white sm:text-xl">{person.title}</h3>
-                        ) : (
-                          <>
-                            <h3 className="text-lg font-extrabold text-white sm:text-xl">{person.name}</h3>
-                            <p className="text-xs font-medium sm:text-sm" style={{ color: "#15803d" }}>{person.title}</p>
-                          </>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="p-5 flex flex-1 flex-col min-h-0 gap-3 sm:p-6 sm:gap-4">
-                      <div className="flex flex-col gap-3 shrink-0">
-                        <p className="text-sm italic leading-relaxed" style={{ color: "rgba(26,51,32,0.75)" }}>
-                          {person.quote}
-                        </p>
-
-                        <p className="text-sm leading-relaxed" style={{ color: "rgba(26,51,32,0.5)" }}>
-                          {person.bio}
-                        </p>
-                      </div>
-
-                      <div className="flex-1 min-h-0 basis-0" aria-hidden />
-
-                      <div className="flex flex-col gap-3 shrink-0">
-                      <div className="flex flex-wrap content-start gap-2 border-y border-slate-200 py-3 min-h-[7.75rem] lg:min-h-[8rem]">
-                        {person.pairedTags ? (
-                          <div className="grid w-full grid-cols-[minmax(0,1fr)_auto] gap-x-2 gap-y-2 content-start items-center">
-                            {person.pairedTags.long.map((tag, i) => (
-                              <Fragment key={tag}>
-                                <span
-                                  className="px-3 py-1 rounded-full text-xs font-semibold min-w-0 w-fit max-w-full"
-                                  style={{ background: "rgba(34,139,70,0.1)", color: "#15803d", border: "1px solid rgba(34,139,70,0.2)" }}
-                                >
-                                  {tag}
-                                </span>
-                                <span
-                                  className="px-3 py-1 rounded-full text-xs font-semibold shrink-0 justify-self-end"
-                                  style={{ background: "rgba(34,139,70,0.1)", color: "#15803d", border: "1px solid rgba(34,139,70,0.2)" }}
-                                >
-                                  {person.pairedTags!.short[i]}
-                                </span>
-                              </Fragment>
-                            ))}
-                          </div>
-                        ) : (
-                          person.tags.map((tag) => (
-                            <span
-                              key={tag}
-                              className="px-3 py-1 rounded-full text-xs font-semibold"
-                              style={{ background: "rgba(34,139,70,0.1)", color: "#15803d", border: "1px solid rgba(34,139,70,0.2)" }}
-                            >
-                              {tag}
-                            </span>
-                          ))
-                        )}
-                      </div>
-
-                      <div className="flex flex-col gap-2 min-h-[5.75rem]">
-                        <a
-                          href={person.linkedin}
-                          {...(person.linkedin.startsWith("http")
-                            ? { target: "_blank", rel: "noopener noreferrer" }
-                            : {})}
-                          className="inline-flex items-center gap-2 text-sm font-semibold transition-colors"
-                          style={{ color: "rgba(26,51,32,0.4)" }}
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                          </svg>
-                          LinkedIn-profil
-                        </a>
-                        {person.phone ? (
-                          <a
-                            href={`tel:${person.phone.tel}`}
-                            className="inline-flex items-center gap-2 text-sm font-semibold transition-colors hover:opacity-80"
-                            style={{ color: "#15803d" }}
-                          >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                              <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
-                            </svg>
-                            {person.phone.display}
-                          </a>
-                        ) : (
-                          <span className="inline-flex items-center gap-2 text-sm font-semibold invisible pointer-events-none select-none" aria-hidden>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                              <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
-                            </svg>
-                            +00 00 00 00 00
-                          </span>
-                        )}
-                        <a
-                          href={`mailto:${person.email}`}
-                          className="inline-flex items-center gap-2 text-sm font-semibold transition-colors hover:opacity-80"
-                          style={{ color: "#15803d" }}
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                          </svg>
-                          {person.email}
-                        </a>
-                      </div>
-
-                      <div
-                        className="rounded-xl border px-3 py-3 sm:px-4 sm:py-3.5 -mx-0.5 sm:mx-0 min-h-[12rem] flex flex-col"
-                        style={{ borderColor: "rgba(21,128,61,0.14)", background: "rgba(255,255,255,0.55)" }}
-                      >
-                        <p className="text-[10px] font-bold uppercase tracking-wider mb-2" style={{ color: agent.color }}>
-                          {partnerSubject} sin digitale +1
-                        </p>
-                        <div className="flex gap-3 items-start">
-                          <div
-                            className="relative h-14 w-14 shrink-0 rounded-lg overflow-hidden border"
-                            style={{ borderColor: "rgba(21,128,61,0.12)", background: "#f7f4ee" }}
-                          >
-                            <Image src={agent.image} alt={agent.name} fill className="object-contain p-1.5" sizes="56px" />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <p className="text-sm font-extrabold text-[#1a3320] leading-tight">
-                              {agent.name}
-                              <span className="font-semibold text-[rgba(26,51,32,0.45)]"> · </span>
-                              <span className="text-xs font-semibold" style={{ color: agent.color }}>
-                                {agent.role}
-                              </span>
-                            </p>
-                            <p className="text-xs leading-relaxed mt-1.5" style={{ color: "rgba(26,51,32,0.68)" }}>
-                              {agent.partnerFocus}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      </div>
-                    </div>
-                  </div>
-                  );
-                })}
+              <div className="flex flex-col gap-8">
+                <div className="mx-auto grid w-full max-w-3xl grid-cols-1 gap-6 md:grid-cols-2 md:gap-8 lg:items-stretch">
+                  {foundersTeam.map((person) => (
+                    <TeamMemberCard key={person.email} person={person} />
+                  ))}
+                </div>
+                <div className="grid grid-cols-1 items-stretch gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3 lg:gap-8">
+                  {extendedTeam.map((person) => (
+                    <AnonymousTeamCard key={person.title} person={person} />
+                  ))}
+                </div>
               </div>
             </div>
           </div>
