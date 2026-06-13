@@ -212,19 +212,20 @@ const ANONYMOUS_TAG_STYLE = {
 function AnonymousTeamCard({ person }: { person: TeamMember }) {
   return (
     <article
-      className="flex h-full flex-col overflow-hidden rounded-2xl"
+      className="flex flex-col overflow-hidden rounded-2xl"
       style={{
         background: "rgba(255,255,255,0.75)",
         border: "1px solid rgba(34,139,70,0.18)",
       }}
     >
-      <div className="relative h-[280px] w-full shrink-0 overflow-hidden bg-[#0a1628]">
+      <div className="relative h-[280px] w-full shrink-0 overflow-hidden bg-[#0d1f14]">
         <Image
           src={person.image}
           alt={person.title}
           fill
-          className="object-cover object-center blur-md scale-105"
+          className="object-cover object-center"
           style={person.imageObjectPosition ? { objectPosition: person.imageObjectPosition } : undefined}
+          sizes="(max-width: 768px) 100vw, 360px"
         />
         <div
           className="absolute inset-0"
@@ -235,18 +236,12 @@ function AnonymousTeamCard({ person }: { person: TeamMember }) {
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col gap-4 px-5 py-5 sm:px-6 sm:py-6">
-        <p
-          className="text-sm italic leading-relaxed line-clamp-4"
-          style={{ color: "rgba(26,51,32,0.75)" }}
-        >
+      <div className="flex flex-col gap-4 px-5 py-5 sm:px-6 sm:py-6">
+        <p className="text-sm italic leading-relaxed" style={{ color: "rgba(26,51,32,0.75)" }}>
           {person.quote}
         </p>
 
-        <p
-          className="text-sm leading-relaxed line-clamp-5"
-          style={{ color: "rgba(26,51,32,0.5)" }}
-        >
+        <p className="text-sm leading-relaxed" style={{ color: "rgba(26,51,32,0.5)" }}>
           {person.bio}
         </p>
 
@@ -561,7 +556,7 @@ export default function WhyUs() {
                     <TeamMemberCard key={person.email} person={person} />
                   ))}
                 </div>
-                <div className="grid grid-cols-1 items-stretch gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3 lg:gap-8">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3 lg:gap-8 lg:items-start">
                   {extendedTeam.map((person) => (
                     <AnonymousTeamCard key={person.title} person={person} />
                   ))}
