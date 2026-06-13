@@ -171,9 +171,9 @@ export default function PagaendeProsjekterListe() {
         {/* Header */}
         <div className="text-center mb-16">
           <SectionKicker>Hva skjer nå</SectionKicker>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight" style={{ color: "#0a2e1a" }}>
+          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight" style={{ color: "#0a2e1a" }}>
             Pågående prosjekter og dialoger
-          </h2>
+          </h1>
           <p className="mt-4 text-base max-w-2xl mx-auto" style={{ color: "rgba(10,46,26,0.65)" }}>
             Hva skjer når selskaper tar AI på alvor? Vi guider norske bedrifter gjennom hele reisen – fra full forvirring til full utnyttelse.
           </p>

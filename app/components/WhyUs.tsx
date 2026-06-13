@@ -445,6 +445,9 @@ export default function WhyUs() {
         <div className="mb-16">
           <div className="mb-6 text-center">
             <SectionKicker>Hvem er vi?</SectionKicker>
+            <h1 className="mt-4 text-3xl sm:text-4xl font-extrabold tracking-tight text-[#1a3320]">
+              Hvorfor Lillehval?
+            </h1>
           </div>
           <div
             className="mx-auto mt-6 max-w-5xl overflow-hidden rounded-2xl border border-l-[5px] text-left relative"

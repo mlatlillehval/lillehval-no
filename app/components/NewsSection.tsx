@@ -211,7 +211,10 @@ export default async function NewsSection() {
       <div className="max-w-7xl mx-auto">
         {/* Page header */}
         <div className="mb-8 text-center">
-          <SectionKicker className="!mb-0">AI Aktualitet</SectionKicker>
+          <SectionKicker className="!mb-2">AI Aktualitet</SectionKicker>
+          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#1a3320]">
+            Siste AI-nyheter
+          </h1>
           {!showAnyAiAktualitetBlock ? (
             <p className="mt-3 mx-auto max-w-lg text-sm leading-relaxed" style={{ color: "rgba(26,51,32,0.55)" }}>
               Her kommer snart flere kanaler og egne saker. Inntil videre finner du ferske AI-nyheter under.
@@ -229,8 +232,8 @@ export default async function NewsSection() {
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
             <div>
               <SectionKicker className="!mb-2">Hold deg oppdatert</SectionKicker>
-              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#1a3320]">
-                Siste AI-nyheter
+              <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#1a3320]">
+                Månedens AI-nyheter
               </h2>
             </div>
             <div className="flex items-center gap-2 text-sm shrink-0" style={{ color: "rgba(26,51,32,0.4)" }}>

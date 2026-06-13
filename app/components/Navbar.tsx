@@ -1,12 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 import BookingModal from "./BookingModal";
 import BrandLogo from "./BrandLogo";
 
+const navLinkClass =
+  "px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-150 whitespace-nowrap text-[#1a3320] hover:text-[#15803d] hover:bg-[rgba(34,139,70,0.08)]";
+
 const navLinks = [
+  { label: "Hjelp med AI", href: "/hjelp-med-ai" },
   { label: "Produkter og tjenester", href: "/ai-tjenester" },
   { label: "AI Forklart", href: "/ai-forklart" },
   { label: "AI aktualitet", href: "/siste-nyheter" },
@@ -19,23 +22,12 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const router = useRouter();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  const handleNavClick = (href: string) => {
-    setMenuOpen(false);
-    if (href.startsWith("/")) {
-      router.push(href);
-    } else {
-      const el = document.querySelector(href);
-      if (el) el.scrollIntoView({ behavior: "smooth" });
-    }
-  };
 
   return (
     <>
@@ -80,22 +72,9 @@ export default function Navbar() {
             {/* Desktop nav links */}
             <nav className="hidden items-center gap-1 lg:flex">
               {navLinks.map((link) => (
-                <button
-                  key={link.href}
-                  onClick={() => handleNavClick(link.href)}
-                  className="px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-150 whitespace-nowrap"
-                  style={{ color: "#1a3320" }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.color = "#15803d";
-                    (e.currentTarget as HTMLElement).style.background = "rgba(34,139,70,0.08)";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLElement).style.color = "#1a3320";
-                    (e.currentTarget as HTMLElement).style.background = "transparent";
-                  }}
-                >
+                <Link key={link.href} href={link.href} className={navLinkClass}>
                   {link.label}
-                </button>
+                </Link>
               ))}
             </nav>
             <Link
@@ -150,14 +129,14 @@ export default function Navbar() {
             style={{ background: "#e8e2d4", borderTop: "1px solid rgba(34,139,70,0.2)" }}
           >
             {navLinks.map((link) => (
-              <button
+              <Link
                 key={link.href}
-                onClick={() => handleNavClick(link.href)}
-                className="text-left px-3 py-2.5 rounded-lg text-sm font-medium"
-                style={{ color: "#1a3320" }}
+                href={link.href}
+                onClick={() => setMenuOpen(false)}
+                className={`${navLinkClass} text-left`}
               >
                 {link.label}
-              </button>
+              </Link>
             ))}
             <Link
               href="/ai-beredskap"

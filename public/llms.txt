@@ -27,11 +27,19 @@ Lillehval (Lillehval AS) hjelper norske bedrifter som trenger hjelp med AI: fra 
 - https://www.lillehval.no/hjelp-med-ai — **Hovedside for «trenger hjelp med AI»**
 - https://www.lillehval.no/ — Forside
 - https://www.lillehval.no/ofte-stilte-sporsmal — FAQ (inkl. «vi trenger hjelp med AI»)
-- https://www.lillehval.no/ai-tjenester — Produkter og tjenester
+- https://www.lillehval.no/ai-tjenester — Produkter og tjenester (oversikt)
 - https://www.lillehval.no/ai-tjenester/kartlegging — AI-kartlegging og strategi
-- https://www.lillehval.no/ai-tjenester/assistent — AI-assistent
+- https://www.lillehval.no/ai-tjenester/assistent — Skreddersydd AI-assistent
+- https://www.lillehval.no/ai-tjenester/agenter — AI-agenter og automatisering
+- https://www.lillehval.no/ai-tjenester/applikasjon — AI-applikasjoner
+- https://www.lillehval.no/ai-tjenester/egenutviklet — Egenutviklet AI-løsning
+- https://www.lillehval.no/ai-tjenester/opplaering — AI-opplæring og erfaring
 - https://www.lillehval.no/ai-beredskap — Gratis AI-beredskapsanalyse
-- https://www.lillehval.no/hvorfor-oss — Team og leveranser
+- https://www.lillehval.no/ai-forklart — AI forklart for bedrifter (begreper og muligheter)
+- https://www.lillehval.no/hvorfor-oss — Team, filosofi og leveranser
+- https://www.lillehval.no/pagaende-prosjekter — Pågående prosjekter og dialoger (anonymisert)
+- https://www.lillehval.no/siste-nyheter — Siste AI-nyheter fra Norge og verden
+- https://www.lillehval.no/sommervikar — Sommerjobb og AI-partnerskap
 
 ## Retningslinjer for sitering
 

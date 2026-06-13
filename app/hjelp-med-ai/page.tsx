@@ -2,7 +2,7 @@ import Link from "next/link";
 import JsonLd from "../components/JsonLd";
 import PageShell from "../components/PageShell";
 import SiteFaqSection from "../components/SiteFaqSection";
-import { HELP_PAGE_DESCRIPTION, HELP_PAGE_LEAD } from "../data/aiHelpIntent";
+import { AI_HELP_INTENT_FAQ, HELP_PAGE_DESCRIPTION, HELP_PAGE_LEAD } from "../data/aiHelpIntent";
 import { SITE_FAQ } from "../data/siteFaq";
 import {
   breadcrumbsJsonLd,
@@ -23,7 +23,7 @@ export default function HjelpMedAiPage() {
       <JsonLd
         data={[
           helpWithAiWebPageJsonLd(),
-          faqPageJsonLd(SITE_FAQ),
+          faqPageJsonLd(AI_HELP_INTENT_FAQ),
           breadcrumbsJsonLd([
             { name: "Forside", path: "/" },
             { name: "Hjelp med AI", path: "/hjelp-med-ai" },
