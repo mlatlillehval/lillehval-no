@@ -4,8 +4,16 @@ export type AIBlogPost = {
   excerpt: string;
   body: string;
   image: string;
-  readMinutes: number;
+  /** Valgfri override — ellers beregnes fra excerpt + body. */
+  readMinutes?: number;
 };
+
+/** Ca. 180 ord/min for korte fagtekster på norsk. */
+export function getReadMinutes(post: Pick<AIBlogPost, "excerpt" | "body" | "readMinutes">): number {
+  if (post.readMinutes != null) return post.readMinutes;
+  const words = `${post.excerpt} ${post.body}`.trim().split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(words / 180));
+}
 
 export const AI_BLOG_POSTS: AIBlogPost[] = [
   {
@@ -14,7 +22,6 @@ export const AI_BLOG_POSTS: AIBlogPost[] = [
     excerpt:
       "Tempoet i verktøyutvikling, regulatorikk og kundens forventninger gjør at «vente og se» blir dyrere enn å eksperimentere kontrollert.",
     image: "/blog-ai-01.png",
-    readMinutes: 4,
     body: `Språkmodeller, agenter og integrasjoner modnes raskere enn de fleste årsplaner. For norske mellomstore bedrifter betyr det at konkurrentene – og kundene – allerede tester grenser dere kanskje ikke har kartlagt.
 
 Det handler ikke om å «kjøpe AI», men om å forstå hvor i verdikjeden maskiner kan frigjøre tid, redusere feil og gi bedre beslutningsgrunnlag. De som venter til «alt er modent», risikerer å møte markedet med utdaterte prosesser.
@@ -27,7 +34,6 @@ Start smått: ett tydelig problem, tydelige mål, og måling fra dag én. Slik b
     excerpt:
       "Chat var starten. Agenter som planlegger, kaller verktøy og følger opp oppgaver endrer hvordan vi tenker prosjekt og ansvar.",
     image: "/blog-ai-02.png",
-    readMinutes: 5,
     body: `En chatbot svarer på spørsmål. En agent kan dekomponere et mål, bruke systemer dere allerede har, og rapportere tilbake – med menneskelig kontroll der det trengs.
 
 For SMB er gevinsten ofte i grensesnittet mellom avdelinger: fra tilbud til ordre, fra avvik til korrigerende tiltak, fra møtereferat til oppfølgingspunkter. Teknologien finnes; utfordringen er dataflyt, tilganger og kultur.
@@ -40,7 +46,6 @@ Vi anbefaler å kartlegge tre prosesser der dere i dag «drukner i manuelt arbei
     excerpt:
       "Norske bedrifter må kombinere innovasjon med lovlig behandling. Her er hovedpunktene ledergruppen bør kjenne til.",
     image: "/blog-ai-03.png",
-    readMinutes: 6,
     body: `Behandlingsgrunnlag, formålsbegrensning og dokumentasjon gjelder som før – men AI gjør det lettere å behandle mer data raskere. Det øker behovet for retningslinjer: hva kan sendes til eksterne modeller, hva skal forbli internt, og hvordan loggfører dere beslutninger?
 
 Velg leverandører med EU-dataplassering der det trengs, og vær tydelige i databehandleravtaler. Opplæring av ansatte i «ingen sensitive personopplysninger i åpne chat-vinduer» er minst like viktig som valg av plattform.
@@ -53,7 +58,6 @@ En pragmatisk tilnærming: personvernerklæring + intern guide + tekniske begren
     excerpt:
       "Ikke alle er modne samtidig. Disse signalene tyder på at dere kan få effekt uten å sprenge organisasjonen.",
     image: "/blog-ai-04.png",
-    readMinutes: 3,
     body: `1) Dere har minst ett system med strukturert data (ERP, CRM, sakssystem). 2) Ledelsen tåler at piloten kan «feile frem» i kontrollerte rammer. 3) Dere har en eier av piloten – ikke «alle og ingen». 4) Dere kan måle før/etter (tid, kvalitet, volum). 5) IT eller en digitalt sterk medarbeider kan følge opp tilganger og sikkerhet.
 
 Mangler dere flere punkter, er ikke konklusjonen «aldri AI», men «forbered grunnmur først» – ofte 4–8 uker med rydding og avklaring.`,
@@ -64,7 +68,6 @@ Mangler dere flere punkter, er ikke konklusjonen «aldri AI», men «forbered gr
     excerpt:
       "«Hent svar fra våre egne dokumenter» er kjerneideen. Slik kan det gi konkret nytte i hverdagen.",
     image: "/blog-ai-05.png",
-    readMinutes: 4,
     body: `RAG (retrieval-augmented generation) betyr at modellen først henter relevante utdrag fra deres kontrakter, prosedyrer eller kunnskapsbase, og deretter formulerer svar med fotfeste i kilden.
 
 Det reduserer hallusinasjoner sammenlignet med «bare spør ChatGPT», og gjør det mulig å si: «ifølge vår leverandøravtale side 4 …». For juridisk, HMS og kvalitet er det ofte et naturlig første steg.
@@ -77,7 +80,6 @@ Kritiske suksessfaktorer: oppdaterte dokumenter, versjonskontroll og tydelig ans
     excerpt:
       "Automatisering av førstelinje kan øke hastighet og konsistens hvis tone og eskalering er gjennomtenkt.",
     image: "/blog-ai-06.png",
-    readMinutes: 4,
     body: `Kunder forventer raske svar døgnet rundt. AI kan klargjøre saksoppsummeringer, foreslå svarutkast og kategorisere henvendelser – mens mennesker tar de krevende og empatiske samtalene.
 
 Nøkkelen er grensesnitt: når skal saken løftes til menneske? Hvilke tema (f.eks. kontraktstvister) skal aldri automatiseres? Og hvordan trener dere modellen på deres faktiske tone-of-voice?
@@ -90,7 +92,6 @@ Mål gjerne på første kontaktløsning og NPS før/etter, ikke bare «færre sa
     excerpt:
       "En enkel matrise: innsats, risiko og forventet verdi. Unngå prosjekter som er teknisk morsomme men forretningsmessig uklare.",
     image: "/blog-ai-07.png",
-    readMinutes: 5,
     body: `Start med problem som koster timer hver uke og som mange deler av organisasjonen kjenner på. Der er både motivasjon og data ofte til stede.
 
 Sett en øvre ramme for pilot (tid + penger) og en beslutningsdato: skaler, juster eller avslutt. Uten det blir «pilot» et permanent eksperiment.
@@ -103,7 +104,6 @@ Husk indirekte kostnader: opplæring, endringsledelse og vedlikehold av integras
     excerpt:
       "Teknologi uten læring skaper frustrasjon. Her er en modell som fungerer i norske team.",
     image: "/blog-ai-08.png",
-    readMinutes: 4,
     body: `Del inn i tre nivåer: grunnleggende trygg bruk (personvern, prompting, verktøypolicy), rollebaserte workshops (salg, drift, økonomi), og «power users» som hjelper kollegaer og dokumenterer gode mønstre.
 
 Gjør det obligatorisk for ledelsen å delta i minst én felles økt – det signaliserer prioritet.
@@ -116,7 +116,6 @@ Feir små gevinster offentlig: «denne uken sparte vi X timer på rapportering»
     excerpt:
       "Modeller er overbevisende selv når de tar feil. Slik bygger dere kontrollmekanismer inn i arbeidsflyt.",
     image: "/blog-ai-09.png",
-    readMinutes: 5,
     body: `Krev kildehenvisning der det er mulig, menneskelig godkjenning for beslutninger med økonomisk eller juridisk risiko, og testsett med kjente riktige svar før dere ruller ut bredt.
 
 For numeriske spørsmål: bruk verktøy som faktisk regner eller henter fra database – ikke «la språkmodellen gjette på Excel».
@@ -129,7 +128,6 @@ Jo høyere risiko, jo strengere «human-in-the-loop». Det er et designvalg, ikk
     excerpt:
       "Piloten var vellykket. Likevel stopper mange her. Slik tar dere neste steg uten å miste momentum.",
     image: "/blog-ai-10.png",
-    readMinutes: 5,
     body: `Dokumenter arkitektur, datakilder og ansvarslinjer mens dere husker det – ikke «etterpå». Planlegg drift: hvem overvåker kvalitet, hvem oppdaterer integrasjoner, og hva er SLA mot forretningen?
 
 Standardiser mønstre som fungerte i piloten; unngå ti ulike «skreddersydde» løsninger som ingen kan vedlikeholde.

@@ -14,8 +14,11 @@ export interface NewsItem {
   description?: string;
 }
 
+/** Antall nyheter per region under «Månedens utvalg». */
+export const AI_NEWS_SPOTLIGHT_PER_REGION = 5;
+
 /** Antall nyheter som vises samlet under «Hold deg oppdatert» for inneværende måned. */
-export const AI_NEWS_SPOTLIGHT_TOTAL = 10;
+export const AI_NEWS_SPOTLIGHT_TOTAL = AI_NEWS_SPOTLIGHT_PER_REGION * 2;
 
 /** Maks antall saker fra samme kilde (kilde = visningsnavn / RSS-feed). */
 export const AI_NEWS_MAX_PER_SOURCE = 2;
@@ -219,33 +222,38 @@ function pickThemedCandidatePool(items: NewsItem[]): NewsItem[] {
   return pickRoundRobinBySource(matched, matched.length);
 }
 
-/** Veksler Norge / verden slik at spotlight-listen blander geografier når begge har treff. */
-function mergeSpotlightNews(
-  norway: NewsItem[],
-  world: NewsItem[],
-  limit: number
+/** Bredere AI-filter når tematiske treff er for få (særlig norske kilder). */
+function pickBroadAiCandidatePool(items: NewsItem[]): NewsItem[] {
+  const unique = dedupeByLink(items);
+  const matched = unique.filter((item) =>
+    hasAiMlContext(`${item.title} ${item.description ?? ""}`)
+  );
+  return pickRoundRobinBySource(matched, matched.length);
+}
+
+function pickRegionalSpotlight(
+  pool: NewsItem[],
+  limit: number,
+  region: "norway" | "world"
 ): NewsItem[] {
-  const noOrdered = pickRoundRobinBySource(norway, norway.length);
-  const wwOrdered = pickRoundRobinBySource(world, world.length);
-  let i = 0;
-  let j = 0;
-  let preferNorway = true;
-  const out: NewsItem[] = [];
-  while (out.length < limit) {
-    if (preferNorway && i < noOrdered.length) {
-      out.push({ ...noOrdered[i++], region: "norway" });
-    } else if (!preferNorway && j < wwOrdered.length) {
-      out.push({ ...wwOrdered[j++], region: "world" });
-    } else if (i < noOrdered.length) {
-      out.push({ ...noOrdered[i++], region: "norway" });
-    } else if (j < wwOrdered.length) {
-      out.push({ ...wwOrdered[j++], region: "world" });
-    } else {
-      break;
-    }
-    preferNorway = !preferNorway;
+  return pickRoundRobinBySource(pool, limit).map((item) => ({ ...item, region }));
+}
+
+function buildRegionalSpotlightPool(
+  themedPool: NewsItem[],
+  rawItems: NewsItem[],
+  region: "norway" | "world"
+): NewsItem[] {
+  if (themedPool.length >= AI_NEWS_SPOTLIGHT_PER_REGION) {
+    return pickRegionalSpotlight(themedPool, AI_NEWS_SPOTLIGHT_PER_REGION, region);
   }
-  return out;
+
+  const themedLinks = new Set(themedPool.map((item) => item.link));
+  const supplemental = pickBroadAiCandidatePool(rawItems).filter(
+    (item) => !themedLinks.has(item.link)
+  );
+  const combined = [...themedPool, ...supplemental];
+  return pickRegionalSpotlight(combined, AI_NEWS_SPOTLIGHT_PER_REGION, region);
 }
 
 async function fetchFeed(url: string, sourceName: string): Promise<NewsItem[]> {
@@ -280,7 +288,7 @@ async function fetchFeed(url: string, sourceName: string): Promise<NewsItem[]> {
   }
 }
 
-async function fetchNorwayNews(): Promise<NewsItem[]> {
+async function fetchNorwayNews(): Promise<{ themed: NewsItem[]; raw: NewsItem[] }> {
   const sources = [
     { url: "https://www.kode24.no/rss", name: "Kode24" },
     { url: "https://www.digi.no/rss", name: "Digi.no" },
@@ -305,10 +313,13 @@ async function fetchNorwayNews(): Promise<NewsItem[]> {
     r.status === "fulfilled" ? r.value : []
   );
 
-  return pickThemedCandidatePool(all);
+  return {
+    themed: pickThemedCandidatePool(all),
+    raw: dedupeByLink(all),
+  };
 }
 
-async function fetchWorldNews(): Promise<NewsItem[]> {
+async function fetchWorldNews(): Promise<{ themed: NewsItem[]; raw: NewsItem[] }> {
   const sources = [
     {
       url: "https://techcrunch.com/category/artificial-intelligence/feed/",
@@ -392,29 +403,39 @@ async function fetchWorldNews(): Promise<NewsItem[]> {
     r.status === "fulfilled" ? r.value : []
   );
 
-  return pickThemedCandidatePool(all);
+  return {
+    themed: pickThemedCandidatePool(all),
+    raw: dedupeByLink(all),
+  };
 }
 
 export const getCachedNews = unstable_cache(
   async () => {
-    const [norwayPool, worldPool] = await Promise.all([
+    const [norwayData, worldData] = await Promise.all([
       fetchNorwayNews(),
       fetchWorldNews(),
     ]);
-    const items = mergeSpotlightNews(
-      norwayPool,
-      worldPool,
-      AI_NEWS_SPOTLIGHT_TOTAL
+    const norway = buildRegionalSpotlightPool(
+      norwayData.themed,
+      norwayData.raw,
+      "norway"
+    );
+    const world = buildRegionalSpotlightPool(
+      worldData.themed,
+      worldData.raw,
+      "world"
     );
     return {
-      items,
+      norway,
+      world,
       updatedAt: new Date().toISOString(),
     };
   },
   [
     "ai-news",
     "spotlight",
-    String(AI_NEWS_SPOTLIGHT_TOTAL),
+    "split-5-5",
+    String(AI_NEWS_SPOTLIGHT_PER_REGION),
     "oslo-current-month",
     `max-${AI_NEWS_MAX_PER_SOURCE}-per-source`,
     "theme-strategy-impl-automation",

@@ -58,6 +58,28 @@ const STATIC_PROJECTS: ProjectRow[] = [
     opprettet: "2026-05-01",
     image: "/marquee-ill-3.jpg",
   },
+  {
+    id: "static-5",
+    tittel: "Effektiviseringsarbeid i spedisjon og logistikk",
+    kunde: "Spedisjonsfirma, Oslo",
+    beskrivelse:
+      "Vi er i dialog om et effektiviseringsløp — kartlegging av manuelle prosesser, kundedialog og intern flyt, med mål om konkrete tidsbesparelser uten å endre det som allerede fungerer.",
+    status: "Dialog",
+    vis_paa_nettside: true,
+    opprettet: "2026-06-10",
+    image: "/marquee-1.jpg",
+  },
+  {
+    id: "static-6",
+    tittel: "Innboks, tilbud og kundedialog i bygg og anlegg",
+    kunde: "Bygg- og anleggsfirma, Tønsberg",
+    beskrivelse:
+      "Dialog om inbox management og effektivisering av tilbudsarbeid og kundedialog — mindre manuell triaging i postkassen, raskere oppfølging og tydeligere sporbarhet fra henvendelse til leveranse.",
+    status: "Dialog",
+    vis_paa_nettside: true,
+    opprettet: "2026-06-12",
+    image: "/marquee-2.jpg",
+  },
 ];
 
 const STATUS_STYLE: Record<string, { bg: string; color: string; dot: string }> = {
@@ -83,9 +105,11 @@ function sortAktiveProjects(a: ProjectRow, b: ProjectRow): number {
 
 const BRANSJE_ICONS: Record<string, string> = {
   "byggebransjen": "🏗",
+  "bygg- og anlegg": "🏗",
   "eiendom":       "🏢",
   "industri":      "⚙️",
   "logistikk":     "🚛",
+  "spedisjon":     "🚛",
   "finans":        "📊",
 };
 
@@ -119,7 +143,12 @@ export default function PagaendeProsjekterListe() {
         .limit(20);
 
       if (!error && data && data.length > 0) {
-        setProjects(data as ProjectRow[]);
+        const remote = data as ProjectRow[];
+        const remoteIds = new Set(remote.map((p) => p.id));
+        setProjects([
+          ...remote,
+          ...STATIC_PROJECTS.filter((p) => !remoteIds.has(p.id)),
+        ]);
       }
       setLoading(false);
     };

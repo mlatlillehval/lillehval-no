@@ -15,6 +15,7 @@ import {
 } from "../data/contentFlags";
 import {
   AI_NEWS_MAX_PER_SOURCE,
+  AI_NEWS_SPOTLIGHT_PER_REGION,
   AI_NEWS_SPOTLIGHT_TOTAL,
   formatCurrentNewsMonthLabelOslo,
   getCachedNews,
@@ -141,20 +142,62 @@ function NewsCard({ item }: { item: NewsItem }) {
   );
 }
 
-function EmptyState() {
+function RegionEmptyState({ region }: { region: "norway" | "world" }) {
   return (
-    <div className="flex flex-col items-center justify-center py-10 gap-2 text-center rounded-xl border border-dashed px-4" style={{ borderColor: "rgba(21,128,61,0.2)" }}>
-      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="rgba(34,139,70,0.4)" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
-      </svg>
-      <p className="text-sm" style={{ color: "rgba(26,51,32,0.4)" }}>Kunne ikke hente nyheter akkurat nå. Prøv igjen senere.</p>
+    <div
+      className="flex flex-col items-center justify-center py-8 gap-2 text-center rounded-xl border border-dashed px-4"
+      style={{ borderColor: "rgba(21,128,61,0.2)" }}
+    >
+      <p className="text-sm" style={{ color: "rgba(26,51,32,0.45)" }}>
+        {region === "norway"
+          ? "Ingen norske AI-saker matchet filteret denne måneden."
+          : "Ingen internasjonale AI-saker matchet filteret denne måneden."}
+      </p>
+    </div>
+  );
+}
+
+function NewsRegionColumn({
+  title,
+  badge,
+  badgeStyle,
+  items,
+  region,
+}: {
+  title: string;
+  badge: string;
+  badgeStyle: { background: string; color: string };
+  items: NewsItem[];
+  region: "norway" | "world";
+}) {
+  return (
+    <div className="flex min-w-0 flex-col gap-3">
+      <div className="flex items-center justify-between gap-2">
+        <p className="text-sm font-extrabold text-[#1a3320]">{title}</p>
+        <span
+          className="text-[10px] font-extrabold uppercase tracking-wide px-2 py-1 rounded-full"
+          style={badgeStyle}
+        >
+          {badge}
+        </span>
+      </div>
+      {items.length === 0 ? (
+        <RegionEmptyState region={region} />
+      ) : (
+        <div className="flex flex-col gap-3">
+          {items.map((item) => (
+            <NewsCard key={item.link} item={item} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
 
 export default async function NewsSection() {
-  const { items, updatedAt } = await getCachedNews();
+  const { norway, world, updatedAt } = await getCachedNews();
   const newsMonthLabel = formatCurrentNewsMonthLabelOslo();
+  const hasAnyNews = norway.length > 0 || world.length > 0;
 
   const showAnyAiAktualitetBlock =
     SHOW_AI_AKTUALITET_INTRO_BOXES ||
@@ -217,18 +260,31 @@ export default async function NewsSection() {
                   </span>
                 </div>
                 <p className="text-sm leading-relaxed" style={{ color: "rgba(26,51,32,0.58)" }}>
-                  Vi fremhever <strong style={{ color: "#1a3320" }}>ti saker totalt</strong> for <strong style={{ color: "#1a3320" }}>{newsMonthLabel}</strong> (norsk tid), med veksling mellom norske og internasjonale kilder der begge har treff. Tema: <strong style={{ color: "#1a3320" }}>AI-strategi, AI-implementering eller AI-drevet prosessautomatisering</strong>, med <strong style={{ color: "#1a3320" }}>maks {AI_NEWS_MAX_PER_SOURCE} per kilde</strong>. Kortene åpnes hos utgiver; betalingsmur kan gjelde. Pluss-markerte treff i RSS filtreres der vi ser det.
+                  Vi fremhever <strong style={{ color: "#1a3320" }}>{AI_NEWS_SPOTLIGHT_PER_REGION} norske</strong> og <strong style={{ color: "#1a3320" }}>{AI_NEWS_SPOTLIGHT_PER_REGION} internasjonale</strong> saker for <strong style={{ color: "#1a3320" }}>{newsMonthLabel}</strong> (norsk tid). Tema: <strong style={{ color: "#1a3320" }}>AI-strategi, AI-implementering eller AI-drevet prosessautomatisering</strong>, med <strong style={{ color: "#1a3320" }}>maks {AI_NEWS_MAX_PER_SOURCE} per kilde</strong>. Kortene åpnes hos utgiver; betalingsmur kan gjelde. Pluss-markerte treff i RSS filtreres der vi ser det.
                 </p>
               </div>
             </div>
 
-            {items.length === 0 ? (
-              <EmptyState />
+            {!hasAnyNews ? (
+              <div className="flex flex-col items-center justify-center py-10 gap-2 text-center rounded-xl border border-dashed px-4" style={{ borderColor: "rgba(21,128,61,0.2)" }}>
+                <p className="text-sm" style={{ color: "rgba(26,51,32,0.4)" }}>Kunne ikke hente nyheter akkurat nå. Prøv igjen senere.</p>
+              </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {items.map((item) => (
-                  <NewsCard key={item.link} item={item} />
-                ))}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+                <NewsRegionColumn
+                  title="Norge"
+                  badge="5 norske"
+                  badgeStyle={{ background: "rgba(30,58,138,0.12)", color: "#1e3a8a" }}
+                  items={norway}
+                  region="norway"
+                />
+                <NewsRegionColumn
+                  title="Verden"
+                  badge="5 internasjonale"
+                  badgeStyle={{ background: "rgba(21,128,61,0.12)", color: "#15803d" }}
+                  items={world}
+                  region="world"
+                />
               </div>
             )}
           </div>

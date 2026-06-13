@@ -8,14 +8,14 @@ export const metadata = createPageMetadata({
   path: "/sommervikar",
   title: "Sommerjobb og AI-partner",
   description:
-    "Samarbeid om å selge ferdigutviklet AI-applikasjon — avtale med Lillehval, salg og demo i kundemøter, vinn–vinn. Sommervikar for deg som allerede lever i AI-sporet.",
+    "Sommervikar for deg i AI-sporet, samarbeid om ferdig AI-applikasjon, og åpent søk etter fullstack-utviklere med AI-forståelse.",
 });
 
 export default function SommervikarPage() {
   return (
     <PageShell>
       <main className="pb-20" style={{ background: "#e8e2d4", color: "#1a3320" }}>
-        <div className="mx-auto max-w-6xl px-6 pt-10 sm:pt-14">
+        <div className="mx-auto max-w-7xl px-6 pt-10 sm:pt-14">
           <p
             className="text-sm font-semibold uppercase tracking-widest mb-3"
             style={{ color: "#15803d" }}
@@ -23,17 +23,18 @@ export default function SommervikarPage() {
             Sommer · åpent søk
           </p>
           <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight mb-4">
-            Sommervikar og salg av ferdig AI-applikasjon sammen med oss
+            Sommervikar, partnerskap og åpent utviklersøk
           </h1>
           <p className="text-lg leading-relaxed opacity-90 mb-10">
             Vi leter etter deg som allerede bruker mye tid i AI-sporet utenom skolen — og som vil inn i{" "}
             <strong className="font-semibold opacity-100">ekte leveranser</strong> samtidig som du får rom til å
-            designe din egen sommerjobb rundt det du brenner for. Har du derimot en{" "}
+            designe din egen sommerjobb rundt det du brenner for. Har du en{" "}
             <strong className="font-semibold opacity-100">ferdig AI-applikasjon</strong>, kan vi diskutere avtale og
-            salg der begge parter vinner. Under finner du begge sporene — ta kontakt på det som treffer deg.
+            salg der begge parter vinner. Er du erfaren fullstack-utvikler som forstår AI i praksis, har vi også et{" "}
+            <strong className="font-semibold opacity-100">åpent søk</strong> pågående. Under finner du alle tre sporene.
           </p>
 
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8 lg:items-stretch mb-10">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-6 lg:items-stretch mb-10">
             <section
               className="rounded-2xl border-2 flex flex-col min-h-0 overflow-hidden"
               style={{
@@ -47,7 +48,7 @@ export default function SommervikarPage() {
                   alt="Akvarell: sommer, kreativitet og AI-utvikling"
                   fill
                   className="object-cover object-center"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  sizes="(max-width: 1024px) 100vw, 33vw"
                   priority
                 />
               </div>
@@ -108,7 +109,7 @@ export default function SommervikarPage() {
                   alt="Akvarell: partnerskap og salg av AI-løsning til bedrifter"
                   fill
                   className="object-cover object-center"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  sizes="(max-width: 1024px) 100vw, 33vw"
                 />
               </div>
               <div className="p-6 sm:p-8 flex flex-col flex-1 min-h-0">
@@ -158,6 +159,73 @@ export default function SommervikarPage() {
                   Send e-post om ferdig app
                 </a>
               </div>
+              </div>
+            </section>
+
+            <section
+              id="fullstack-apent-sok"
+              className="rounded-2xl border-2 flex flex-col min-h-0 overflow-hidden scroll-mt-24"
+              style={{
+                borderColor: "rgba(30, 58, 138, 0.35)",
+                background: "rgba(255,255,255,0.6)",
+              }}
+            >
+              <div className="relative aspect-[5/3] w-full shrink-0 bg-white/40">
+                <Image
+                  src="/fullstack-apent-sok-akvarell.png"
+                  alt="Akvarell: åpent søk etter fullstack-utvikler med AI-forståelse"
+                  fill
+                  className="object-cover object-center"
+                  sizes="(max-width: 1024px) 100vw, 33vw"
+                />
+              </div>
+              <div className="p-6 sm:p-8 flex flex-col flex-1 min-h-0">
+                <h2 className="text-xl font-bold mb-2" style={{ color: "#0a2e1a" }}>
+                  Åpent søk — fullstack-utvikler med AI-forståelse
+                </h2>
+                <p className="text-sm font-semibold mb-4" style={{ color: "#1e3a8a" }}>
+                  Generelt søk — ikke sommervikar, men fast samarbeid eller ansettelse.
+                </p>
+                <p className="leading-relaxed mb-4">
+                  Vi bygger ikke AI for demos skyld — vi tar det ut i{" "}
+                  <strong className="font-semibold">produksjon hos norske bedrifter</strong>. Derfor søker vi erfarne
+                  fullstack-utviklere som skriver ryddig kode og forstår hva modellene faktisk kan og ikke kan.
+                </p>
+                <p className="leading-relaxed mb-4">
+                  Du jobber tett med rådgivere og arkitekter fra idé til drift:{" "}
+                  <strong className="font-semibold">integrasjoner, API-er, RAG, agenter</strong> og løsninger som
+                  faktisk brukes. Du trenger ikke være ML-forsker, men du må være nysgjerrig, pragmatisk og
+                  komfortabel med at kvalitet i produksjon betyr mer enn hype.
+                </p>
+                <ul className="list-disc pl-5 space-y-2 mb-6 leading-relaxed">
+                  <li>Fullstack med tyngde i TypeScript, React/Next.js og API-integrasjon.</li>
+                  <li>Erfaring med — eller ærlig interesse for — AI i produksjon, ikke bare i sandbox.</li>
+                  <li>Du trives i et lite team der rådgivning, produkt og kode henger sammen.</li>
+                </ul>
+                <div className="mt-auto pt-2">
+                  <p className="text-sm font-semibold mb-2" style={{ color: "#0a2e1a" }}>
+                    Klar for en prat?
+                  </p>
+                  <p className="leading-relaxed m-0 mb-4">
+                    Send kort introduksjon, CV og{" "}
+                    <strong className="font-semibold">lenker til kode eller prosjekter</strong> du er stolt av til{" "}
+                    <a href="mailto:dev@lillehval.no?subject=Fullstack-utvikler%20med%20AI-forståelse" className="underline font-semibold">
+                      dev@lillehval.no
+                    </a>
+                    . Fortell gjerne hva slags oppdrag du ser for deg hos oss.
+                  </p>
+                  <a
+                    href="mailto:dev@lillehval.no?subject=Fullstack-utvikler%20med%20AI-forståelse"
+                    className="inline-flex justify-center items-center px-5 py-3 rounded-full text-sm font-bold transition-transform hover:scale-[1.02]"
+                    style={{
+                      background: "#1e3a8a",
+                      color: "#f8fafc",
+                      boxShadow: "0 2px 16px rgba(30, 58, 138, 0.28)",
+                    }}
+                  >
+                    Ta kontakt — dev@lillehval.no
+                  </a>
+                </div>
               </div>
             </section>
           </div>

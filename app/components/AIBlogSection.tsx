@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import SectionKicker from "./SectionKicker";
 import Image from "next/image";
-import { AI_BLOG_POSTS, type AIBlogPost } from "../data/aiBlogPosts";
+import { AI_BLOG_POSTS, getReadMinutes, type AIBlogPost } from "../data/aiBlogPosts";
 
 export default function AIBlogSection() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -140,7 +140,7 @@ export default function AIBlogSection() {
             </div>
             <div className="p-6 sm:p-8">
               <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "#15803d" }}>
-                AI-bloggen · ca. {active.readMinutes} min lesing
+                AI-bloggen · ca. {getReadMinutes(active)} min lesing
               </p>
               <h3 id="blog-post-title" className="text-xl sm:text-2xl font-extrabold text-[#1a3320] leading-tight">
                 {active.title}
