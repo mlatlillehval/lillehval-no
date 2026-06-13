@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+import type { AIBlogPost } from "@/app/data/aiBlogPosts";
+import { getReadMinutes } from "@/app/data/aiBlogPosts";
+import { FOUNDERS } from "@/app/data/founders";
 import { HELP_PAGE_DESCRIPTION } from "@/app/data/aiHelpIntent";
 import { MARIUS_EMAIL, MARIUS_PHONE_TEL } from "@/app/data/siteContact";
 import { SOCIAL_LINKS } from "@/app/data/siteSocial";
@@ -8,6 +11,22 @@ import { getSiteUrl } from "@/lib/site-url";
 
 /** Delingsbilde for Open Graph / Twitter (erstatt med dedikert 1200×630 ved behov). */
 export const DEFAULT_OG_IMAGE = "/hero-bedrift-utvikling.jpg";
+
+/** Side-spesifikke OG-bilder — bruk eksisterende illustrasjoner i /public. */
+export const OG_IMAGES = {
+  home: DEFAULT_OG_IMAGE,
+  hjelpMedAi: "/ai-partner-salg-akvarell.png",
+  hvorforOss: "/komplementaere-ferdigheter-team-akvarell.png",
+  aiBeredskap: "/era-ai-operativsystem-2028-akvarell.png",
+  sisteNyheter: "/news-illustration.jpg",
+  pagaendeProsjekter: "/marquee-ill-2.jpg",
+  aiTjenester: "/service-kartlegging-akvarell.png",
+  aiForklart: "/analogi-ai-assistent-gps.png",
+  sommervikar: "/fullstack-apent-sok-akvarell.png",
+  kontakt: "/consultant-guiding-client-watercolor.png",
+  blogg: "/blog-ai-01.png",
+  faq: "/hero-ai-reise-illustration.png",
+} as const;
 
 export const SITE_DESCRIPTION = HELP_PAGE_DESCRIPTION;
 
@@ -21,6 +40,8 @@ export type PageMetadataOptions = {
   description: string;
   ogImage?: string;
   noIndex?: boolean;
+  openGraphType?: "website" | "article";
+  publishedTime?: string;
 };
 
 export function absoluteUrl(path: string): string {
@@ -41,7 +62,7 @@ export function createPageMetadata(opts: PageMetadataOptions): Metadata {
     description: opts.description,
     alternates: { canonical },
     openGraph: {
-      type: "website",
+      type: opts.openGraphType ?? "website",
       locale: "nb_NO",
       siteName: "Lillehval",
       title: ogTitle,
@@ -55,6 +76,9 @@ export function createPageMetadata(opts: PageMetadataOptions): Metadata {
           alt: "Lillehval – AI-rådgivning for norske bedrifter",
         },
       ],
+      ...(opts.openGraphType === "article" && opts.publishedTime
+        ? { publishedTime: opts.publishedTime }
+        : {}),
     },
     twitter: {
       card: "summary_large_image",
@@ -204,5 +228,49 @@ export function faqPageJsonLd(faqs: FaqItem[]) {
         text: faq.answer,
       },
     })),
+  };
+}
+
+export function foundersPersonJsonLd() {
+  return FOUNDERS.map((person) => ({
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": `${absoluteUrl("/hvorfor-oss")}#${person.id}`,
+    name: person.name,
+    jobTitle: person.jobTitle,
+    image: absoluteUrl(person.image),
+    email: person.email,
+    telephone: person.telephone,
+    url: person.linkedin,
+    description: person.description,
+    worksFor: { "@id": `${absoluteUrl("/")}#organization` },
+    knowsAbout: ["Kunstig intelligens", "AI-rådgivning", "AI-implementering"],
+  }));
+}
+
+export function blogPostingJsonLd(post: AIBlogPost) {
+  const path = `/blogg/${post.slug}`;
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "@id": `${absoluteUrl(path)}#article`,
+    headline: post.title,
+    description: post.excerpt,
+    image: absoluteUrl(post.image),
+    datePublished: post.publishedAt,
+    dateModified: post.publishedAt,
+    inLanguage: "nb-NO",
+    author: {
+      "@type": "Organization",
+      "@id": `${absoluteUrl("/")}#organization`,
+      name: "Lillehval",
+    },
+    publisher: { "@id": `${absoluteUrl("/")}#organization` },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": absoluteUrl(path),
+    },
+    wordCount: `${post.excerpt} ${post.body}`.trim().split(/\s+/).filter(Boolean).length,
+    timeRequired: `PT${getReadMinutes(post)}M`,
   };
 }

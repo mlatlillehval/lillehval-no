@@ -16,6 +16,11 @@ export const HEIN_LINKEDIN_URL = "https://www.linkedin.com/in/hein-torgersen";
 export const SITE_PHONE_DISPLAY = MARIUS_PHONE_DISPLAY;
 export const SITE_PHONE_TEL = MARIUS_PHONE_TEL;
 
+export const COMPANY_NAME = "Lillehval AS";
+export const COMPANY_TAGLINE = "Norsk AI-rådgivning for bedrifter";
+/** Ingen fast kontoradresse — vi jobber on-site og digitalt i hele Norge. */
+export const COMPANY_AREA_SERVED = "Norge";
+
 /** Teamkort på /hvorfor-oss — én import i WhyUs */
 export const TEAM_PHONES = {
   marius: { display: MARIUS_PHONE_DISPLAY, tel: MARIUS_PHONE_TEL },

@@ -212,6 +212,14 @@ export default function RootLayout({
               <SocialMediaLinks compact />
               <p className="text-xs mt-3 md:max-lg:text-center lg:text-right">
                 <Link
+                  href="/kontakt"
+                  className="font-semibold underline-offset-2 hover:underline"
+                  style={{ color: "#15803d" }}
+                >
+                  Kontakt
+                </Link>
+                {" · "}
+                <Link
                   href="/hjelp-med-ai"
                   className="font-semibold underline-offset-2 hover:underline"
                   style={{ color: "#15803d" }}
@@ -225,6 +233,14 @@ export default function RootLayout({
                   style={{ color: "#15803d" }}
                 >
                   FAQ
+                </Link>
+                {" · "}
+                <Link
+                  href="/blogg"
+                  className="font-semibold underline-offset-2 hover:underline"
+                  style={{ color: "#15803d" }}
+                >
+                  Blogg
                 </Link>
               </p>
             </div>

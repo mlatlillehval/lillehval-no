@@ -36,6 +36,8 @@ Lillehval (Lillehval AS) hjelper norske bedrifter som trenger hjelp med AI: fra 
 - https://www.lillehval.no/ai-tjenester/opplaering — AI-opplæring og erfaring
 - https://www.lillehval.no/ai-beredskap — Gratis AI-beredskapsanalyse
 - https://www.lillehval.no/ai-forklart — AI forklart for bedrifter (begreper og muligheter)
+- https://www.lillehval.no/kontakt — Kontakt (telefon, e-post, møtebooking)
+- https://www.lillehval.no/blogg — AI-blogg (ti artikler om AI for bedrifter)
 - https://www.lillehval.no/hvorfor-oss — Team, filosofi og leveranser
 - https://www.lillehval.no/pagaende-prosjekter — Pågående prosjekter og dialoger (anonymisert)
 - https://www.lillehval.no/siste-nyheter — Siste AI-nyheter fra Norge og verden

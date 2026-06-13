@@ -9,12 +9,14 @@ import {
   createPageMetadata,
   faqPageJsonLd,
   helpWithAiWebPageJsonLd,
+  OG_IMAGES,
 } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
   path: "/hjelp-med-ai",
   title: "Hjelp med AI for bedrifter",
   description: HELP_PAGE_DESCRIPTION,
+  ogImage: OG_IMAGES.hjelpMedAi,
 });
 
 export default function HjelpMedAiPage() {

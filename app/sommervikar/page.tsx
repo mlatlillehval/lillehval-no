@@ -2,13 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import PageShell from "../components/PageShell";
 import { MARIUS_EMAIL } from "../data/siteContact";
-import { createPageMetadata } from "@/lib/seo";
+import { createPageMetadata, OG_IMAGES } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
   path: "/sommervikar",
   title: "Sommerjobb og AI-partner",
   description:
     "Sommervikar for deg i AI-sporet, samarbeid om ferdig AI-applikasjon, og åpent søk etter fullstack-utviklere med AI-forståelse.",
+  ogImage: OG_IMAGES.sommervikar,
 });
 
 export default function SommervikarPage() {
