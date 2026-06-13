@@ -16,7 +16,9 @@ export default function HvorforOss() {
     <>
       <JsonLd data={foundersPersonJsonLd()} />
       <div className="relative z-10 h-[calc(4rem+env(safe-area-inset-top,0px))] shrink-0" aria-hidden />
-      <WhyUs />
+      <main>
+        <WhyUs />
+      </main>
     </>
   );
 }

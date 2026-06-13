@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { AIBlogPost } from "@/app/data/aiBlogPosts";
 import { getReadMinutes } from "@/app/data/aiBlogPosts";
+import type { CaseStudy } from "@/app/data/caseStudies";
 import { FOUNDERS } from "@/app/data/founders";
 import { HELP_PAGE_DESCRIPTION } from "@/app/data/aiHelpIntent";
 import { MARIUS_EMAIL, MARIUS_PHONE_TEL } from "@/app/data/siteContact";
@@ -26,6 +27,7 @@ export const OG_IMAGES = {
   kontakt: "/consultant-guiding-client-watercolor.png",
   blogg: "/blog-ai-01.png",
   faq: "/hero-ai-reise-illustration.png",
+  personvern: "/consultant-guiding-client-watercolor.png",
 } as const;
 
 export const SITE_DESCRIPTION = HELP_PAGE_DESCRIPTION;
@@ -272,5 +274,32 @@ export function blogPostingJsonLd(post: AIBlogPost) {
     },
     wordCount: `${post.excerpt} ${post.body}`.trim().split(/\s+/).filter(Boolean).length,
     timeRequired: `PT${getReadMinutes(post)}M`,
+  };
+}
+
+export function caseStudyJsonLd(caseStudy: CaseStudy) {
+  const path = `/case/${caseStudy.slug}`;
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "@id": `${absoluteUrl(path)}#article`,
+    headline: caseStudy.tittel,
+    description: caseStudy.beskrivelse,
+    image: absoluteUrl(caseStudy.image),
+    datePublished: caseStudy.opprettet,
+    dateModified: caseStudy.opprettet,
+    articleSection: "Case study",
+    inLanguage: "nb-NO",
+    about: caseStudy.bransje,
+    author: {
+      "@type": "Organization",
+      "@id": `${absoluteUrl("/")}#organization`,
+      name: "Lillehval",
+    },
+    publisher: { "@id": `${absoluteUrl("/")}#organization` },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": absoluteUrl(path),
+    },
   };
 }

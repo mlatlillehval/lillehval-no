@@ -487,7 +487,7 @@ export default function Hero({ initialCopy = FRONT_PAGE_DEFAULTS }: HeroProps) {
                     filter:
                       "drop-shadow(0 16px 32px rgba(21,128,61,0.35)) drop-shadow(0 4px 12px rgba(0,0,0,0.5)) brightness(0.92) saturate(0.8)",
                   }}
-                  priority={false}
+                  priority
                 />
               </div>
             </div>

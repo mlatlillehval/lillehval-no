@@ -242,6 +242,14 @@ export default function RootLayout({
                 >
                   Blogg
                 </Link>
+                {" · "}
+                <Link
+                  href="/personvern"
+                  className="font-semibold underline-offset-2 hover:underline"
+                  style={{ color: "#15803d" }}
+                >
+                  Personvern
+                </Link>
               </p>
             </div>
           </div>

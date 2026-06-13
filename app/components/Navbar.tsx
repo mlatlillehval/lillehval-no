@@ -15,6 +15,8 @@ const navLinks = [
   { label: "AI aktualitet", href: "/siste-nyheter" },
   { label: "Prosjekter", href: "/pagaende-prosjekter" },
   { label: "Om oss", href: "/hvorfor-oss" },
+  { label: "Kontakt", href: "/kontakt" },
+  { label: "Blogg", href: "/blogg" },
   { label: "Sommerjobb & AI-partner", href: "/sommervikar" },
 ];
 

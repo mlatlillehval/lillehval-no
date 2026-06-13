@@ -9,4 +9,4 @@ export const SHOW_AI_AKTUALITET_INTRO_BOXES = false;
 export const SHOW_AI_AKTUALITET_NEWSLETTER = false;
 export const SHOW_AI_AKTUALITET_SHORTS = false;
 export const SHOW_AI_AKTUALITET_BLOG = true;
-export const SHOW_AI_AKTUALITET_INNHOLD_OVERSIKT = false;
+export const SHOW_AI_AKTUALITET_INNHOLD_OVERSIKT = true;

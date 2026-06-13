@@ -215,11 +215,15 @@ export default async function NewsSection() {
           <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#1a3320]">
             Siste AI-nyheter
           </h1>
-          {!showAnyAiAktualitetBlock ? (
+          {showAnyAiAktualitetBlock ? (
+            <p className="mt-3 mx-auto max-w-2xl text-sm leading-relaxed" style={{ color: "rgba(26,51,32,0.6)" }}>
+              Kuraterte nyheter fra Norge og verden, egne AI-artikler og talkshow-innhold — for ledere som vil holde seg oppdatert uten støy.
+            </p>
+          ) : (
             <p className="mt-3 mx-auto max-w-lg text-sm leading-relaxed" style={{ color: "rgba(26,51,32,0.55)" }}>
               Her kommer snart flere kanaler og egne saker. Inntil videre finner du ferske AI-nyheter under.
             </p>
-          ) : null}
+          )}
         </div>
 
         {SHOW_AI_AKTUALITET_INTRO_BOXES ? <AiAktualitetIntroBoxes /> : null}

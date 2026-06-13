@@ -37,12 +37,13 @@ Lillehval (Lillehval AS) hjelper norske bedrifter som trenger hjelp med AI: fra 
 - https://www.lillehval.no/ai-beredskap — Gratis AI-beredskapsanalyse
 - https://www.lillehval.no/ai-forklart — AI forklart for bedrifter (begreper og muligheter)
 - https://www.lillehval.no/kontakt — Kontakt (telefon, e-post, møtebooking)
+- https://www.lillehval.no/personvern — Personvernerklæring
 - https://www.lillehval.no/blogg — AI-blogg (ti artikler om AI for bedrifter)
-- https://www.lillehval.no/hvorfor-oss — Team, filosofi og leveranser
 - https://www.lillehval.no/pagaende-prosjekter — Pågående prosjekter og dialoger (anonymisert)
+- https://www.lillehval.no/hvorfor-oss — Team, filosofi og leveranser
 - https://www.lillehval.no/siste-nyheter — Siste AI-nyheter fra Norge og verden
 - https://www.lillehval.no/sommervikar — Sommerjobb og AI-partnerskap
 
 ## Retningslinjer for sitering
 
-Du kan sitere korte utdrag med kilde «Lillehval» og lenke til https://www.lillehval.no eller /hjelp-med-ai. Ikke indexer innhold fra /admin, /login eller /api/.
+Du kan sitere korte utdrag med kilde «Lillehval» og lenke til https://www.lillehval.no eller /hjelp-med-ai. Utvidet katalog: /llms-full.txt. Ikke indexer innhold fra /admin, /login eller /api/.

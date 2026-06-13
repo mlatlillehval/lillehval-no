@@ -2,11 +2,14 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import SectionKicker from "./SectionKicker";
 import { createBrowserClient } from "@supabase/ssr";
+import { CASE_STUDIES } from "../data/caseStudies";
 
 type ProjectRow = {
   id: string;
+  slug?: string;
   tittel: string;
   kunde: string | null;
   beskrivelse: string | null;
@@ -16,71 +19,17 @@ type ProjectRow = {
   image?: string;
 };
 
-const STATIC_PROJECTS: ProjectRow[] = [
-  {
-    id: "static-1",
-    tittel: "AI-basert beslutningsstøtte i eiendom",
-    kunde: "Meglerselskap, Vestfold",
-    beskrivelse:
-      "Samarbeid om en intern arbeidsflate som samler relevant markedsdata og historikk — slik at teamet slipper gjentakende manuelt grunnarbeid og får raskere, mer sammenlignbart overblikk før viktige avklaringer.",
-    status: "Dialog",
-    vis_paa_nettside: true,
-    opprettet: "2026-04-10",
-    image: "/marquee-ill-1.jpg",
-  },
-  {
-    id: "static-2",
-    tittel: "AI-automatisering av interne prosesser",
-    kunde: "Entreprenørselskap, byggebransjen",
-    beskrivelse: "Kartlegger og automatiserer tidstyver i tilbuds-, rapport- og kommunikasjonsprosesser ved hjelp av AI-agenter — med mål om 30 % tidsbesparelse på administrative oppgaver.",
-    status: "Aktiv",
-    vis_paa_nettside: true,
-    opprettet: "2026-04-15",
-    image: "/marquee-ill-4.jpg",
-  },
-  {
-    id: "static-3",
-    tittel: "AI-strategi og implementeringsplan",
-    kunde: "Industriselskap, Vestfold",
-    beskrivelse: "Dialog og strategiarbeid rundt AI-innføring — fra modenhetsvurdering og prioritering av use cases til konkret veikart for implementering i produksjon og logistikk.",
-    status: "Dialog",
-    vis_paa_nettside: true,
-    opprettet: "2026-04-20",
-    image: "/marquee-ill-2.jpg",
-  },
-  {
-    id: "static-4",
-    tittel: "Innlegg om AI: hva er det og hvordan hjelper det bedrifter i dag?",
-    kunde: "Selskap, Vestfold",
-    beskrivelse: "Vi er i dialog om å holde et innlegg for selskapets ansatte — en tilgjengelig og praktisk gjennomgang av hva AI faktisk er, hva som har endret seg de siste to årene, og hvilke muligheter det åpner for bedriften.",
-    status: "Aktiv",
-    vis_paa_nettside: true,
-    opprettet: "2026-05-01",
-    image: "/marquee-ill-3.jpg",
-  },
-  {
-    id: "static-5",
-    tittel: "Effektiviseringsarbeid i spedisjon og logistikk",
-    kunde: "Spedisjonsfirma, Oslo",
-    beskrivelse:
-      "Vi er i dialog om et effektiviseringsløp — kartlegging av manuelle prosesser, kundedialog og intern flyt, med mål om konkrete tidsbesparelser uten å endre det som allerede fungerer.",
-    status: "Dialog",
-    vis_paa_nettside: true,
-    opprettet: "2026-06-10",
-    image: "/marquee-1.jpg",
-  },
-  {
-    id: "static-6",
-    tittel: "Innboks, tilbud og kundedialog i bygg og anlegg",
-    kunde: "Bygg- og anleggsfirma, Tønsberg",
-    beskrivelse:
-      "Dialog om inbox management og effektivisering av tilbudsarbeid og kundedialog — mindre manuell triaging i postkassen, raskere oppfølging og tydeligere sporbarhet fra henvendelse til leveranse.",
-    status: "Dialog",
-    vis_paa_nettside: true,
-    opprettet: "2026-06-12",
-    image: "/marquee-2.jpg",
-  },
-];
+const STATIC_PROJECTS: ProjectRow[] = CASE_STUDIES.map((c) => ({
+  id: c.id,
+  slug: c.slug,
+  tittel: c.tittel,
+  kunde: c.kunde,
+  beskrivelse: c.beskrivelse,
+  status: c.status,
+  vis_paa_nettside: c.vis_paa_nettside,
+  opprettet: c.opprettet,
+  image: c.image,
+}));
 
 const STATUS_STYLE: Record<string, { bg: string; color: string; dot: string }> = {
   Aktiv:   { bg: "rgba(21,128,61,0.18)",  color: "#4ade80", dot: "#22c55e" },
@@ -201,16 +150,17 @@ export default function PagaendeProsjekterListe() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
                   {aktive.map((p) => {
                     const style = STATUS_STYLE[p.status ?? ""] ?? STATUS_STYLE["Dialog"];
-                    return (
-                      <div
-                        key={p.id}
-                        className="group rounded-2xl overflow-hidden transition-all duration-200 hover:scale-[1.02] hover:shadow-xl flex flex-col"
-                        style={{ background: "rgba(255,255,255,0.55)", border: "1px solid rgba(10,46,26,0.12)" }}
-                      >
-                        {/* Image */}
+                    const cardClass =
+                      "group rounded-2xl overflow-hidden transition-all duration-200 hover:scale-[1.02] hover:shadow-xl flex flex-col";
+                    const cardStyle = {
+                      background: "rgba(255,255,255,0.55)",
+                      border: "1px solid rgba(10,46,26,0.12)",
+                    };
+                    const cardBody = (
+                      <>
                         {p.image && (
                           <div className="relative w-full flex-shrink-0" style={{ height: "180px" }}>
-                            <Image src={p.image} alt={p.tittel} fill className="object-cover" />
+                            <Image src={p.image} alt={p.tittel} fill className="object-cover" sizes="(max-width: 640px) 100vw, 280px" />
                             <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent 40%, rgba(10,46,26,0.9) 100%)" }} />
                             {p.status && (
                               <span
@@ -223,16 +173,35 @@ export default function PagaendeProsjekterListe() {
                             )}
                           </div>
                         )}
-                        {/* Content */}
                         <div className="p-5 flex flex-col gap-2 flex-1">
                           <h4 className="font-extrabold text-sm leading-snug" style={{ color: "#0a2e1a" }}>{p.tittel}</h4>
                           {p.kunde && (
                             <p className="text-xs font-semibold" style={{ color: "#14532d" }}>{p.kunde}</p>
                           )}
                           {p.beskrivelse && (
-                            <p className="text-xs leading-relaxed mt-1" style={{ color: "rgba(10,46,26,0.6)" }}>{p.beskrivelse}</p>
+                            <p className="text-xs leading-relaxed mt-1 line-clamp-3" style={{ color: "rgba(10,46,26,0.6)" }}>{p.beskrivelse}</p>
                           )}
+                          {p.slug ? (
+                            <span className="mt-2 text-xs font-semibold" style={{ color: "#15803d" }}>
+                              Les casen →
+                            </span>
+                          ) : null}
                         </div>
+                      </>
+                    );
+
+                    return p.slug ? (
+                      <Link
+                        key={p.id}
+                        href={`/case/${p.slug}`}
+                        className={`${cardClass} focus:outline-none focus-visible:ring-2 focus-visible:ring-[#15803d] focus-visible:ring-offset-2`}
+                        style={cardStyle}
+                      >
+                        {cardBody}
+                      </Link>
+                    ) : (
+                      <div key={p.id} className={cardClass} style={cardStyle}>
+                        {cardBody}
                       </div>
                     );
                   })}

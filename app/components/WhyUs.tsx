@@ -235,26 +235,23 @@ function AnonymousTeamCard({ person }: { person: TeamMember }) {
         </div>
       </div>
 
-      <div
-        className="grid flex-1"
-        style={{ gridTemplateRows: "6.25rem 9.75rem 9.75rem 2.75rem" }}
-      >
+      <div className="flex flex-1 flex-col gap-4 px-5 py-5 sm:px-6 sm:py-6">
         <p
-          className="overflow-hidden px-5 pt-5 text-sm italic leading-relaxed sm:px-6"
+          className="text-sm italic leading-relaxed line-clamp-4"
           style={{ color: "rgba(26,51,32,0.75)" }}
         >
           {person.quote}
         </p>
 
         <p
-          className="overflow-hidden px-5 text-sm leading-relaxed sm:px-6"
+          className="text-sm leading-relaxed line-clamp-5"
           style={{ color: "rgba(26,51,32,0.5)" }}
         >
           {person.bio}
         </p>
 
-        <div className="border-y border-slate-200 px-5 py-3 sm:px-6">
-          <div className="grid h-full grid-cols-2 grid-rows-3 gap-2">
+        <div className="border-y border-slate-200 py-3">
+          <div className="grid grid-cols-2 gap-2">
             {person.tags.map((tag) => (
               <span
                 key={tag}
@@ -267,7 +264,7 @@ function AnonymousTeamCard({ person }: { person: TeamMember }) {
           </div>
         </div>
 
-        <div className="flex items-center px-5 sm:px-6">
+        <div className="mt-auto pt-1">
           <a
             href={`mailto:${person.email}`}
             className="inline-flex items-center gap-2 text-sm font-semibold transition-colors hover:opacity-80"
