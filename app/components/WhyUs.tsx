@@ -223,7 +223,7 @@ function AnonymousTeamCard({ person }: { person: TeamMember }) {
           src={person.image}
           alt={person.title}
           fill
-          className="object-cover object-center"
+          className="object-cover object-center blur-md scale-105"
           style={person.imageObjectPosition ? { objectPosition: person.imageObjectPosition } : undefined}
           sizes="(max-width: 768px) 100vw, 360px"
         />
