@@ -8,6 +8,7 @@ export type AIBlogPost = {
   publishedAt: string;
   /** Valgfri override — ellers beregnes fra excerpt + body. */
   readMinutes?: number;
+  gallery?: { src: string; alt: string }[];
 };
 
 /** Ca. 180 ord/min for korte fagtekster på norsk. */
@@ -18,6 +19,32 @@ export function getReadMinutes(post: Pick<AIBlogPost, "excerpt" | "body" | "read
 }
 
 export const AI_BLOG_POSTS: AIBlogPost[] = [
+  {
+    id: "11",
+    slug: "introduksjonskurs-claude-start-vestfold",
+    title: "Introduksjonskurs i Claude hos Start i Vestfold",
+    excerpt:
+      "Denne uken var vi hos Start i Vestfold og holdt introduksjonskurs i Claude — med over 30 nysgjerrige deltakere.",
+    image: "/kurs-start-vestfold/marius-kurs.jpg",
+    publishedAt: "2026-09-12",
+    gallery: [
+      {
+        src: "/kurs-start-vestfold/marius-rollup.jpg",
+        alt: "Marius Langsrud holder introduksjonskurs i Claude for Start i Vestfold.",
+      },
+      {
+        src: "/kurs-start-vestfold/marius-skjerm.jpg",
+        alt: "Marius viser Claude på storskjerm under kurset.",
+      },
+      {
+        src: "/kurs-start-vestfold/hein-kurs.jpg",
+        alt: "Hein Torgersen holder innlegg om Claude hos Start i Vestfold.",
+      },
+    ],
+    body: `Denne uken var vi i Lillehval hos Start i Vestfold og holdt introduksjonskurs i Claude. Med over 30 kursdeltakere på plass fikk vi gode diskusjoner med nysgjerrige studenter, ansatte og pensjonister som ønsker å kickstarte sin bruk av AI.
+
+Takk for nysgjerrighet, alle spørsmålene og diskusjonene. Vi tror og håper vi fikk vist noen av de enorme mulighetene Claude kan gi bedrifter.`,
+  },
   {
     id: "1",
     slug: "hvorfor-2026-ai-mellomstore-bedrifter",

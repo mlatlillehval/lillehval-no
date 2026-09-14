@@ -217,7 +217,7 @@ export default async function NewsSection() {
           </h1>
           {showAnyAiAktualitetBlock ? (
             <p className="mt-3 mx-auto max-w-2xl text-sm leading-relaxed" style={{ color: "rgba(26,51,32,0.6)" }}>
-              Kuraterte nyheter fra Norge og verden, egne AI-artikler og talkshow-innhold — for ledere som vil holde seg oppdatert uten støy.
+              Kuraterte nyheter fra Norge og verden, og egne AI-artikler — for ledere som vil holde seg oppdatert uten støy.
             </p>
           ) : (
             <p className="mt-3 mx-auto max-w-lg text-sm leading-relaxed" style={{ color: "rgba(26,51,32,0.55)" }}>
@@ -267,7 +267,7 @@ export default async function NewsSection() {
                   </span>
                 </div>
                 <p className="text-sm leading-relaxed" style={{ color: "rgba(26,51,32,0.58)" }}>
-                  Vi fremhever <strong style={{ color: "#1a3320" }}>{AI_NEWS_SPOTLIGHT_PER_REGION} norske</strong> og <strong style={{ color: "#1a3320" }}>{AI_NEWS_SPOTLIGHT_PER_REGION} internasjonale</strong> saker for <strong style={{ color: "#1a3320" }}>{newsMonthLabel}</strong> (norsk tid). Tema: <strong style={{ color: "#1a3320" }}>AI-strategi, AI-implementering eller AI-drevet prosessautomatisering</strong>, med <strong style={{ color: "#1a3320" }}>maks {AI_NEWS_MAX_PER_SOURCE} per kilde</strong>. Kortene åpnes hos utgiver; betalingsmur kan gjelde. Pluss-markerte treff i RSS filtreres der vi ser det.
+                  Vi fremhever <strong style={{ color: "#1a3320" }}>{AI_NEWS_SPOTLIGHT_PER_REGION} norske AI/KI-saker</strong> og <strong style={{ color: "#1a3320" }}>{AI_NEWS_SPOTLIGHT_PER_REGION} internasjonale</strong> saker for <strong style={{ color: "#1a3320" }}>{newsMonthLabel}</strong> (norsk tid). Internasjonalt prioriteres <strong style={{ color: "#1a3320" }}>AI-strategi, implementering og prosessautomatisering</strong>, med <strong style={{ color: "#1a3320" }}>maks {AI_NEWS_MAX_PER_SOURCE} per kilde</strong>. Kortene åpnes hos utgiver; betalingsmur kan gjelde. Pluss-markerte treff i RSS filtreres der vi ser det.
                 </p>
               </div>
             </div>
@@ -341,7 +341,7 @@ export default async function NewsSection() {
             </div>
             <Link
               href="/ai-tjenester"
-              className="inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold transition-opacity hover:opacity-90 w-full sm:w-auto"
+              className="focus-ring inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold transition-opacity hover:opacity-90 w-full sm:w-auto"
               style={{ background: "#15803d", color: "#f8faf7" }}
             >
               Se hvordan Lillehval kan bistå
@@ -351,7 +351,7 @@ export default async function NewsSection() {
         </div>
 
         <p className="mt-8 max-w-2xl mx-auto text-center text-xs leading-relaxed" style={{ color: "rgba(26,51,32,0.45)" }}>
-          Filtreringen bygger på tittel og ingress fra RSS mot temaene AI-strategi, AI-implementering og AI-drevet prosessautomatisering; kjente pluss-URL-er fjernes der RSS avslører det. Saker uten gyldig publiseringsdato i RSS vises ikke.
+          Filtreringen bygger på tittel og ingress fra RSS. Norske saker treffer på AI/KI; internasjonale saker prioriterer strategi, implementering og prosessautomatisering. Kjente pluss-URL-er fjernes der RSS avslører det. Saker uten gyldig publiseringsdato i RSS vises ikke.
         </p>
 
         {SHOW_AI_AKTUALITET_INNHOLD_OVERSIKT ? <AiAktualitetInnholdOversikt /> : null}

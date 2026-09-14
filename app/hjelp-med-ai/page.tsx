@@ -61,14 +61,14 @@ export default function HjelpMedAiPage() {
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/"
-                className="inline-flex items-center rounded-full px-5 py-2.5 text-sm font-bold"
+                className="focus-ring inline-flex items-center rounded-full px-5 py-2.5 text-sm font-bold"
                 style={{ background: "#f59e0b", color: "#052016" }}
               >
                 Til forsiden (book møte)
               </Link>
               <Link
                 href="/ai-tjenester"
-                className="inline-flex items-center rounded-full px-5 py-2.5 text-sm font-semibold border"
+                className="focus-ring inline-flex items-center rounded-full px-5 py-2.5 text-sm font-semibold border"
                 style={{ borderColor: "rgba(21,128,61,0.35)", color: "#14532d" }}
               >
                 AI-tjenester

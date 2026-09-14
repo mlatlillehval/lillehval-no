@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRef, useCallback } from "react";
 import SectionKicker from "./SectionKicker";
 import Image from "next/image";
-import { AI_BLOG_POSTS, getReadMinutes } from "../data/aiBlogPosts";
+import { getAllBlogPosts, getReadMinutes } from "../data/aiBlogPosts";
 
 export default function AIBlogSection() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -24,7 +24,7 @@ export default function AIBlogSection() {
         <div>
           <SectionKicker className="!mb-2">AI-bloggen</SectionKicker>
           <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#1a3320]">
-            Ti perspektiver på AI for norske bedrifter
+            Perspektiver på AI for norske bedrifter
           </h2>
           <p className="mt-2 text-sm max-w-xl" style={{ color: "rgba(26,51,32,0.55)" }}>
             Korte innlegg du kan lese på noen minutter — hvert innlegg har egen side for deling og søk.
@@ -68,7 +68,7 @@ export default function AIBlogSection() {
         className="flex gap-4 overflow-x-auto overscroll-x-contain touch-pan-x scroll-pl-4 scroll-pr-4 pb-2 snap-x snap-mandatory scrollbar-thin -mx-1 px-1"
         style={{ scrollbarColor: "rgba(34,139,70,0.4) transparent" }}
       >
-        {AI_BLOG_POSTS.map((post) => (
+        {getAllBlogPosts().map((post) => (
           <Link
             key={post.slug}
             href={`/blogg/${post.slug}`}

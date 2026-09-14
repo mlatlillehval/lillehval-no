@@ -11,7 +11,7 @@ export default function KontaktBookCta() {
       <button
         type="button"
         onClick={() => setModalOpen(true)}
-        className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-bold transition-all duration-200 hover:scale-105 active:scale-95"
+        className="focus-ring inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-bold transition-all duration-200 hover:scale-105 active:scale-95"
         style={{
           background: "#f59e0b",
           color: "#052016",

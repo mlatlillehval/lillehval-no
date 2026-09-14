@@ -34,6 +34,18 @@ body {
   font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
 }
 
+/* Fokusring — losgrønn, 2 px, 2 px offset. Gjelder alle interaktive flater. */
+.focus-ring:focus-visible {
+  outline: 2px solid #15803d;
+  outline-offset: 2px;
+}
+
+/* Samme ring på mørke flater der grønt ikke gir nok kontrast. */
+.focus-ring-light:focus-visible {
+  outline: 2px solid #e1f5ee;
+  outline-offset: 2px;
+}
+
 .green-card {
   background: rgba(255,255,255,0.7);
   border: 1px solid rgba(34,139,70,0.2);

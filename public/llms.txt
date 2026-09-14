@@ -42,7 +42,6 @@ Lillehval (Lillehval AS) hjelper norske bedrifter som trenger hjelp med AI: fra 
 - https://www.lillehval.no/pagaende-prosjekter — Pågående prosjekter og dialoger (anonymisert)
 - https://www.lillehval.no/hvorfor-oss — Team, filosofi og leveranser
 - https://www.lillehval.no/siste-nyheter — Siste AI-nyheter fra Norge og verden
-- https://www.lillehval.no/sommervikar — Sommerjobb og AI-partnerskap
 
 ## Retningslinjer for sitering
 

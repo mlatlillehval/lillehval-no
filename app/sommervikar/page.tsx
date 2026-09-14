@@ -139,7 +139,7 @@ export default function SommervikarPage() {
               <div className="mt-auto pt-6 flex flex-col sm:flex-row gap-3">
                 <a
                   href={`mailto:${MARIUS_EMAIL}?subject=Foresp%C3%B8rsel%20om%20m%C3%B8te%20%28id%C3%A9%20%2F%20samarbeid%29`}
-                  className="inline-flex justify-center items-center px-5 py-3 rounded-full text-sm font-bold transition-transform hover:scale-[1.02]"
+                  className="focus-ring inline-flex justify-center items-center px-5 py-3 rounded-full text-sm font-bold transition-transform hover:scale-[1.02]"
                   style={{
                     background: "#f59e0b",
                     color: "#052016",
@@ -150,7 +150,7 @@ export default function SommervikarPage() {
                 </a>
                 <a
                   href={`mailto:${MARIUS_EMAIL}?subject=Ferdig%20AI-applikasjon%20%2F%20samarbeid%20om%20salg`}
-                  className="inline-flex justify-center items-center px-5 py-3 rounded-full text-sm font-bold border-2 transition-transform hover:scale-[1.02]"
+                  className="focus-ring inline-flex justify-center items-center px-5 py-3 rounded-full text-sm font-bold border-2 transition-transform hover:scale-[1.02]"
                   style={{
                     borderColor: "rgba(10, 46, 26, 0.35)",
                     color: "#0a2e1a",
@@ -217,7 +217,7 @@ export default function SommervikarPage() {
                   </p>
                   <a
                     href="mailto:dev@lillehval.no?subject=Fullstack-utvikler%20med%20AI-forståelse"
-                    className="inline-flex justify-center items-center px-5 py-3 rounded-full text-sm font-bold transition-transform hover:scale-[1.02]"
+                    className="focus-ring inline-flex justify-center items-center px-5 py-3 rounded-full text-sm font-bold transition-transform hover:scale-[1.02]"
                     style={{
                       background: "#1e3a8a",
                       color: "#f8fafc",

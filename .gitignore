@@ -40,3 +40,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# impeccable (plattformspesifikk binærfil, lastes ned ved behov)
+/.cursor/skills/impeccable/scripts/bin/
+/.impeccable/config.local.json

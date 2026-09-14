@@ -1,0 +1,18 @@
+{
+  "buildPath": "comp",
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "gradient-text",
+        "value": "*",
+        "files": [
+          "app/globals.css"
+        ],
+        "createdAt": "2026-09-12T20:43:33.515Z",
+        "reason": "Pre-eksisterende merkevareflate: .plus-one-logo er Lillehvals animerte «+1»-logotype (gradient wordmark), ikke overskrift eller metrikk. Dokumentert i DESIGN.md som den animerte logogradienten. Ikke innfoert av denne endringen."
+      }
+    ]
+  }
+}

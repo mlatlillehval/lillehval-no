@@ -307,7 +307,7 @@ export default function FrontpageTextEditor() {
               <button
                 onClick={() => void onSave()}
                 disabled={saving}
-                className="px-4 py-2 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-60 transition"
+                className="focus-ring px-4 py-2 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-60 transition"
               >
                 {saving ? "Lagrer..." : "Lagre endringer"}
               </button>
@@ -315,7 +315,7 @@ export default function FrontpageTextEditor() {
                 type="button"
                 disabled={saving}
                 onClick={() => setCopy(FRONT_PAGE_DEFAULTS)}
-                className="px-4 py-2 rounded-xl font-bold text-gray-700 bg-gray-100 hover:bg-gray-200 disabled:opacity-60 transition"
+                className="focus-ring px-4 py-2 rounded-xl font-bold text-gray-700 bg-gray-100 hover:bg-gray-200 disabled:opacity-60 transition"
               >
                 Reset til standard
               </button>

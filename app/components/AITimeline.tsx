@@ -1,5 +1,4 @@
 import Image from "next/image";
-import AiMulighetene from "./AiMulighetene";
 
 type EraStatus = "past" | "now" | "future";
 
@@ -361,11 +360,6 @@ export default function AITimeline() {
             </div>
           ))}
         </div>
-
-
-
-
-        <AiMulighetene />
       </div>
     </section>
   );

@@ -281,7 +281,7 @@ export default function AdminPage() {
           <div className="flex items-center gap-3">
             <button
               onClick={handleLogout}
-              className="text-sm text-gray-500 hover:text-red-500 transition"
+              className="focus-ring rounded-lg px-2 py-1 text-sm text-gray-500 hover:text-red-500 transition"
             >
               Logg ut
             </button>
@@ -290,7 +290,7 @@ export default function AdminPage() {
 
         <div className="flex gap-2 mb-6">
           <button
-            className={`px-4 py-2 rounded-lg text-sm font-semibold border ${
+            className={`focus-ring px-4 py-2 rounded-lg text-sm font-semibold border ${
               tab === "ai"
                 ? "bg-blue-50 border-blue-200 text-blue-700"
                 : "bg-white border-gray-200 text-gray-700 hover:bg-gray-50"
@@ -301,7 +301,7 @@ export default function AdminPage() {
             AI-leads
           </button>
           <button
-            className={`px-4 py-2 rounded-lg text-sm font-semibold border ${
+            className={`focus-ring px-4 py-2 rounded-lg text-sm font-semibold border ${
               tab === "bookings"
                 ? "bg-blue-50 border-blue-200 text-blue-700"
                 : "bg-white border-gray-200 text-gray-700 hover:bg-gray-50"
@@ -312,7 +312,7 @@ export default function AdminPage() {
             Møtebookinger
           </button>
           <button
-            className={`px-4 py-2 rounded-lg text-sm font-semibold border ${
+            className={`focus-ring px-4 py-2 rounded-lg text-sm font-semibold border ${
               tab === "projects"
                 ? "bg-blue-50 border-blue-200 text-blue-700"
                 : "bg-white border-gray-200 text-gray-700 hover:bg-gray-50"
@@ -323,7 +323,7 @@ export default function AdminPage() {
             Tekst på nettsiden
           </button>
           <button
-            className={`px-4 py-2 rounded-lg text-sm font-semibold border ${
+            className={`focus-ring px-4 py-2 rounded-lg text-sm font-semibold border ${
               tab === "frontpage"
                 ? "bg-blue-50 border-blue-200 text-blue-700"
                 : "bg-white border-gray-200 text-gray-700 hover:bg-gray-50"

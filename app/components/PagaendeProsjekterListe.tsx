@@ -19,7 +19,7 @@ type ProjectRow = {
   image?: string;
 };
 
-const STATIC_PROJECTS: ProjectRow[] = CASE_STUDIES.map((c) => ({
+const STATIC_PROJECTS: ProjectRow[] = CASE_STUDIES.filter((c) => c.vis_paa_nettside).map((c) => ({
   id: c.id,
   slug: c.slug,
   tittel: c.tittel,

@@ -604,6 +604,7 @@ export default function TjenestespekterOversikt() {
           </p>
           <a
             href="#kontakt"
+            className="focus-ring"
             style={{
               display: "inline-flex",
               alignItems: "center",

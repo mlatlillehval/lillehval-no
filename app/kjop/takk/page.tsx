@@ -37,7 +37,7 @@ export default async function KjopTakkPage({ searchParams }: Props) {
         ) : null}
         <Link
           href="/ai-tjenester#assistenter"
-          className="mt-8 inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold text-white"
+          className="focus-ring mt-8 inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold text-white"
           style={{
             background: "linear-gradient(135deg, #22c55e 0%, #15803d 100%)",
             boxShadow: "0 2px 12px rgba(34,197,94,0.3)",

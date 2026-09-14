@@ -25,7 +25,7 @@ export default function KjopAvbruttPage() {
         <div className="mt-8 flex flex-col sm:flex-row gap-3">
           <Link
             href="/ai-tjenester#assistenter"
-            className="inline-flex justify-center items-center px-5 py-2.5 rounded-full text-sm font-bold text-white"
+            className="focus-ring inline-flex justify-center items-center px-5 py-2.5 rounded-full text-sm font-bold text-white"
             style={{
               background: "linear-gradient(135deg, #22c55e 0%, #15803d 100%)",
               boxShadow: "0 2px 12px rgba(34,197,94,0.3)",
@@ -35,7 +35,7 @@ export default function KjopAvbruttPage() {
           </Link>
           <a
             href="mailto:ml@lillehval.no"
-            className="inline-flex justify-center items-center px-5 py-2.5 rounded-full text-sm font-bold border border-[rgba(34,139,70,0.4)] text-[#1a3320]"
+            className="focus-ring inline-flex justify-center items-center px-5 py-2.5 rounded-full text-sm font-bold border border-[rgba(34,139,70,0.4)] text-[#1a3320]"
           >
             Kontakt oss
           </a>

@@ -261,7 +261,7 @@ function CopyButton({ text }: { text: string }) {
     <button
       type="button"
       onClick={copy}
-      className="relative z-10 w-full text-left rounded-xl px-4 py-3 transition-all duration-200 group"
+      className="focus-ring relative z-10 w-full text-left rounded-xl px-4 py-3 transition-all duration-200 group"
       style={{ background: "rgba(138,173,148,0.1)", border: `1px solid ${copied ? "rgba(245,158,11,0.5)" : "rgba(138,173,148,0.2)"}` }}
     >
       <p className="text-xs leading-relaxed pr-20" style={{ color: "#b8d4bf", fontFamily: "monospace" }}>
@@ -315,7 +315,7 @@ function ReactionBar() {
         key={r.emoji}
         type="button"
         onClick={() => setPicked(isActive ? null : r.emoji)}
-        className="flex flex-col items-center gap-1 px-3 py-2 rounded-xl text-center transition-all duration-200 hover:scale-110"
+        className="focus-ring flex flex-col items-center gap-1 px-3 py-2 rounded-xl text-center transition-all duration-200 hover:scale-110"
         style={{
           background: isActive
             ? neg ? "rgba(220,38,38,0.08)" : "rgba(21,128,61,0.12)"
@@ -370,7 +370,7 @@ function ShareButton({ week }: { week: number }) {
     <button
       type="button"
       onClick={share}
-      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 hover:scale-105"
+      className="focus-ring flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 hover:scale-105"
       style={{
         background: shared ? "rgba(21,128,61,0.15)" : "rgba(138,173,148,0.1)",
         border: "1px solid rgba(138,173,148,0.25)",
@@ -620,8 +620,8 @@ function NewsletterCard({ nl }: { nl: Newsletter }) {
               <h4 className="font-bold leading-snug" style={{ fontSize: 17, color: "#0a2e1a", letterSpacing: "-0.01em" }}>{nl.main.title}</h4>
               <p className="text-sm leading-relaxed" style={{ color: "#1a3320" }}>{nl.main.body}</p>
               <div
-                className="rounded-r-xl pl-4 pr-5 py-4 mt-auto transition-all duration-200 hover:shadow-md cursor-default"
-                style={{ background: "#edf4ea", borderLeft: "3px solid #15803d" }}
+                className="rounded-xl px-5 py-4 mt-auto transition-all duration-200 hover:shadow-md cursor-default"
+                style={{ background: "#edf4ea", border: "1px solid rgba(21,128,61,0.22)" }}
               >
                 <p className="text-sm leading-relaxed italic" style={{ color: "#1a3320" }}>{nl.main.highlight.quote}</p>
                 <span className="block mt-2 text-xs font-semibold not-italic tracking-wide" style={{ color: "#4a7a55" }}>{nl.main.highlight.source}</span>
@@ -726,7 +726,7 @@ function NewsletterCard({ nl }: { nl: Newsletter }) {
             type="button"
             onClick={prev}
             disabled={step === 0}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 disabled:opacity-30"
+            className="focus-ring flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 disabled:opacity-30"
             style={{ background: "rgba(26,51,32,0.07)", color: "#1a3320" }}
           >
             <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -758,7 +758,7 @@ function NewsletterCard({ nl }: { nl: Newsletter }) {
             type="button"
             onClick={next}
             disabled={step === TOTAL - 1}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 disabled:opacity-30"
+            className="focus-ring flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 disabled:opacity-30"
             style={{ background: step === TOTAL - 1 ? "rgba(26,51,32,0.07)" : "#15803d", color: step === TOTAL - 1 ? "#1a3320" : "#fff" }}
           >
             Neste
@@ -781,7 +781,6 @@ function NewsletterCard({ nl }: { nl: Newsletter }) {
             { label: "AI-tjenester", href: "/ai-tjenester" },
             { label: "AI-testen", href: "/ai-beredskap" },
             { label: "Om oss", href: "/hvorfor-oss" },
-            { label: "Sommerjobb & AI-partner", href: "/sommervikar" },
           ].map((l) => (
             <Link key={l.href} href={l.href} className="text-xs font-semibold transition-colors duration-150 hover:text-amber-400" style={{ color: "#8aad94" }}>
               {l.label}

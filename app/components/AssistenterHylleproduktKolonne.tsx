@@ -286,7 +286,7 @@ export default function AssistenterHylleproduktKolonne() {
         <button
           type="button"
           onClick={() => setListOpen((o) => !o)}
-          className="w-full text-left rounded-2xl transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 group"
+          className="focus-ring w-full text-left rounded-2xl transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 group"
           style={{
             background: listOpen ? "#edf4ea" : "rgba(255,255,255,0.85)",
             border: `2px solid ${listOpen ? ACCENT : BORDER}`,
@@ -378,7 +378,7 @@ export default function AssistenterHylleproduktKolonne() {
                   <button
                     type="button"
                     onClick={() => setValgtId(valgt ? null : a.id)}
-                    className="w-full flex items-center gap-3 px-4 py-3.5 text-left transition-colors hover:bg-black/[0.02]"
+                    className="focus-ring w-full flex items-center gap-3 px-4 py-3.5 text-left transition-colors hover:bg-black/[0.02]"
                     aria-expanded={valgt}
                   >
                     <div className="w-6 h-6 rounded-md flex items-center justify-center text-xs font-bold shrink-0" style={{ background: "rgba(21,128,61,0.1)", color: ACCENT }}>
@@ -440,7 +440,7 @@ export default function AssistenterHylleproduktKolonne() {
         <button
           type="button"
           onClick={() => setStepsOpen((o) => !o)}
-          className="w-full text-left rounded-2xl transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 group"
+          className="focus-ring w-full text-left rounded-2xl transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 group"
           style={{
             background: stepsOpen ? "#edf4ea" : "rgba(255,255,255,0.85)",
             border: `2px solid ${stepsOpen ? ACCENT : BORDER}`,
@@ -563,7 +563,7 @@ export default function AssistenterHylleproduktKolonne() {
         </div>
         <a
           href="mailto:ml@lillehval.no?subject=Assistenter%20%E2%80%93%20Lillehval"
-          className="inline-flex items-center justify-center px-4 py-2.5 rounded-full text-sm font-bold text-white transition hover:opacity-90 shrink-0"
+          className="focus-ring inline-flex items-center justify-center px-4 py-2.5 rounded-full text-sm font-bold text-white transition hover:opacity-90 shrink-0"
           style={{
             background: "linear-gradient(135deg, #22c55e 0%, #15803d 100%)",
             boxShadow: "0 2px 12px rgba(34,197,94,0.3)",

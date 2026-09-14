@@ -25,16 +25,18 @@ export const AI_NEWS_MAX_PER_SOURCE = 2;
 
 const parser = new Parser({ timeout: 8000 });
 
-/** Må ha tydelig AI/ML-/GenAI-kontekst (ikke bare «teknologi»). */
+/** Må ha tydelig AI/ML-/GenAI-kontekst (ikke bare «teknologi»). Norske kilder skriver ofte KI, ikke AI. */
 function hasAiMlContext(text: string): boolean {
   return (
-    /\b(kunstig intelligens|artificial intelligence|maskinlæring|machine learning|generativ|generative|\bgenai\b|språkmodell|language model|large language|\bllms?\b|chatgpt|openai|anthropic|claude|gemini|copilot|deep learning|neural net|langchain|foundation model|multimodal)\b/i.test(
+    /\b(kunstig intelligens|kunstig-intelligens|artificial intelligence|\bki\b|\bai\b|maskinlæring|machine learning|generativ|generative|\bgenai\b|språkmodell|language model|large language|\bllms?\b|chatgpt|chatbot|openai|anthropic|claude|gemini|copilot|mistral|llama|perplexity|deep learning|neural net|langchain|foundation model|multimodal)\b/i.test(
       text
     ) ||
     /\b(retrieval augmented|\brag\b|vector (database|store)|embeddings?|fine-?tuning|finetuning|inferens|inference|mlops|\bml ops\b|model serving)\b/i.test(
       text
     ) ||
-    /\b(intelligent automation|cognitive automation|ai agents?)\b/i.test(text)
+    /\b(intelligent automation|cognitive automation|ai[- ]agents?|ki[- ]agents?|ai[- ]verktøy|ki[- ]verktøy|ki[- ]bruk)\b/i.test(
+      text
+    )
   );
 }
 
@@ -244,16 +246,35 @@ function buildRegionalSpotlightPool(
   rawItems: NewsItem[],
   region: "norway" | "world"
 ): NewsItem[] {
-  if (themedPool.length >= AI_NEWS_SPOTLIGHT_PER_REGION) {
-    return pickRegionalSpotlight(themedPool, AI_NEWS_SPOTLIGHT_PER_REGION, region);
-  }
-
   const themedLinks = new Set(themedPool.map((item) => item.link));
   const supplemental = pickBroadAiCandidatePool(rawItems).filter(
     (item) => !themedLinks.has(item.link)
   );
   const combined = [...themedPool, ...supplemental];
+
+  // Norske RSS-titler treffer sjelden strategi/implementering-vinkelen — ta alle AI/KI-saker.
+  if (region === "norway") {
+    return pickRegionalSpotlight(combined, AI_NEWS_SPOTLIGHT_PER_REGION, region);
+  }
+
+  if (themedPool.length >= AI_NEWS_SPOTLIGHT_PER_REGION) {
+    return pickRegionalSpotlight(themedPool, AI_NEWS_SPOTLIGHT_PER_REGION, region);
+  }
+
   return pickRegionalSpotlight(combined, AI_NEWS_SPOTLIGHT_PER_REGION, region);
+}
+
+/** Norske RSS-feeder har ofte nakne & i XML; rss-parser kaster da hele feeden. */
+function sanitizeRssXml(xml: string): string {
+  return xml.replace(/&(?![a-zA-Z]+;|#[0-9]+;|#x[0-9a-fA-F]+;)/g, "&amp;");
+}
+
+async function parseRssXml(xml: string) {
+  try {
+    return await parser.parseString(xml);
+  } catch {
+    return parser.parseString(sanitizeRssXml(xml));
+  }
 }
 
 async function fetchFeed(url: string, sourceName: string): Promise<NewsItem[]> {
@@ -267,7 +288,7 @@ async function fetchFeed(url: string, sourceName: string): Promise<NewsItem[]> {
     });
     if (!res.ok) return [];
     const xml = await res.text();
-    const feed = await parser.parseString(xml);
+    const feed = await parseRssXml(xml);
     return (feed.items ?? []).flatMap((item) => {
       const publishedAt = parseRssItemToIso(item);
       if (!publishedAt || !isPublishedInCurrentMonthOslo(publishedAt)) return [];
@@ -290,8 +311,9 @@ async function fetchFeed(url: string, sourceName: string): Promise<NewsItem[]> {
 
 async function fetchNorwayNews(): Promise<{ themed: NewsItem[]; raw: NewsItem[] }> {
   const sources = [
-    { url: "https://www.kode24.no/rss", name: "Kode24" },
+    { url: "https://rss.kode24.no/", name: "Kode24" },
     { url: "https://www.digi.no/rss", name: "Digi.no" },
+    { url: "https://www.itavisen.no/rss", name: "ITavisen" },
     { url: "https://shifter.no/feed/", name: "Shifter" },
     { url: "https://nrkbeta.no/feed/", name: "NRKbeta" },
     { url: "https://www.tu.no/rss", name: "Teknisk Ukeblad" },
@@ -439,6 +461,7 @@ export const getCachedNews = unstable_cache(
     "oslo-current-month",
     `max-${AI_NEWS_MAX_PER_SOURCE}-per-source`,
     "theme-strategy-impl-automation",
+    "norway-ki-broad-v2",
   ],
   {
     tags: ["ai-news"],

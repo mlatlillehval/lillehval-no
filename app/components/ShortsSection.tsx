@@ -163,7 +163,7 @@ export default function ShortsSection() {
             href={short.profileUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 hover:scale-105"
+            className="focus-ring inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 hover:scale-105"
             style={{ background: "rgba(255,255,255,0.7)", border: "1px solid rgba(34,139,70,0.2)", color: "#1a3320" }}
           >
             <span style={{ color: short.accentColor }}>{PLATFORM_ICONS[short.platform]}</span>

@@ -15,19 +15,19 @@ export type FrontpageCopy = {
 
 export const FRONT_PAGE_DEFAULTS: FrontpageCopy = {
   hero_badge_text: "AI-rådgivning for norske bedrifter",
-  hero_headline_green_lead: "AI",
-  hero_headline_top: "er en",
-  hero_headline_highlight: "mulighet og potensial",
-  hero_headline_mid: "mange bedrifter ikke kjenner til",
+  hero_headline_green_lead: "Vi",
+  hero_headline_top: "gjør",
+  hero_headline_highlight: "AI-reisen konkret",
+  hero_headline_mid: "og gjennomførbar for norske bedrifter",
   hero_headline_bottom: "",
   hero_subheadline:
-    "Mange bedrifter ser at AI kan gjøre en forskjell — men vet ikke hvor de skal starte. Mulighetene er reelle, men landskapet er uoversiktlig og tidkrevende å navigere alene. Lillehval er guiden som gjør reisen konkret og gjennomførbar.",
-  hero_cta_text: "Book et 30 min møte med oss for å vite mer.",
+    "Dere har skjønt at AI angår dere. Vi kartlegger, bygger og blir med i drift — uten at dere gir fra dere kontrollen.",
+  hero_cta_text: "Book et møte",
   hero_trust_line: "Ingen forpliktelser. Helt gratis.",
 
-  salespitch_kicker: "Hvorfor nå",
-  salespitch_title_line1: "Ikke bare enklere.",
-  salespitch_title_line2: "Vi gjør AI til din fordel.",
+  salespitch_kicker: "Slik vi jobber",
+  salespitch_title_line1: "Fra kartlegging til drift",
+  salespitch_title_line2: "Dere eier arbeidet. Vi gjennomfører.",
 };
 
 /** Slår sikkert sammen API/JSON med defaults (unngår `any` i klienter). */

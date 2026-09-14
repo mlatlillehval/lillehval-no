@@ -46,6 +46,21 @@ export default function BlogPostView({ post, showBackLink = true }: BlogPostView
           <p key={i}>{para.trim()}</p>
         ))}
       </div>
+      {post.gallery?.length ? (
+        <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-3">
+          {post.gallery.map((photo) => (
+            <div key={photo.src} className="relative aspect-[4/3] overflow-hidden rounded-2xl">
+              <Image
+                src={photo.src}
+                alt={photo.alt}
+                fill
+                className="object-cover object-[center_22%]"
+                sizes="(max-width: 640px) 100vw, 256px"
+              />
+            </div>
+          ))}
+        </div>
+      ) : null}
       <div
         className="mt-10 rounded-2xl p-6"
         style={{ background: "rgba(245,158,11,0.1)", border: "1px solid rgba(245,158,11,0.25)" }}
@@ -58,14 +73,14 @@ export default function BlogPostView({ post, showBackLink = true }: BlogPostView
         <div className="flex flex-wrap gap-3">
           <Link
             href="/hjelp-med-ai"
-            className="inline-flex items-center rounded-full px-5 py-2.5 text-sm font-bold"
+            className="focus-ring inline-flex items-center rounded-full px-5 py-2.5 text-sm font-bold"
             style={{ background: "#f59e0b", color: "#052016" }}
           >
             Hjelp med AI
           </Link>
           <Link
             href="/kontakt"
-            className="inline-flex items-center rounded-full px-5 py-2.5 text-sm font-semibold border"
+            className="focus-ring inline-flex items-center rounded-full px-5 py-2.5 text-sm font-semibold border"
             style={{ borderColor: "rgba(21,128,61,0.35)", color: "#14532d" }}
           >
             Kontakt oss

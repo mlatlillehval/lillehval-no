@@ -530,7 +530,7 @@ export default function AIReadinessAnalysis() {
     <button
       type="button"
       onClick={() => onSelect(value)}
-      className="w-full text-left rounded-xl border-2 px-4 py-3 text-sm transition-all duration-200 hover:shadow-md"
+      className="focus-ring w-full text-left rounded-xl border-2 px-4 py-3 text-sm transition-all duration-200 hover:shadow-md"
       style={{
         borderColor: selected === value ? PRIMARY : "rgba(8, 80, 65, 0.15)",
         background: selected === value ? "rgba(29, 158, 117, 0.12)" : "#fff",
@@ -566,7 +566,7 @@ export default function AIReadinessAnalysis() {
         <button
           type="button"
           onClick={openFlow}
-          className="inline-flex items-center justify-center px-8 py-4 rounded-full text-base font-bold text-white shadow-lg transition-transform hover:scale-[1.02] active:scale-[0.98]"
+          className="focus-ring inline-flex items-center justify-center px-8 py-4 rounded-full text-base font-bold text-white shadow-lg transition-transform hover:scale-[1.02] active:scale-[0.98]"
           style={{ background: PRIMARY, boxShadow: "0 8px 24px rgba(29,158,117,0.35)" }}
           onMouseEnter={(e) => {
             (e.currentTarget as HTMLButtonElement).style.background = PRIMARY_HOVER;
@@ -690,7 +690,7 @@ export default function AIReadinessAnalysis() {
                           key={opt}
                           type="button"
                           onClick={() => setQ1(opt)}
-                          className="text-left rounded-xl border-2 px-4 py-3 text-sm font-medium transition-all"
+                          className="focus-ring text-left rounded-xl border-2 px-4 py-3 text-sm font-medium transition-all"
                           style={{
                             borderColor: q1 === opt ? PRIMARY : "rgba(8, 80, 65, 0.15)",
                             background: q1 === opt ? "rgba(29, 158, 117, 0.1)" : LIGHT_BG,
@@ -710,7 +710,7 @@ export default function AIReadinessAnalysis() {
                       key={opt}
                       type="button"
                       onClick={() => setQ2(opt)}
-                      className="w-full text-left rounded-xl border-2 px-4 py-3 text-sm font-medium"
+                      className="focus-ring w-full text-left rounded-xl border-2 px-4 py-3 text-sm font-medium"
                       style={{
                         borderColor: q2 === opt ? PRIMARY : "rgba(8, 80, 65, 0.15)",
                         background: q2 === opt ? "rgba(29, 158, 117, 0.1)" : LIGHT_BG,
@@ -752,7 +752,7 @@ export default function AIReadinessAnalysis() {
                         key={opt}
                         type="button"
                         onClick={() => setQ3(opt)}
-                        className="w-full text-left rounded-xl border-2 px-4 py-3 text-sm font-medium mb-2"
+                        className="focus-ring w-full text-left rounded-xl border-2 px-4 py-3 text-sm font-medium mb-2"
                         style={{
                           borderColor: q3 === opt ? PRIMARY : "rgba(8, 80, 65, 0.15)",
                           background: q3 === opt ? "rgba(29, 158, 117, 0.1)" : LIGHT_BG,
@@ -904,7 +904,7 @@ export default function AIReadinessAnalysis() {
                         key={id}
                         type="button"
                         onClick={() => toggleQ6(id)}
-                        className="w-full text-left rounded-xl border-2 px-4 py-3 text-sm"
+                        className="focus-ring w-full text-left rounded-xl border-2 px-4 py-3 text-sm"
                         style={{
                           borderColor: q6.includes(id) ? PRIMARY : "rgba(8, 80, 65, 0.15)",
                           background: q6.includes(id) ? "rgba(29, 158, 117, 0.1)" : LIGHT_BG,
@@ -943,7 +943,7 @@ export default function AIReadinessAnalysis() {
                             onClick={() =>
                               setQ6Custom((prev) => prev.filter((_, j) => j !== i))
                             }
-                            className="shrink-0 px-3 py-2 text-xs font-semibold rounded-xl border-2 transition-colors hover:bg-black/5"
+                            className="focus-ring shrink-0 px-3 py-2 text-xs font-semibold rounded-xl border-2 transition-colors hover:bg-black/5"
                             style={{ borderColor: "rgba(8, 80, 65, 0.2)", color: DARK_TEXT }}
                           >
                             Fjern
@@ -953,7 +953,7 @@ export default function AIReadinessAnalysis() {
                       <button
                         type="button"
                         onClick={() => setQ6Custom((prev) => [...prev, ""])}
-                        className="w-full py-2.5 rounded-xl text-sm font-semibold border-2 border-dashed transition-colors hover:bg-black/[0.04]"
+                        className="focus-ring w-full py-2.5 rounded-xl text-sm font-semibold border-2 border-dashed transition-colors hover:bg-black/[0.04]"
                         style={{ borderColor: "rgba(29, 158, 117, 0.45)", color: PRIMARY }}
                       >
                         + Legg til egen linje
@@ -1026,7 +1026,7 @@ export default function AIReadinessAnalysis() {
                         key={id}
                         type="button"
                         onClick={() => toggleQ8(id)}
-                        className="w-full text-left rounded-xl border-2 px-4 py-3 text-sm font-medium mb-2"
+                        className="focus-ring w-full text-left rounded-xl border-2 px-4 py-3 text-sm font-medium mb-2"
                         style={{
                           borderColor: q8.includes(id) ? PRIMARY : "rgba(8, 80, 65, 0.15)",
                           background: q8.includes(id) ? "rgba(29, 158, 117, 0.1)" : LIGHT_BG,
@@ -1086,7 +1086,7 @@ export default function AIReadinessAnalysis() {
                           setQ9Custom("");
                           setQ9Id(id);
                         }}
-                        className="w-full text-left rounded-xl border-2 px-4 py-3 text-sm transition-all duration-200 hover:shadow-md mb-2"
+                        className="focus-ring w-full text-left rounded-xl border-2 px-4 py-3 text-sm transition-all duration-200 hover:shadow-md mb-2"
                         style={{
                           borderColor:
                             q9Id === id && q9Custom.trim().length === 0
@@ -1146,7 +1146,7 @@ export default function AIReadinessAnalysis() {
                         key={id}
                         type="button"
                         onClick={() => toggleQ10(id)}
-                        className="w-full text-left rounded-xl border-2 px-4 py-3 text-sm font-medium mb-2"
+                        className="focus-ring w-full text-left rounded-xl border-2 px-4 py-3 text-sm font-medium mb-2"
                         style={{
                           borderColor: q10.includes(id) ? PRIMARY : "rgba(8, 80, 65, 0.15)",
                           background: q10.includes(id) ? "rgba(29, 158, 117, 0.1)" : LIGHT_BG,
@@ -1196,7 +1196,7 @@ export default function AIReadinessAnalysis() {
                       onChange={(e) => setQ11(e.target.value)}
                       rows={4}
                       placeholder="Systemer dere bruker, tidligere erfaringer med digitalisering, ambisjonsnivå – alt er nyttig for oss."
-                      className="w-full rounded-xl border-2 px-4 py-3 text-sm resize-none outline-none"
+                      className="focus-ring w-full rounded-xl border-2 px-4 py-3 text-sm resize-none"
                       style={{ borderColor: "rgba(8,80,65,0.2)", color: DARK_TEXT }}
                     />
                   </>
@@ -1211,7 +1211,7 @@ export default function AIReadinessAnalysis() {
               <button
                 type="button"
                 onClick={goBack}
-                className="px-4 py-3 rounded-xl text-sm font-semibold border-2"
+                className="focus-ring px-4 py-3 rounded-xl text-sm font-semibold border-2"
                 style={{ borderColor: "rgba(8,80,65,0.2)", color: DARK_TEXT }}
               >
                 {showResults ? "Tilbake til spørsmål" : "Tilbake"}
@@ -1221,7 +1221,7 @@ export default function AIReadinessAnalysis() {
                   type="button"
                   onClick={goNext}
                   disabled={!canProceed()}
-                  className="flex-1 py-3 rounded-xl text-sm font-bold text-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                  className="focus-ring flex-1 py-3 rounded-xl text-sm font-bold text-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                   style={{ background: canProceed() ? PRIMARY : "#ccc" }}
                   onMouseEnter={(e) => {
                     if (canProceed())
@@ -1425,7 +1425,7 @@ function ResultsPanel({
         {...(isExternalCalendar
           ? { target: "_blank" as const, rel: "noopener noreferrer" }
           : {})}
-        className="flex w-full items-center justify-center gap-2 py-4 rounded-xl font-bold text-white text-center"
+        className="focus-ring flex w-full items-center justify-center gap-2 py-4 rounded-xl font-bold text-white text-center"
         style={{ background: PRIMARY }}
       >
         Book en gratis 30-minutters samtale →
@@ -1433,7 +1433,7 @@ function ResultsPanel({
       <button
         type="button"
         onClick={onClose}
-        className="w-full py-2 text-sm underline opacity-70"
+        className="focus-ring w-full rounded-xl py-2 text-sm underline opacity-70"
         style={{ color: DARK_TEXT }}
       >
         Lukk

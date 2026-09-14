@@ -8,6 +8,8 @@ import type { Metadata } from "next";
 
 type Props = { params: Promise<{ slug: string }> };
 
+export const dynamicParams = true;
+
 export async function generateStaticParams() {
   return AI_BLOG_POSTS.map((post) => ({ slug: post.slug }));
 }

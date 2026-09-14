@@ -18,7 +18,6 @@ const STATIC_PATHS = [
   "/pagaende-prosjekter",
   "/siste-nyheter",
   "/siste-nyheter/talkshow",
-  "/sommervikar",
 ] as const;
 
 /** Sist vesentlig oppdatert per statisk side (ISO-dato). */

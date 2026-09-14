@@ -6,7 +6,7 @@ import BookingModal from "./BookingModal";
 import BrandLogo from "./BrandLogo";
 
 const navLinkClass =
-  "px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-150 whitespace-nowrap text-[#1a3320] hover:text-[#15803d] hover:bg-[rgba(34,139,70,0.08)]";
+  "focus-ring px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-150 whitespace-nowrap text-[#1a3320] hover:text-[#15803d] hover:bg-[rgba(34,139,70,0.08)]";
 
 const navLinks = [
   { label: "Hjelp med AI", href: "/hjelp-med-ai" },
@@ -17,7 +17,6 @@ const navLinks = [
   { label: "Om oss", href: "/hvorfor-oss" },
   { label: "Kontakt", href: "/kontakt" },
   { label: "Blogg", href: "/blogg" },
-  { label: "Sommerjobb & AI-partner", href: "/sommervikar" },
 ];
 
 export default function Navbar() {
@@ -48,7 +47,7 @@ export default function Navbar() {
           {/* Logo — alltid til forsiden */}
           <Link
             href="/"
-            className="flex min-w-0 shrink-0 items-center group"
+            className="focus-ring flex min-w-0 shrink-0 items-center rounded-lg group"
             onClick={(e) => {
               setMenuOpen(false);
               if (typeof window !== "undefined" && window.location.pathname === "/") {
@@ -79,21 +78,10 @@ export default function Navbar() {
                 </Link>
               ))}
             </nav>
-            <Link
-              href="/ai-beredskap"
-              className="hidden sm:inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-bold transition-all duration-200 hover:scale-105 active:scale-95 whitespace-nowrap border-2"
-              style={{
-                background: "#0a2e1a",
-                color: "#E1F5EE",
-                borderColor: "rgba(225, 245, 238, 0.35)",
-                boxShadow: "0 2px 12px rgba(10, 46, 26, 0.35)",
-              }}
-            >
-              Test hvor AI klar du er
-            </Link>
             <button
+              type="button"
               onClick={() => setModalOpen(true)}
-              className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-200 hover:scale-105 active:scale-95 whitespace-nowrap"
+              className="focus-ring inline-flex min-h-11 items-center justify-center px-4 py-2 sm:px-5 rounded-full text-sm font-bold transition-all duration-200 hover:scale-105 active:scale-95 whitespace-nowrap"
               style={{
                 background: "#f59e0b",
                 color: "#052016",
@@ -107,7 +95,7 @@ export default function Navbar() {
             <button
               type="button"
               onClick={() => setMenuOpen((o) => !o)}
-              className="lg:hidden inline-flex h-11 w-11 shrink-0 flex-col items-center justify-center gap-1.5 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-[#15803d] focus-visible:ring-offset-2"
+              className="focus-ring lg:hidden inline-flex h-11 w-11 shrink-0 flex-col items-center justify-center gap-1.5 rounded-lg"
               aria-label={menuOpen ? "Lukk meny" : "Åpne meny"}
               aria-expanded={menuOpen}
               aria-controls="site-nav-mobile"
@@ -140,17 +128,10 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <Link
-              href="/ai-beredskap"
-              onClick={() => setMenuOpen(false)}
-              className="mt-2 px-5 py-3 rounded-full text-sm font-bold text-center"
-              style={{ background: "#0a2e1a", color: "#E1F5EE" }}
-            >
-              Test hvor AI klar du er
-            </Link>
             <button
+              type="button"
               onClick={() => { setMenuOpen(false); setModalOpen(true); }}
-              className="mt-1 px-5 py-3 rounded-full text-sm font-bold"
+              className="focus-ring mt-2 min-h-11 px-5 py-3 rounded-full text-sm font-bold"
               style={{ background: "#f59e0b", color: "#052016" }}
             >
               Book et møte

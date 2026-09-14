@@ -95,7 +95,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     tilnærming:
       "Kartlegging av prosesser fra henvendelse til leveranse, identifisering av manuelle tidstyver og forslag til AI-støtte der det gir målbar gevinst — med lav risiko som utgangspunkt.",
     status: "Dialog",
-    vis_paa_nettside: true,
+    vis_paa_nettside: false,
     opprettet: "2026-06-10",
     image: "/analogi-ai-agent-sjafor.png",
   },

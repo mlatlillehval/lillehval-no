@@ -270,7 +270,7 @@ export default function AiAdopsjonReise() {
         </p>
         <a
           href="#kontakt"
-          className="inline-flex shrink-0 items-center justify-center gap-1.5 self-start rounded-full bg-[#f59e0b] px-6 py-3 text-sm font-bold text-[#052016] shadow-md transition hover:brightness-[1.03] sm:self-center"
+          className="focus-ring inline-flex shrink-0 items-center justify-center gap-1.5 self-start rounded-full bg-[#f59e0b] px-6 py-3 text-sm font-bold text-[#052016] shadow-md transition hover:brightness-[1.03] sm:self-center"
           style={{
             backgroundColor: "rgba(245, 158, 11, 1)",
             color: ctaButtonText,

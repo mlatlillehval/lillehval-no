@@ -9,7 +9,7 @@ export const metadata = createPageMetadata({
   path: "/blogg",
   title: "AI-bloggen",
   description:
-    "Ti korte innlegg om AI for norske bedrifter — strategi, personvern, piloter, RAG, kundeservice og skalering.",
+    "Korte innlegg om AI for norske bedrifter — kurs, strategi, personvern, piloter og praktisk bruk.",
   ogImage: OG_IMAGES.blogg,
 });
 

@@ -146,7 +146,7 @@ export default async function TjenestePage({ params }: Props) {
               </p>
               <a
                 href={`mailto:ml@lillehval.no?subject=${encodeURIComponent(`Interesse: ${t.title}`)}&body=${encodeURIComponent(`Hei,\n\nJeg er interessert i å høre mer om ${t.title}.\n\nMed vennlig hilsen,\n`)}`}
-                className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full text-sm font-bold transition hover:scale-105"
+                className="focus-ring inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full text-sm font-bold transition hover:scale-105"
                 style={{ background: "#f59e0b", color: "#052016", boxShadow: "0 3px 16px rgba(245,158,11,0.4)" }}
               >
                 Ta kontakt
@@ -155,23 +155,6 @@ export default async function TjenestePage({ params }: Props) {
                 </svg>
               </a>
               <p className="text-xs" style={{ color: "rgba(26,51,32,0.4)" }}>Ingen forpliktelser — vi svarer innen én virkedag.</p>
-              {t.slug === "egenutviklet" && (
-                <div
-                  className="mt-3 border-t pt-3"
-                  style={{ borderColor: "rgba(146, 64, 14, 0.18)" }}
-                >
-                  <p className="text-[11px] leading-snug mb-1.5" style={{ color: "rgba(26,51,32,0.52)" }}>
-                    Har du egen ferdig app og vil utforske <strong className="font-semibold" style={{ color: "rgba(26,51,32,0.62)" }}>partnerskap om salg</strong> med oss — se forklaring og neste steg.
-                  </p>
-                  <Link
-                    href="/sommervikar#ai-partner"
-                    className="text-[11px] font-bold underline-offset-2 transition hover:underline"
-                    style={{ color: "#b45309" }}
-                  >
-                    Sommerjobb & AI-partner →
-                  </Link>
-                </div>
-              )}
             </div>
           </div>
         </div>
@@ -259,7 +242,7 @@ export default async function TjenestePage({ params }: Props) {
                 <Link
                   key={other.slug}
                   href={`/ai-tjenester/${other.slug}`}
-                  className="px-4 py-2 rounded-full text-sm font-semibold transition hover:opacity-80"
+                  className="focus-ring px-4 py-2 rounded-full text-sm font-semibold transition hover:opacity-80"
                   style={{ background: "rgba(26,51,32,0.07)", color: "#1a3320", border: "1px solid rgba(26,51,32,0.1)" }}
                 >
                   {other.title}

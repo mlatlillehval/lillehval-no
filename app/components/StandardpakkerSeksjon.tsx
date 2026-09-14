@@ -76,7 +76,7 @@ export default function StandardpakkerSeksjon() {
       <button
         type="button"
         onClick={() => setPakkerOpen((o) => !o)}
-        className="w-full text-left rounded-2xl transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 group"
+        className="focus-ring w-full text-left rounded-2xl transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 group"
         style={{ background: pakkerOpen ? "#edf4ea" : "rgba(255,255,255,0.85)", border: `2px solid ${pakkerOpen ? "#15803d" : "rgba(34,139,70,0.25)"}`, boxShadow: pakkerOpen ? "0 0 0 3px rgba(21,128,61,0.08)" : undefined }}
       >
         <div className="flex items-center justify-between gap-3 px-5 py-4">
@@ -123,7 +123,7 @@ export default function StandardpakkerSeksjon() {
             const isOpen = openPakke === p.num;
             return (
               <div key={p.num} style={{ borderTop: idx > 0 ? "1px solid rgba(34,139,70,0.12)" : undefined }}>
-                <button type="button" onClick={() => setOpenPakke(isOpen ? null : p.num)} className="w-full flex items-center gap-3 px-4 py-3.5 text-left transition-colors hover:bg-black/[0.02]" aria-expanded={isOpen}>
+                <button type="button" onClick={() => setOpenPakke(isOpen ? null : p.num)} className="focus-ring w-full flex items-center gap-3 px-4 py-3.5 text-left transition-colors hover:bg-black/[0.02]" aria-expanded={isOpen}>
                   <div className="w-6 h-6 rounded-md flex items-center justify-center text-xs font-bold shrink-0" style={{ background: "rgba(21,128,61,0.1)", color: "#15803d" }}>{p.num}</div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-bold text-[#1a3320] m-0 leading-snug">{p.title}</p>
@@ -154,7 +154,7 @@ export default function StandardpakkerSeksjon() {
             Standardpakkene prises ut fra omfang og behov. Send oss en kort melding, så tar vi en prat og sender et tilpasset tilbud.
           </p>
         </div>
-        <a href="mailto:ml@lillehval.no?subject=Pris%20standardpakke%20%E2%80%93%20Lillehval" className="shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-bold text-white transition hover:opacity-90" style={{ background: "linear-gradient(135deg, #22c55e 0%, #15803d 100%)", boxShadow: "0 2px 12px rgba(34,197,94,0.3)" }}>
+        <a href="mailto:ml@lillehval.no?subject=Pris%20standardpakke%20%E2%80%93%20Lillehval" className="focus-ring shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-bold text-white transition hover:opacity-90" style={{ background: "linear-gradient(135deg, #22c55e 0%, #15803d 100%)", boxShadow: "0 2px 12px rgba(34,197,94,0.3)" }}>
           Kontakt oss
         </a>
       </div>

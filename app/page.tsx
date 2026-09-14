@@ -1,4 +1,5 @@
 import AiHelpIntentBlock from "./components/AiHelpIntentBlock";
+import ForsideBevis from "./components/ForsideBevis";
 import JsonLd from "./components/JsonLd";
 import Hero from "./components/Hero";
 import PageShell from "./components/PageShell";
@@ -21,6 +22,7 @@ export default async function Home() {
       <JsonLd data={faqPageJsonLd(AI_HELP_INTENT_FAQ)} />
       <main>
         <Hero initialCopy={initialCopy} />
+        <ForsideBevis />
         <SalesPitch initialCopy={initialCopy} />
         <AiHelpIntentBlock />
       </main>

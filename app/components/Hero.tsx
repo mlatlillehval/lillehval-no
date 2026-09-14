@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import BookingModal from "./BookingModal";
 import {
   FRONT_PAGE_DEFAULTS,
@@ -13,9 +13,7 @@ const WHALE_SRC = "/lillehval-hval-snudd-v2.svg";
 const JOURNEY_PATH_IMG =
   "/logo-manual-v1.1/Logo%20-%20Reise%20alene%20-%20transparent.svg";
 
-type BulletSegment = { text: string; highlight?: boolean };
-
-type HeroHeadlineSlide = {
+type HeroHeadline = {
   greenLead: string;
   top: string;
   highlight: string;
@@ -23,37 +21,7 @@ type HeroHeadlineSlide = {
   bottom?: string;
 };
 
-const HERO_HEADLINE_GREEN = "rgba(159, 199, 170, 1)" as const;
-const HERO_HEADLINE_DARK = "#052e16" as const;
-
-const HERO_HEADLINE_EXTRA: HeroHeadlineSlide[] = [
-  {
-    greenLead: "Vi",
-    top: "er guiden som gjør",
-    highlight: "AI-reisen konkret",
-    mid: "og gjennomførbar for deg",
-  },
-  {
-    greenLead: "Fra",
-    top: "idé til",
-    highlight: "virkelig verdi",
-    mid: "med partner som forstår både strategi og kode",
-  },
-  {
-    greenLead: "Skreddersydd",
-    top: "AI tilpasset",
-    highlight: "din virksomhet",
-    mid: "— ikke en standardpakke for alle",
-  },
-  {
-    greenLead: "Trygg",
-    top: "vei fra",
-    highlight: "kartlegging til drift",
-    mid: "for norske bedrifter som vil komme i gang",
-  },
-];
-
-function parseHeroHeadlineFromCopy(copy: FrontpageCopy): HeroHeadlineSlide {
+function parseHeroHeadlineFromCopy(copy: FrontpageCopy): HeroHeadline {
   let greenLead = copy.hero_headline_green_lead.trim();
   let top = copy.hero_headline_top.trimEnd().replace(/\s+som\s*$/i, "");
   let highlight = copy.hero_headline_highlight.trim();
@@ -76,130 +44,6 @@ function parseHeroHeadlineFromCopy(copy: FrontpageCopy): HeroHeadlineSlide {
     bottom: bottom || undefined,
   };
 }
-
-function HeroHeadlineContent({ slide }: { slide: HeroHeadlineSlide }) {
-  return (
-    <>
-      {slide.greenLead ? (
-        <span style={{ color: HERO_HEADLINE_GREEN }}>{slide.greenLead}</span>
-      ) : null}
-      {slide.greenLead ? " " : null}
-      <span>{slide.top}</span>{" "}
-      <span style={{ color: HERO_HEADLINE_GREEN }}>{slide.highlight}</span>
-      <br />
-      {slide.mid}
-      {slide.bottom ? (
-        <>
-          <br />
-          {slide.bottom}
-        </>
-      ) : null}
-    </>
-  );
-}
-
-function HeroHeadlineCarousel({ slides }: { slides: HeroHeadlineSlide[] }) {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [motionOk, setMotionOk] = useState(true);
-
-  useEffect(() => {
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setMotionOk(!media.matches);
-    update();
-    media.addEventListener("change", update);
-    return () => media.removeEventListener("change", update);
-  }, []);
-
-  useEffect(() => {
-    if (!motionOk || slides.length < 2) return;
-    const timer = window.setInterval(() => {
-      setActiveIndex((current) => (current + 1) % slides.length);
-    }, 6000);
-    return () => window.clearInterval(timer);
-  }, [motionOk, slides.length]);
-
-  return (
-    <div className="flex flex-col gap-4">
-      <div
-        className="relative min-h-[9.5rem] sm:min-h-[11rem] xl:min-h-[13rem]"
-        aria-live="polite"
-        aria-atomic="true"
-      >
-        <h1
-          className="text-4xl sm:text-5xl xl:text-6xl font-extrabold leading-[1.08] tracking-tight animate-hero-fold hero-fold-delay-2 m-0"
-          style={{ color: HERO_HEADLINE_DARK }}
-        >
-          <span key={activeIndex} className="block animate-hero-headline-swap">
-            <HeroHeadlineContent slide={slides[activeIndex]!} />
-          </span>
-        </h1>
-      </div>
-
-      {slides.length > 1 ? (
-        <div className="flex items-center gap-2" role="tablist" aria-label="Hero-overskrifter">
-          {slides.map((slide, index) => {
-            const isActive = index === activeIndex;
-            const label = [slide.greenLead, slide.top, slide.highlight, slide.mid]
-              .filter(Boolean)
-              .join(" ");
-            return (
-              <button
-                key={index}
-                type="button"
-                role="tab"
-                aria-selected={isActive}
-                aria-label={`Overskrift ${index + 1}: ${label}`}
-                onClick={() => setActiveIndex(index)}
-                className="h-2.5 rounded-full transition-all duration-300 outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#15803d]"
-                style={{
-                  width: isActive ? "1.75rem" : "0.5rem",
-                  background: isActive ? "#15803d" : "rgba(21,128,61,0.22)",
-                }}
-              />
-            );
-          })}
-        </div>
-      ) : null}
-    </div>
-  );
-}
-
-const HERO_BULLETS_HEADING = "Vi leder deg trygt gjennom AI-reisen";
-
-const HERO_BULLETS: BulletSegment[][] = [
-  [
-    { text: "AI-potensialet er stort", highlight: true },
-    { text: ", men de færreste bedrifter vet hvor de skal begynne eller hva som faktisk er relevant for dem." },
-  ],
-  [
-    { text: "Flere får øynene opp for AI", highlight: true },
-    { text: " og ønsker å lære og forstå." },
-  ],
-  [
-    { text: "Å navigere mulighetene krever " },
-    { text: "tid og kompetanse", highlight: true },
-    { text: " de fleste ikke har til overs i en travel hverdag." },
-  ],
-  [
-    { text: "Med " },
-    { text: "over 50 års samlet erfaring", highlight: true },
-    { text: " innen forretningsutvikling, produktledelse og teknisk gjennomføring har vi " },
-    { text: "kompetansen som trengs", highlight: true },
-    { text: "." },
-  ],
-  [
-    { text: "Vi fungerer som en " },
-    { text: "praktisk guide", highlight: true },
-    { text: " — ikke bare rådgivere, men " },
-    { text: "partnere som navigerer landskapet sammen med deg", highlight: true },
-    { text: "." },
-  ],
-  [
-    { text: "Vi leverer " },
-    { text: "skreddersydde løsninger", highlight: true },
-    { text: " tilpasset din bransje, dine prosesser og dine faktiske behov." },
-  ],
-];
 
 const JOURNEY_NODES = [
   { label: "Usikkerhet",    x: 2.5,  above: true,  color: "#D4840A", delay: "0s" },
@@ -234,7 +78,7 @@ function HeroJourneyLegend({ compact }: { compact?: boolean }) {
           fontWeight: 800,
           letterSpacing: "0.12em",
           textTransform: "uppercase",
-          color: "rgba(245,158,11,0.85)",
+          color: "rgba(138,173,148,0.85)",
           lineHeight: 1.35,
         }}
       >
@@ -285,6 +129,7 @@ type HeroProps = {
 export default function Hero({ initialCopy = FRONT_PAGE_DEFAULTS }: HeroProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const [copy, setCopy] = useState<FrontpageCopy>(initialCopy);
+  const headline = parseHeroHeadlineFromCopy(copy);
 
   useEffect(() => {
     const run = async () => {
@@ -299,129 +144,57 @@ export default function Hero({ initialCopy = FRONT_PAGE_DEFAULTS }: HeroProps) {
     void run();
   }, []);
 
-  const heroHeadlineSlides = useMemo(
-    () => [parseHeroHeadlineFromCopy(copy), ...HERO_HEADLINE_EXTRA],
-    [
-      copy.hero_headline_green_lead,
-      copy.hero_headline_top,
-      copy.hero_headline_highlight,
-      copy.hero_headline_mid,
-      copy.hero_headline_bottom,
-    ],
-  );
-
   return (
-    <section
-      className="relative flex flex-col overflow-hidden"
-      style={{ minHeight: "auto" }}
-    >
-
-
-      {/* ── TEXT CONTENT — to kolonner på desktop, én på mobil ── */}
-      <div className="relative z-10 px-6 lg:px-12 pt-24 pb-16 lg:pt-28 lg:pb-24">
-        {/* Myke lysflater — gir dybde og «svung» uten å dominere */}
-        <div
-          className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-none"
-          aria-hidden
-        >
-          <div
-            className="absolute -top-[18%] -left-[8%] h-[min(52vh,480px)] w-[min(72vw,560px)] rounded-full blur-3xl opacity-[0.62]"
-            style={{
-              background:
-                "radial-gradient(circle at 40% 40%, rgba(159,199,170,0.55) 0%, rgba(232,226,212,0.2) 48%, transparent 70%)",
-            }}
-          />
-          <div
-            className="absolute top-[8%] -right-[6%] h-[min(38vh,380px)] w-[min(48vw,420px)] rounded-full blur-3xl opacity-[0.42]"
-            style={{
-              background:
-                "radial-gradient(circle at 60% 50%, rgba(245,158,11,0.28) 0%, transparent 62%)",
-            }}
-          />
-          <div
-            className="absolute bottom-[-5%] left-[18%] right-[12%] h-[160px] blur-2xl opacity-[0.28]"
-            style={{
-              background:
-                "radial-gradient(ellipse 80% 100% at 50% 100%, rgba(21,128,61,0.22) 0%, transparent 72%)",
-            }}
-          />
-        </div>
-
-        <div className="relative w-full max-w-5xl mx-auto">
-
-          {/* TO kolonner — grid gir garantert lik høyde på desktop */}
-          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_20rem] xl:grid-cols-[minmax(0,1fr)_24rem] lg:gap-x-16 lg:gap-y-0 lg:items-stretch">
-
-            {/* VENSTRE: Eyebrow + Headline + Paragraph */}
-            <div
-              className="flex min-h-0 min-w-0 flex-col gap-5 rounded-2xl border border-[rgba(21,128,61,0.14)] bg-[rgba(252,253,252,0.97)] px-5 py-6 text-left shadow-[0_12px_40px_rgba(21,128,61,0.08)] backdrop-blur-sm border-l-[5px] border-l-[#15803d] sm:px-7 sm:py-7"
+    <section className="relative flex flex-col overflow-hidden">
+      <div className="relative z-10 px-6 pb-16 pt-24 lg:px-12 lg:pb-20 lg:pt-28">
+        <div className="relative mx-auto w-full max-w-3xl">
+          <h1
+            className="m-0 text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-5xl xl:text-6xl"
+            style={{ color: "#052e16" }}
+          >
+            {headline.greenLead ? (
+              <span style={{ color: "#15803d" }}>{headline.greenLead}</span>
+            ) : null}
+            {headline.greenLead ? " " : null}
+            <span>{headline.top}</span>{" "}
+            <span style={{ color: "#15803d" }}>{headline.highlight}</span>
+            <br />
+            {headline.mid}
+            {headline.bottom ? (
+              <>
+                <br />
+                {headline.bottom}
+              </>
+            ) : null}
+          </h1>
+          {copy.hero_subheadline ? (
+            <p
+              className="mt-6 max-w-[65ch] text-sm leading-relaxed"
+              style={{ color: "rgba(26,51,32,0.75)" }}
             >
-
-              {/* Eyebrow */}
-              <div className="flex items-center gap-2.5 animate-hero-fold hero-fold-delay-1">
-                <span className="animate-rav-pulse w-2 h-2 rounded-full flex-shrink-0" style={{ background: "#f59e0b" }} />
-                <span style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "#15803d" }}>
-                  {copy.hero_badge_text}
-                </span>
-              </div>
-
-              {/* Headline — karusell med tre varianter */}
-              <HeroHeadlineCarousel slides={heroHeadlineSlides} />
-
-              {/* ── CTA + Trust — festes til bunnen ved like høye kort ── */}
-              <div
-                className="mt-auto flex flex-col sm:flex-row sm:items-center gap-4 rounded-2xl p-6 animate-hero-fold hero-fold-delay-3 transition-shadow duration-300 hover:shadow-[0_8px_40px_rgba(245,158,11,0.12)]"
-                style={{ background: "rgba(245,158,11,0.08)", border: "1px solid rgba(245,158,11,0.2)" }}
-              >
-                <button
-                  onClick={() => setModalOpen(true)}
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl text-base font-bold shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-xl active:scale-95 text-center flex-shrink-0 outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#15803d]"
-                  style={{ background: "#f59e0b", color: "#052016", boxShadow: "0 4px 24px rgba(245,158,11,0.45)", maxWidth: "min(100%, 22rem)", lineHeight: "1.3" }}
-                >
-                  {copy.hero_cta_text}
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </button>
-                <p className="text-sm m-0 leading-relaxed" style={{ color: "rgba(26,51,32,0.6)" }}>
-                  {copy.hero_trust_line}
-                </p>
-              </div>
-
-            </div>
-
-            {/* HØYRE: Bullets — strekker seg til samme høyde som venstre */}
-            <div className="flex min-h-0 min-w-0 flex-col gap-4 rounded-2xl border border-[rgba(21,128,61,0.12)] bg-[rgba(252,253,252,0.96)] px-4 py-5 backdrop-blur-sm shadow-[0_8px_32px_rgba(21,128,61,0.06)] sm:px-5 sm:py-6 h-full">
-              <p className="m-0 shrink-0 text-xs font-bold uppercase tracking-widest animate-hero-fold hero-fold-delay-3" style={{ color: "#15803d" }}>
-                {HERO_BULLETS_HEADING}
-              </p>
-              <ul className="hero-bullets-stagger m-0 flex min-h-0 flex-1 list-none flex-col justify-start gap-2.5 pl-0">
-                {HERO_BULLETS.map((segments, i) => (
-                  <li key={i} className="flex animate-hero-fold items-start gap-2.5">
-                    <span
-                      className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full"
-                      style={{ background: "#15803d" }}
-                    />
-                    <span
-                      className="text-sm leading-relaxed"
-                      style={{ color: "rgba(26,51,32,0.75)" }}
-                    >
-                      {segments.map((seg, j) =>
-                        seg.highlight ? (
-                          <span key={j} style={{ color: "#14532d", fontWeight: 700 }}>
-                            {seg.text}
-                          </span>
-                        ) : (
-                          <span key={j}>{seg.text}</span>
-                        )
-                      )}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+              {copy.hero_subheadline}
+            </p>
+          ) : null}
+          <div className="mt-8 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-5">
+            <button
+              type="button"
+              onClick={() => setModalOpen(true)}
+              className="focus-ring inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-8 py-3.5 text-base font-bold transition-all duration-200 hover:scale-105 active:scale-95"
+              style={{
+                background: "#f59e0b",
+                color: "#052016",
+                boxShadow: "0 4px 24px rgba(245,158,11,0.45)",
+              }}
+            >
+              {copy.hero_cta_text}
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </button>
+            <p className="m-0 text-sm leading-relaxed" style={{ color: "rgba(26,51,32,0.6)" }}>
+              {copy.hero_trust_line}
+            </p>
           </div>
-
         </div>
       </div>
 

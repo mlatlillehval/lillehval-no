@@ -29,7 +29,7 @@ export default function CtaBand() {
           </p>
           <button
             onClick={() => setModalOpen(true)}
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-base font-bold transition-all duration-200 hover:scale-105 active:scale-95"
+            className="focus-ring inline-flex items-center gap-2 px-8 py-4 rounded-full text-base font-bold transition-all duration-200 hover:scale-105 active:scale-95"
             style={{
               background: "#f59e0b",
               color: "#052016",

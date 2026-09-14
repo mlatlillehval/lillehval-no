@@ -222,7 +222,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
               <button
                 type="button"
                 onClick={resetAndClose}
-                className="mt-2 px-6 py-3 rounded-full font-bold text-white transition-all hover:scale-105"
+                className="focus-ring mt-2 px-6 py-3 rounded-full font-bold text-white transition-all hover:scale-105"
                 style={{ background: "linear-gradient(135deg, #22c55e, #15803d)" }}
               >
                 Lukk
@@ -236,7 +236,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
               {/* Calendar */}
               <div>
                 <div className="flex items-center justify-between gap-2 mb-4">
-                  <button type="button" onClick={prevMonth} className="h-11 w-11 shrink-0 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors text-gray-600 outline-none focus-visible:ring-2 focus-visible:ring-green-500/40" aria-label="Forrige måned">
+                  <button type="button" onClick={prevMonth} className="focus-ring h-11 w-11 shrink-0 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors text-gray-600" aria-label="Forrige måned">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
                     </svg>
@@ -244,7 +244,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                   <span className="text-base font-bold text-gray-800 text-center min-w-0 flex-1 px-1">
                     {MONTH_NAMES[viewMonth]} {viewYear}
                   </span>
-                  <button type="button" onClick={nextMonth} className="h-11 w-11 shrink-0 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors text-gray-600 outline-none focus-visible:ring-2 focus-visible:ring-green-500/40" aria-label="Neste måned">
+                  <button type="button" onClick={nextMonth} className="focus-ring h-11 w-11 shrink-0 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors text-gray-600" aria-label="Neste måned">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                     </svg>
@@ -274,7 +274,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                         type="button"
                         disabled={disabled}
                         onClick={() => handleDayClick(day)}
-                        className="aspect-square w-full flex items-center justify-center rounded-lg text-sm font-medium transition-all duration-150"
+                        className="focus-ring aspect-square w-full flex items-center justify-center rounded-lg text-sm font-medium transition-all duration-150"
                         style={{
                           background: selected
                             ? "linear-gradient(135deg, #22c55e, #15803d)"
@@ -323,7 +323,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                         key={t}
                         type="button"
                         onClick={() => setSelectedTime(t)}
-                        className="min-h-11 py-2.5 rounded-xl text-sm font-semibold border transition-all duration-150"
+                        className="focus-ring min-h-11 py-2.5 rounded-xl text-sm font-semibold border transition-all duration-150"
                         style={{
                           background: selectedTime === t ? "linear-gradient(135deg, #22c55e, #15803d)" : "white",
                           color: selectedTime === t ? "white" : "#374151",
@@ -341,7 +341,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                 type="button"
                 onClick={() => setStep(2)}
                 disabled={!canProceed}
-                className="w-full py-3.5 rounded-full font-bold text-white transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed hover:scale-[1.02]"
+                className="focus-ring w-full py-3.5 rounded-full font-bold text-white transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed hover:scale-[1.02]"
                 style={{ background: "linear-gradient(135deg, #22c55e, #15803d)" }}
               >
                 Fortsett →
@@ -436,14 +436,14 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                   type="button"
                   onClick={() => setStep(1)}
                   disabled={submitting}
-                  className="flex-1 py-3.5 rounded-full font-bold border border-gray-200 text-gray-600 hover:bg-gray-50 transition-all disabled:opacity-50"
+                  className="focus-ring flex-1 py-3.5 rounded-full font-bold border border-gray-200 text-gray-600 hover:bg-gray-50 transition-all disabled:opacity-50"
                 >
                   ← Tilbake
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="flex-[2] py-3.5 rounded-full font-bold text-white transition-all hover:scale-[1.02] disabled:opacity-60 disabled:scale-100"
+                  className="focus-ring flex-[2] py-3.5 rounded-full font-bold text-white transition-all hover:scale-[1.02] disabled:opacity-60 disabled:scale-100"
                   style={{ background: "linear-gradient(135deg, #22c55e 0%, #15803d 100%)" }}
                 >
                   {submitting ? "Sender …" : "Book møte"}
