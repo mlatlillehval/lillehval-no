@@ -1,79 +1,55 @@
 import type { MetadataRoute } from "next";
-import { AI_BLOG_POSTS } from "@/app/data/aiBlogPosts";
+import { getAllBlogPosts } from "@/app/data/aiBlogPosts";
 import { CASE_STUDIES } from "@/app/data/caseStudies";
 import { tjenester } from "@/app/data/tjenester";
 import { getSiteUrl } from "@/lib/site-url";
 
-const STATIC_PATHS = [
-  "/",
-  "/hjelp-med-ai",
-  "/kontakt",
-  "/personvern",
-  "/blogg",
-  "/ai-beredskap",
-  "/ai-forklart",
-  "/ai-tjenester",
-  "/hvorfor-oss",
-  "/ofte-stilte-sporsmal",
-  "/pagaende-prosjekter",
-  "/siste-nyheter",
-  "/siste-nyheter/talkshow",
-] as const;
-
-/** Sist vesentlig oppdatert per statisk side (ISO-dato). */
-const STATIC_LAST_MODIFIED: Partial<Record<(typeof STATIC_PATHS)[number], string>> = {
-  "/": "2026-06-12",
-  "/hjelp-med-ai": "2026-06-12",
-  "/kontakt": "2026-06-12",
-  "/personvern": "2026-06-12",
-  "/blogg": "2026-06-08",
-  "/pagaende-prosjekter": "2026-06-12",
-  "/siste-nyheter": "2026-06-12",
-  "/hvorfor-oss": "2026-06-12",
-};
-
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = getSiteUrl();
-  const fallback = new Date("2026-06-01");
 
-  const staticEntries: MetadataRoute.Sitemap = STATIC_PATHS.map((path) => ({
-    url: path === "/" ? `${base}/` : `${base}${path}`,
-    lastModified: STATIC_LAST_MODIFIED[path] ? new Date(STATIC_LAST_MODIFIED[path]!) : fallback,
-    changeFrequency: path === "/" ? "weekly" : "weekly",
-    priority:
-      path === "/"
-        ? 1
-        : path === "/hjelp-med-ai"
-          ? 0.95
-          : path === "/ofte-stilte-sporsmal"
-            ? 0.8
-            : path === "/blogg"
-              ? 0.78
-              : path === "/pagaende-prosjekter"
-                ? 0.76
-                : 0.75,
-  }));
+  const staticPages: MetadataRoute.Sitemap = [
+    { url: `${base}/`, lastModified: new Date("2026-09-15"), changeFrequency: "weekly", priority: 1 },
+    { url: `${base}/hjelp-med-ai`, lastModified: new Date("2026-09-15"), changeFrequency: "weekly", priority: 0.95 },
+    { url: `${base}/ai-radgivning`, lastModified: new Date("2026-09-15"), changeFrequency: "weekly", priority: 0.95 },
+    { url: `${base}/ai-implementering`, lastModified: new Date("2026-09-15"), changeFrequency: "weekly", priority: 0.95 },
+    { url: `${base}/kontakt`, lastModified: new Date("2026-09-15"), changeFrequency: "monthly", priority: 0.75 },
+    { url: `${base}/personvern`, lastModified: new Date("2026-06-12"), changeFrequency: "yearly", priority: 0.3 },
+    { url: `${base}/blogg`, lastModified: new Date("2026-09-15"), changeFrequency: "weekly", priority: 0.78 },
+    { url: `${base}/ai-beredskap`, lastModified: new Date("2026-09-01"), changeFrequency: "monthly", priority: 0.75 },
+    { url: `${base}/ai-forklart`, lastModified: new Date("2026-06-01"), changeFrequency: "monthly", priority: 0.7 },
+    { url: `${base}/ai-metodikk`, lastModified: new Date("2026-06-01"), changeFrequency: "monthly", priority: 0.65 },
+    { url: `${base}/hvorfor-oss`, lastModified: new Date("2026-09-15"), changeFrequency: "monthly", priority: 0.8 },
+    { url: `${base}/pagaende-prosjekter`, lastModified: new Date("2026-06-12"), changeFrequency: "weekly", priority: 0.7 },
+    { url: `${base}/siste-nyheter`, lastModified: new Date("2026-06-12"), changeFrequency: "daily", priority: 0.7 },
+    { url: `${base}/siste-nyheter/talkshow`, lastModified: new Date("2026-06-12"), changeFrequency: "weekly", priority: 0.55 },
+    { url: `${base}/ai-tjenester`, lastModified: new Date("2026-09-15"), changeFrequency: "weekly", priority: 0.85 },
+    { url: `${base}/ofte-stilte-sporsmal`, lastModified: new Date("2026-09-15"), changeFrequency: "monthly", priority: 0.72 },
+    { url: `${base}/kjop/takk`, lastModified: new Date("2026-06-12"), changeFrequency: "yearly", priority: 0.2 },
+    { url: `${base}/kjop/avbrutt`, lastModified: new Date("2026-06-12"), changeFrequency: "yearly", priority: 0.1 },
+    { url: `${base}/llms.txt`, lastModified: new Date("2026-09-15"), changeFrequency: "weekly", priority: 0.5 },
+    { url: `${base}/llms-full.txt`, lastModified: new Date("2026-09-15"), changeFrequency: "weekly", priority: 0.4 },
+  ];
 
-  const tjenesteEntries: MetadataRoute.Sitemap = tjenester.map((t) => ({
-    url: `${base}/ai-tjenester/${t.slug}`,
-    lastModified: fallback,
+  const blogPages: MetadataRoute.Sitemap = getAllBlogPosts().map((post) => ({
+    url: `${base}/blogg/${post.slug}`,
+    lastModified: new Date(post.publishedAt),
     changeFrequency: "monthly",
     priority: 0.7,
   }));
 
-  const blogEntries: MetadataRoute.Sitemap = AI_BLOG_POSTS.map((post) => ({
-    url: `${base}/blogg/${post.slug}`,
-    lastModified: new Date(post.publishedAt),
-    changeFrequency: "yearly",
-    priority: 0.65,
-  }));
-
-  const caseEntries: MetadataRoute.Sitemap = CASE_STUDIES.filter((c) => c.vis_paa_nettside).map((c) => ({
+  const casePages: MetadataRoute.Sitemap = CASE_STUDIES.map((c) => ({
     url: `${base}/case/${c.slug}`,
     lastModified: new Date(c.opprettet),
     changeFrequency: "monthly",
-    priority: 0.68,
+    priority: 0.65,
   }));
 
-  return [...staticEntries, ...tjenesteEntries, ...blogEntries, ...caseEntries];
+  const tjenestePages: MetadataRoute.Sitemap = tjenester.map((t) => ({
+    url: `${base}/ai-tjenester/${t.slug}`,
+    lastModified: new Date("2026-06-12"),
+    changeFrequency: "monthly",
+    priority: 0.75,
+  }));
+
+  return [...staticPages, ...blogPages, ...casePages, ...tjenestePages];
 }

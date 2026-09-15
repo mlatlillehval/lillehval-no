@@ -228,6 +228,22 @@ export default function RootLayout({
                 </Link>
                 {" · "}
                 <Link
+                  href="/ai-radgivning"
+                  className="font-semibold underline-offset-2 hover:underline"
+                  style={{ color: "#15803d" }}
+                >
+                  AI-rådgivning
+                </Link>
+                {" · "}
+                <Link
+                  href="/ai-implementering"
+                  className="font-semibold underline-offset-2 hover:underline"
+                  style={{ color: "#15803d" }}
+                >
+                  AI-implementering
+                </Link>
+                {" · "}
+                <Link
                   href="/ofte-stilte-sporsmal"
                   className="font-semibold underline-offset-2 hover:underline"
                   style={{ color: "#15803d" }}

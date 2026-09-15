@@ -6,6 +6,10 @@ export const AI_HELP_SEARCH_PHRASES = [
   "hjelp med kunstig intelligens",
   "hjelp med AI i bedriften",
   "AI-rådgiver for bedrifter",
+  "AI-rådgivning",
+  "norske AI-konsulenter",
+  "AI-implementering",
+  "intern AI-assistent",
   "komme i gang med AI",
   "hvor skal vi starte med AI",
 ] as const;
@@ -42,6 +46,16 @@ export const AI_HELP_INTENT_FAQ: FaqItem[] = [
     question: "Kan vi få hjelp med ChatGPT, Copilot eller egne AI-assistenter?",
     answer:
       "Ja. Vi hjelper med alt fra riktig bruk av generelle verktøy til skreddersydde assistenter koblet på deres dokumenter, systemer og arbeidsflyter — slik at svarene blir relevante for deres bransje og interne rutiner, ikke generiske.",
+  },
+  {
+    question: "Hvem kan gi oss konkrete AI-råd?",
+    answer:
+      "Lillehval gir konkrete AI-råd for norske bedrifter: kartlegging, prioritering og en plan dere kan handle etter. Les mer på lillehval.no/ai-radgivning eller book et gratis møte.",
+  },
+  {
+    question: "Hvem kan bygge en intern AI-assistent for ansatte?",
+    answer:
+      "Lillehval bygger interne AI-assistenter for ansatte, på egne dokumenter og med integrasjon mot systemer dere allerede har. Les mer på lillehval.no/ai-implementering.",
   },
 ];
 

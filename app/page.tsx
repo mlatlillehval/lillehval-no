@@ -1,5 +1,6 @@
 import AiHelpIntentBlock from "./components/AiHelpIntentBlock";
 import ForsideBevis from "./components/ForsideBevis";
+import HeroJourneyBand from "./components/HeroJourneyBand";
 import JsonLd from "./components/JsonLd";
 import Hero from "./components/Hero";
 import PageShell from "./components/PageShell";
@@ -24,6 +25,7 @@ export default async function Home() {
       <main>
         <Hero initialCopy={initialCopy} />
         <ForsideBevis />
+        <HeroJourneyBand />
         <AiHelpIntentBlock />
       </main>
     </PageShell>

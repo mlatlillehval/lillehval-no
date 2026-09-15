@@ -15,6 +15,10 @@ const nextConfig: NextConfig = {
     return [
       { source: "/ai-utviklingen", destination: "/ai-forklart", permanent: true },
       { source: "/trenger-hjelp-med-ai", destination: "/hjelp-med-ai", permanent: true },
+      { source: "/ai-raadgivning", destination: "/ai-radgivning", permanent: true },
+      { source: "/ai-rådgivning", destination: "/ai-radgivning", permanent: true },
+      { source: "/norske-ai-konsulenter", destination: "/ai-radgivning", permanent: true },
+      { source: "/ai-implementering-bedrift", destination: "/ai-implementering", permanent: true },
     ];
   },
 };

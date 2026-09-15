@@ -35,6 +35,24 @@ export default function AiHelpIntentBlock() {
           </li>
           <li>
             <Link
+              href="/ai-radgivning"
+              className="inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold border transition hover:opacity-90"
+              style={{ borderColor: "rgba(21,128,61,0.35)", color: "#14532d" }}
+            >
+              AI-rådgivning
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/ai-implementering"
+              className="inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold border transition hover:opacity-90"
+              style={{ borderColor: "rgba(21,128,61,0.35)", color: "#14532d" }}
+            >
+              AI-implementering
+            </Link>
+          </li>
+          <li>
+            <Link
               href="/ai-tjenester"
               className="inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold border transition hover:opacity-90"
               style={{ borderColor: "rgba(21,128,61,0.35)", color: "#14532d" }}

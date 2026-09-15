@@ -67,6 +67,20 @@ export default function HjelpMedAiPage() {
                 Til forsiden (book møte)
               </Link>
               <Link
+                href="/ai-radgivning"
+                className="focus-ring inline-flex items-center rounded-full px-5 py-2.5 text-sm font-semibold border"
+                style={{ borderColor: "rgba(21,128,61,0.35)", color: "#14532d" }}
+              >
+                AI-rådgivning
+              </Link>
+              <Link
+                href="/ai-implementering"
+                className="focus-ring inline-flex items-center rounded-full px-5 py-2.5 text-sm font-semibold border"
+                style={{ borderColor: "rgba(21,128,61,0.35)", color: "#14532d" }}
+              >
+                AI-implementering
+              </Link>
+              <Link
                 href="/ai-tjenester"
                 className="focus-ring inline-flex items-center rounded-full px-5 py-2.5 text-sm font-semibold border"
                 style={{ borderColor: "rgba(21,128,61,0.35)", color: "#14532d" }}

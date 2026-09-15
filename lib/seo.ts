@@ -155,16 +155,38 @@ export function organizationJsonLd() {
     hasOfferCatalog: {
       "@type": "OfferCatalog",
       name: "AI-tjenester for bedrifter",
-      itemListElement: tjenester.map((t) => ({
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: t.title,
-          description: t.tagline,
-          url: absoluteUrl(`/ai-tjenester/${t.slug}`),
-          provider: { "@id": `${absoluteUrl("/")}#organization` },
+      itemListElement: [
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "AI-rådgivning",
+            description: "Kartlegging, strategi og konkrete AI-råd for norske bedrifter.",
+            url: absoluteUrl("/ai-radgivning"),
+            provider: { "@id": `${absoluteUrl("/")}#organization` },
+          },
         },
-      })),
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "AI-implementering",
+            description: "Innføring av AI, intern assistent og automatisering for norske bedrifter.",
+            url: absoluteUrl("/ai-implementering"),
+            provider: { "@id": `${absoluteUrl("/")}#organization` },
+          },
+        },
+        ...tjenester.map((t) => ({
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: t.title,
+            description: t.tagline,
+            url: absoluteUrl(`/ai-tjenester/${t.slug}`),
+            provider: { "@id": `${absoluteUrl("/")}#organization` },
+          },
+        })),
+      ],
     },
     sameAs: SOCIAL_LINKS.map((link) => link.href),
   };
@@ -216,17 +238,41 @@ export function breadcrumbsJsonLd(items: BreadcrumbItem[]) {
 export type FaqItem = { question: string; answer: string };
 
 export function helpWithAiWebPageJsonLd() {
+  return categoryWebPageJsonLd({
+    path: "/hjelp-med-ai",
+    name: "Hjelp med AI for norske bedrifter",
+    description: HELP_PAGE_DESCRIPTION,
+  });
+}
+
+export function categoryWebPageJsonLd(opts: { path: string; name: string; description: string }) {
   return {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "@id": `${absoluteUrl("/hjelp-med-ai")}#webpage`,
-    url: absoluteUrl("/hjelp-med-ai"),
-    name: "Hjelp med AI for norske bedrifter",
-    description: HELP_PAGE_DESCRIPTION,
+    "@id": `${absoluteUrl(opts.path)}#webpage`,
+    url: absoluteUrl(opts.path),
+    name: opts.name,
+    description: opts.description,
     isPartOf: { "@id": `${absoluteUrl("/")}#website` },
     about: { "@id": `${absoluteUrl("/")}#organization` },
     inLanguage: "nb-NO",
     primaryImageOfPage: absoluteUrl(DEFAULT_OG_IMAGE),
+  };
+}
+
+export function categoryServiceJsonLd(opts: { name: string; description: string; path: string }) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: opts.name,
+    description: opts.description,
+    serviceType: opts.name,
+    provider: { "@id": `${absoluteUrl("/")}#organization` },
+    url: absoluteUrl(opts.path),
+    areaServed: {
+      "@type": "Country",
+      name: "Norway",
+    },
   };
 }
 
