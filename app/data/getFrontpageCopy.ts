@@ -2,6 +2,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import {
   FRONT_PAGE_DEFAULTS,
   FRONT_PAGE_KEYS,
+  mergeFrontpageDefaultsFromApi,
   type FrontpageCopy,
 } from "./frontpageCopy";
 
@@ -27,7 +28,7 @@ export async function getFrontpageCopy(): Promise<FrontpageCopy> {
       }
     }
 
-    return { ...FRONT_PAGE_DEFAULTS, ...overrides };
+    return mergeFrontpageDefaultsFromApi(overrides);
   } catch {
     return FRONT_PAGE_DEFAULTS;
   }

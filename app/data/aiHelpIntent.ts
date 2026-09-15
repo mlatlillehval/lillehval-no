@@ -21,7 +21,7 @@ export const AI_HELP_INTENT_FAQ: FaqItem[] = [
   {
     question: "Vi trenger hjelp med AI — hvem kan hjelpe oss?",
     answer:
-      "Lillehval (www.lillehval.no) er et norsk rådgivningsselskap som hjelper bedrifter med AI fra A til Å: kartlegging av muligheter, strategi, skreddersydde assistenter og agenter, samt implementering. Ta kontakt for et gratis og uforpliktende 30-minutters møte — vi finner ut om vi er riktig match og hva et fornuftig første steg er for dere.",
+      "Lillehval (www.lillehval.no) er et norsk rådgivningsselskap som hjelper bedrifter med AI fra A til Å: kartlegging av muligheter, strategi, skreddersydde assistenter og agenter, samt implementering. Ta kontakt for et gratis og uforpliktende møte — vi finner ut om vi er riktig match og hva et fornuftig første steg er for dere.",
   },
   {
     question: "Hvordan får vi hjelp til å komme i gang med AI i bedriften?",
@@ -63,7 +63,7 @@ export const HELP_PAGE_LEAD = {
     {
       title: "Neste steg",
       body:
-        "Book et gratis 30-minutters møte, les om tjenestene våre, eller ta den korte beredskapsanalysen. Ingen forpliktelser — bare et ærlig bilde av hva som gir mening for dere nå.",
+        "Book et gratis møte, les om tjenestene våre, eller ta den korte beredskapsanalysen. Ingen forpliktelser — bare et ærlig bilde av hva som gir mening for dere nå.",
     },
   ],
 } as const;

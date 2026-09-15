@@ -5,6 +5,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import {
   FRONT_PAGE_DEFAULTS,
   FRONT_PAGE_KEYS,
+  mergeFrontpageDefaultsFromApi,
   type FrontpageCopy,
 } from "@/app/data/frontpageCopy";
 
@@ -45,7 +46,7 @@ export async function GET() {
       }
     }
 
-    return NextResponse.json({ ...FRONT_PAGE_DEFAULTS, ...overrides });
+    return NextResponse.json(mergeFrontpageDefaultsFromApi(overrides));
   } catch {
     return NextResponse.json(FRONT_PAGE_DEFAULTS);
   }

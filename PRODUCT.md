@@ -27,7 +27,7 @@ Posisjonen en nabokonkurrent ikke kan kopiere sant: kombinasjonen av norsk forre
 ## Operating Context
 
 - Arbeidet skjer on-site hos kunden og digitalt i hele Norge. Ingen fast kontoradresse — `COMPANY_AREA_SERVED` er «Norge».
-- Vanlig inngang er et gratis, uforpliktende møte på 30 minutter, håndtert av `/api/moetebooking` og `BookingModal`.
+- Vanlig inngang er et gratis, uforpliktende møte, håndtert av `/api/moetebooking` og `BookingModal`.
 - `/ai-beredskap` gir en selvbetjent modenhetsindikasjon og fungerer som mykere inngang enn et møte.
 - `/kjop` med Stripe checkout (`/api/checkout`, sider for `takk` og `avbrutt`) selger ferdige AI-applikasjoner direkte.
 - `/siste-nyheter` og `/blogg` holder siden levende, delvis via RSS (`rss-parser`, `/api/revalidate-news`).

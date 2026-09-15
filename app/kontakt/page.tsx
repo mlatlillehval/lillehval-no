@@ -122,7 +122,7 @@ export default function KontaktPage() {
 
           <div className="text-center">
             <p className="text-sm mb-4" style={{ color: "rgba(26,51,32,0.65)" }}>
-              Vil du heller booke direkte? 30 minutter, uforpliktende.
+              Vil du heller booke direkte? Gratis og uforpliktende.
             </p>
             <KontaktBookCta />
             <p className="mt-6 text-sm">

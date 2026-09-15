@@ -42,9 +42,18 @@ export default function BlogPostView({ post, showBackLink = true }: BlogPostView
         {post.excerpt}
       </p>
       <div className="mt-8 space-y-4 text-base leading-relaxed text-[#1a3320]">
-        {post.body.split(/\n\n+/).map((para, i) => (
-          <p key={i}>{para.trim()}</p>
-        ))}
+        {post.body.split(/\n\n+/).map((para, i) => {
+          const text = para.trim();
+          if (!text) return null;
+          if (text.startsWith("## ")) {
+            return (
+              <h2 key={i} className="pt-4 text-xl sm:text-2xl font-extrabold leading-snug text-[#1a3320]">
+                {text.slice(3).trim()}
+              </h2>
+            );
+          }
+          return <p key={i}>{text}</p>;
+        })}
       </div>
       {post.gallery?.length ? (
         <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-3">

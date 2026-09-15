@@ -176,7 +176,7 @@ const NEWSLETTERS: Newsletter[] = [
       desc: "Last opp egne dokumenter og still spørsmål direkte til innholdet. Perfekt for interne policyer, produktdokumentasjon og kunnskapsforvaltning.",
       url: "https://notebooklm.google.com",
     },
-    cta: { title: "Klar for å finne ut hvor dere kan starte?", sub: "Book 30 minutter med oss — gratis og uten forpliktelser. Vi ser på én konkret mulighet for din bedrift.", button: "Book et møte →", href: "/" },
+    cta: { title: "Klar for å finne ut hvor dere kan starte?", sub: "Book et møte med oss — gratis og uten forpliktelser. Vi ser på én konkret mulighet for din bedrift.", button: "Book et møte →", href: "/" },
   },
   {
     week: 16, issue: 3,
@@ -209,7 +209,7 @@ const NEWSLETTERS: Newsletter[] = [
       desc: "Koble sammen hundrevis av apper og lag flytdiagrammer som kjører automatisk. Perfekt for å bygge din første AI-drevne arbeidsflyt.",
       url: "https://make.com",
     },
-    cta: { title: "Vil du se hva en agent kan gjøre for din bedrift?", sub: "Vi setter opp en demo skreddersydd for din bransje — uten at du trenger å ha teknisk bakgrunn.", button: "Book 30 minutter gratis →", href: "/" },
+    cta: { title: "Vil du se hva en agent kan gjøre for din bedrift?", sub: "Vi setter opp en demo skreddersydd for din bransje — uten at du trenger å ha teknisk bakgrunn.", button: "Book et møte gratis →", href: "/" },
   },
   {
     week: 17, issue: 4,

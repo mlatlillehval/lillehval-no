@@ -141,8 +141,8 @@ export default async function TjenestePage({ params }: Props) {
             >
               <p className="text-sm font-semibold leading-snug" style={{ color: "#92400e" }}>
                 {t.slug === "egenutviklet"
-                  ? "Vil dere gå gjennom utvalget av hyllevare? Vi setter av 30 min — helt uforpliktende."
-                  : "Interessert? Vi setter av 30 min for å se om dette passer dere."}
+                  ? "Vil dere gå gjennom utvalget av hyllevare? Helt uforpliktende."
+                  : "Interessert? Vi tar en prat for å se om dette passer dere."}
               </p>
               <a
                 href={`mailto:ml@lillehval.no?subject=${encodeURIComponent(`Interesse: ${t.title}`)}&body=${encodeURIComponent(`Hei,\n\nJeg er interessert i å høre mer om ${t.title}.\n\nMed vennlig hilsen,\n`)}`}

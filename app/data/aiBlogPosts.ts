@@ -20,6 +20,38 @@ export function getReadMinutes(post: Pick<AIBlogPost, "excerpt" | "body" | "read
 
 export const AI_BLOG_POSTS: AIBlogPost[] = [
   {
+    id: "12",
+    slug: "fra-gjentatte-sporsmal-til-selvlarende-system",
+    title: "Fra gjentatte spørsmål til et system som lærer",
+    excerpt:
+      "Mange bedrifter sitter på riktig kunnskap — i manualer og datablader — uten at den er tilgjengelig i øyeblikket noen trenger den. Slik bygde vi et system som gjør saksbehandlere raskere, uten å sende ett eneste svar alene.",
+    image: "/blogg/selvlarende-system/marius-pult.jpg",
+    publishedAt: "2026-09-15",
+    body: `Vi jobber for tiden med en kunde som selger tekniske produkter til krevende kunder, og som mottar mange tekniske spørsmål i innboksen hver dag. Saksbehandlerne som svarer bruker en stor del av arbeidsdagen sin på det samme: spørsmålene krever oppslag i manualer, datablader og annen dokumentasjon som ligger spredt i et arkiv de kjenner godt, men som tar tid å lete i.
+
+Det er ikke et uvanlig problem. Veldig mange bedrifter sitter på akkurat denne typen kunnskap: den finnes, den er riktig, men den er ikke lett tilgjengelig i øyeblikket noen trenger den. Spørsmålet vi stilte oss var ikke «hvordan automatiserer vi svarene», men «hvordan bygger vi noe som gjør de samme to menneskene raskere, uten at vi noen gang risikerer at et feil tall går til en kunde».
+
+## Slik løste vi det
+
+Systemet vi har bygget går gjennom innboksen flere ganger daglig. Det finner nye henvendelser, kategoriserer dem, og lager et utkast til svar for de tekniske spørsmålene. Så langt er ikke det spesielt originalt. Det som faktisk gjør forskjellen er hva saksbehandleren møter når hun åpner køen: ikke bare et forslag til svar, men en kildetabell. Hvilket dokument er opplysningen hentet fra, hvilken seksjon, og det ordrette sitatet. Hun kan se at svaret stemmer uten å åpne dokumentet selv, justere det som trengs, og godkjenne.
+
+Systemet sender aldri noe selv. Det oppretter et rent utkast i e-postklienten, med kun kundeteksten, og et menneske trykker send. For en bedrift der presise svar betyr noe, var det ikke et vanskelig valg. Tilliten til løsningen avhenger av at den aldri tar den siste beslutningen alene.
+
+## Den delen som gjør det verdt det over tid
+
+Det som gjør dette til mer enn et smart filter, er at systemet lærer. Hver natt samles de svarene som faktisk ble sendt inn, anonymisert for kundeinformasjon. Hver uke går systemet gjennom det som har kommet inn, luker ut det som var for kort eller uklart til å være nyttig, og bygger en stadig bedre kunnskapsbase av de spørsmålstypene som faktisk går igjen. Neste gang et lignende spørsmål kommer inn, er svarforslaget bedre enn uken før.
+
+Ingenting av dette er magi. Det er noen enkle, faste rutiner bygget på ett prinsipp vi ikke fraviker: systemet skal aldri gjette. Er det usikker på om et dokument dekker spørsmålet, sier det det rett ut i stedet for å fylle inn noe som høres riktig ut. Det høres kanskje selvsagt ut, men det er akkurat den typen designvalg som avgjør om en AI-løsning faktisk blir brukt av folk som har god grunn til å være skeptiske, eller om den blir liggende ubrukt etter to uker.
+
+## Hvorfor vi bygger det sånn
+
+Vi kunne ha levert noe raskere ved å la systemet sende svar direkte, eller ved å stole på at en generell språkmodell «vet nok» om produktene uten kildehenvisning. Vi gjør ikke det. Ikke fordi det er tryggere på papiret, men fordi det er den eneste måten et system som dette faktisk blir en del av arbeidsdagen på, i stedet for et prosjekt som demonstreres én gang og så samler støv.
+
+Det er dette vi mener når vi sier at vi ikke leverer hyllevare. Vi setter oss inn i hvordan saksbehandlerne faktisk jobber, finner ut hvor tidsbruken egentlig ligger, og bygger derfra.
+
+Jobber dere med tilsvarende utfordringer, spesialisert kunnskap som må ut raskt og riktig, men uten at noen kan love hundre prosent automatikk? Ta en prat med oss.`,
+  },
+  {
     id: "11",
     slug: "introduksjonskurs-claude-start-vestfold",
     title: "Introduksjonskurs i Claude hos Start i Vestfold",

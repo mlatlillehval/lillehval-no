@@ -18,7 +18,7 @@ export default function KontaktBookCta() {
           boxShadow: "0 2px 16px rgba(245, 158, 11, 0.45)",
         }}
       >
-        Book 30 minutter gratis
+        Book et møte gratis
       </button>
       <BookingModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </>

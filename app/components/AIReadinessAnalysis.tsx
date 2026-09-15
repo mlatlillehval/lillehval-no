@@ -9,7 +9,7 @@ import { MARIUS_EMAIL } from "@/app/data/siteContact";
 function getBookSamtaleHref(): string {
   const raw = process.env.NEXT_PUBLIC_CALENDLY_URL?.trim();
   if (raw && /^https?:\/\//i.test(raw)) return raw;
-  return `mailto:${MARIUS_EMAIL}?subject=${encodeURIComponent("30 min gratis samtale (etter AI-beredskap)")}`;
+  return `mailto:${MARIUS_EMAIL}?subject=${encodeURIComponent("Gratis samtale (etter AI-beredskap)")}`;
 }
 
 const PRIMARY = "#1D9E75";
@@ -1428,7 +1428,7 @@ function ResultsPanel({
         className="focus-ring flex w-full items-center justify-center gap-2 py-4 rounded-xl font-bold text-white text-center"
         style={{ background: PRIMARY }}
       >
-        Book en gratis 30-minutters samtale →
+        Book en gratis samtale →
       </a>
       <button
         type="button"

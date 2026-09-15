@@ -43,6 +43,9 @@ export function mergeFrontpageDefaultsFromApi(json: unknown): FrontpageCopy {
       merged[key] = val;
     }
   }
+  if (/\b30\s*min/i.test(merged.hero_cta_text)) {
+    merged.hero_cta_text = FRONT_PAGE_DEFAULTS.hero_cta_text;
+  }
   return merged;
 }
 

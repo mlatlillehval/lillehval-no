@@ -55,7 +55,7 @@ export default function HjelpMedAiPage() {
           >
             <p className="text-lg font-bold text-[#1a3320] mb-2">Book et gratis møte</p>
             <p className="text-sm leading-relaxed text-[rgba(26,51,32,0.8)] mb-4">
-              30 minutter, uforpliktende. Vi kartlegger behovet deres og sier ærlig om Lillehval er riktig
+              Gratis og uforpliktende. Vi kartlegger behovet deres og sier ærlig om Lillehval er riktig
               partner — og hva et fornuftig første steg er.
             </p>
             <div className="flex flex-wrap gap-3">
