@@ -339,7 +339,7 @@ export default function NeuralNetworkBackground({
       surface === "dark" && parent
         ? new ResizeObserver(() => onResize())
         : null;
-    resizeObserver?.observe(parent);
+    if (parent) resizeObserver?.observe(parent);
 
     return () => {
       cancelAnimationFrame(animRef.current);
