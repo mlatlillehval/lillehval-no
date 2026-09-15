@@ -15,13 +15,13 @@ export type FrontpageCopy = {
 
 export const FRONT_PAGE_DEFAULTS: FrontpageCopy = {
   hero_badge_text: "AI-rådgivning for norske bedrifter",
-  hero_headline_green_lead: "Vi",
-  hero_headline_top: "gjør",
-  hero_headline_highlight: "AI-reisen konkret",
-  hero_headline_mid: "og gjennomførbar for norske bedrifter",
+  hero_headline_green_lead: "",
+  hero_headline_top: "Vi gjør AI",
+  hero_headline_highlight: "konkret",
+  hero_headline_mid: "for norske bedrifter.",
   hero_headline_bottom: "",
   hero_subheadline:
-    "Dere har skjønt at AI angår dere. Vi kartlegger, bygger og blir med i drift — uten at dere gir fra dere kontrollen.",
+    "Dere har skjønt at det angår dere. Vi kartlegger, bygger og blir med i drift — uten at dere gir fra dere kontrollen.",
   hero_cta_text: "Book et møte",
   hero_trust_line: "Ingen forpliktelser. Helt gratis.",
 
@@ -45,6 +45,21 @@ export function mergeFrontpageDefaultsFromApi(json: unknown): FrontpageCopy {
   }
   if (/\b30\s*min/i.test(merged.hero_cta_text)) {
     merged.hero_cta_text = FRONT_PAGE_DEFAULTS.hero_cta_text;
+  }
+  const headlineBlob = [
+    merged.hero_headline_green_lead,
+    merged.hero_headline_top,
+    merged.hero_headline_highlight,
+    merged.hero_headline_mid,
+    merged.hero_headline_bottom,
+  ].join(" ");
+  if (/potensial|mulighet og/i.test(headlineBlob)) {
+    merged.hero_headline_green_lead = FRONT_PAGE_DEFAULTS.hero_headline_green_lead;
+    merged.hero_headline_top = FRONT_PAGE_DEFAULTS.hero_headline_top;
+    merged.hero_headline_highlight = FRONT_PAGE_DEFAULTS.hero_headline_highlight;
+    merged.hero_headline_mid = FRONT_PAGE_DEFAULTS.hero_headline_mid;
+    merged.hero_headline_bottom = FRONT_PAGE_DEFAULTS.hero_headline_bottom;
+    merged.hero_subheadline = FRONT_PAGE_DEFAULTS.hero_subheadline;
   }
   return merged;
 }

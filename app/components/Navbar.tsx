@@ -42,9 +42,9 @@ export default function Navbar() {
           borderBottom: "2px solid rgba(34, 139, 70, 0.35)",
         }}
       >
-        <div className="relative mx-auto flex h-16 max-w-7xl items-center justify-between gap-0 px-6">
+        <div className="relative mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-6 lg:justify-end lg:gap-6">
 
-          {/* Logo — alltid til forsiden */}
+          {/* Logo — alltid til forsiden. På desktop sitter den rett til venstre for «Hjelp med AI». */}
           <Link
             href="/"
             className="focus-ring flex min-w-0 shrink-0 items-center rounded-lg group"
@@ -68,8 +68,8 @@ export default function Navbar() {
             />
           </Link>
 
-          {/* CTA + Nav + Mobile menu */}
-          <div className="ml-auto flex items-center gap-3">
+          {/* Nav + CTA + Mobile menu */}
+          <div className="flex items-center gap-3">
             {/* Desktop nav links */}
             <nav className="hidden items-center gap-1 lg:flex">
               {navLinks.map((link) => (

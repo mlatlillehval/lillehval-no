@@ -14,6 +14,8 @@ export const metadata = createPageMetadata({
   description: HOME_PAGE_DESCRIPTION,
 });
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const initialCopy = await getFrontpageCopy();
 

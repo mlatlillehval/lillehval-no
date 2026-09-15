@@ -149,17 +149,23 @@ export default function Hero({ initialCopy = FRONT_PAGE_DEFAULTS }: HeroProps) {
       <div className="relative z-10 px-6 pb-16 pt-24 lg:px-12 lg:pb-20 lg:pt-28">
         <div className="relative mx-auto w-full max-w-3xl">
           <h1
-            className="m-0 text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-5xl xl:text-6xl"
+            className="m-0 text-balance text-4xl font-extrabold leading-[1.12] tracking-tight sm:text-5xl xl:text-6xl"
             style={{ color: "#052e16" }}
           >
             {headline.greenLead ? (
-              <span style={{ color: "#15803d" }}>{headline.greenLead}</span>
+              <>
+                <span style={{ color: "#15803d" }}>{headline.greenLead}</span>
+                {" "}
+              </>
             ) : null}
-            {headline.greenLead ? " " : null}
-            <span>{headline.top}</span>{" "}
-            <span style={{ color: "#15803d" }}>{headline.highlight}</span>
-            <br />
-            {headline.mid}
+            {headline.top}
+            {headline.highlight ? (
+              <>
+                {" "}
+                <span style={{ color: "#15803d" }}>{headline.highlight}</span>
+              </>
+            ) : null}
+            {headline.mid ? ` ${headline.mid}` : null}
             {headline.bottom ? (
               <>
                 <br />

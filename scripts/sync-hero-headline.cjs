@@ -33,12 +33,17 @@ function loadEnvLocal() {
 }
 
 const rows = [
-  { key: "hero_headline_green_lead", value: "AI" },
-  { key: "hero_headline_top", value: "er en" },
-  { key: "hero_headline_highlight", value: "mulighet og potensial" },
-  { key: "hero_headline_mid", value: "mange bedrifter ikke kjenner til" },
+  { key: "hero_headline_green_lead", value: "" },
+  { key: "hero_headline_top", value: "Vi gjør AI" },
+  { key: "hero_headline_highlight", value: "konkret" },
+  { key: "hero_headline_mid", value: "for norske bedrifter." },
   { key: "hero_headline_bottom", value: "" },
-  { key: "hero_cta_text", value: "Book et 30 min møte med oss for å vite mer." },
+  {
+    key: "hero_subheadline",
+    value:
+      "Dere har skjønt at det angår dere. Vi kartlegger, bygger og blir med i drift — uten at dere gir fra dere kontrollen.",
+  },
+  { key: "hero_cta_text", value: "Book et møte" },
   { key: "hero_trust_line", value: "Ingen forpliktelser. Helt gratis." },
 ];
 
