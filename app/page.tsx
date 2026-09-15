@@ -3,7 +3,6 @@ import ForsideBevis from "./components/ForsideBevis";
 import JsonLd from "./components/JsonLd";
 import Hero from "./components/Hero";
 import PageShell from "./components/PageShell";
-import SalesPitch from "./components/SalesPitch";
 import { AI_HELP_INTENT_FAQ, HOME_PAGE_DESCRIPTION } from "./data/aiHelpIntent";
 import { getFrontpageCopy } from "./data/getFrontpageCopy";
 import { createPageMetadata, faqPageJsonLd } from "@/lib/seo";
@@ -25,7 +24,6 @@ export default async function Home() {
       <main>
         <Hero initialCopy={initialCopy} />
         <ForsideBevis />
-        <SalesPitch initialCopy={initialCopy} />
         <AiHelpIntentBlock />
       </main>
     </PageShell>

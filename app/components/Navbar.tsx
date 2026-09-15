@@ -16,7 +16,6 @@ const navLinks = [
   { label: "Prosjekter", href: "/pagaende-prosjekter" },
   { label: "Om oss", href: "/hvorfor-oss" },
   { label: "Kontakt", href: "/kontakt" },
-  { label: "Blogg", href: "/blogg" },
 ];
 
 export default function Navbar() {

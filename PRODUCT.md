@@ -26,7 +26,7 @@ Posisjonen en nabokonkurrent ikke kan kopiere sant: kombinasjonen av norsk forre
 
 ## Operating Context
 
-- Arbeidet skjer on-site hos kunden og digitalt i hele Norge. Ingen fast kontoradresse — `COMPANY_AREA_SERVED` er «Norge».
+- Arbeidet skjer on-site hos kunden og digitalt i hele Norge. Kontorplass hos Friends, Storgata 30, Tønsberg. `COMPANY_AREA_SERVED` er «Norge».
 - Vanlig inngang er et gratis, uforpliktende møte, håndtert av `/api/moetebooking` og `BookingModal`.
 - `/ai-beredskap` gir en selvbetjent modenhetsindikasjon og fungerer som mykere inngang enn et møte.
 - `/kjop` med Stripe checkout (`/api/checkout`, sider for `takk` og `avbrutt`) selger ferdige AI-applikasjoner direkte.

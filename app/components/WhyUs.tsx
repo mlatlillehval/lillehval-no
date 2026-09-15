@@ -212,7 +212,7 @@ const ANONYMOUS_TAG_STYLE = {
 function AnonymousTeamCard({ person }: { person: TeamMember }) {
   return (
     <article
-      className="flex flex-col overflow-hidden rounded-2xl"
+      className="flex h-full min-h-full flex-col self-stretch overflow-hidden rounded-2xl"
       style={{
         background: "rgba(255,255,255,0.75)",
         border: "1px solid rgba(34,139,70,0.18)",
@@ -236,40 +236,42 @@ function AnonymousTeamCard({ person }: { person: TeamMember }) {
         </div>
       </div>
 
-      <div className="flex flex-col gap-4 px-5 py-5 sm:px-6 sm:py-6">
+      <div className="flex flex-1 flex-col px-5 py-5 sm:px-6 sm:py-6">
         <p className="text-sm italic leading-relaxed" style={{ color: "rgba(26,51,32,0.75)" }}>
           {person.quote}
         </p>
 
-        <p className="text-sm leading-relaxed" style={{ color: "rgba(26,51,32,0.5)" }}>
+        <p className="mt-4 text-sm leading-relaxed" style={{ color: "rgba(26,51,32,0.5)" }}>
           {person.bio}
         </p>
 
-        <div className="border-y border-slate-200 py-3">
-          <div className="grid grid-cols-2 gap-2">
-            {person.tags.map((tag) => (
-              <span
-                key={tag}
-                className="flex items-center justify-center rounded-full px-2 py-1 text-center text-[11px] font-semibold leading-tight sm:text-xs"
-                style={ANONYMOUS_TAG_STYLE}
-              >
-                {tag}
-              </span>
-            ))}
+        <div className="mt-auto pt-4">
+          <div className="border-y border-slate-200 py-3">
+            <div className="grid grid-cols-2 grid-rows-3 gap-2">
+              {person.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="flex min-h-[2.5rem] items-center justify-center rounded-full px-2 py-1 text-center text-[11px] font-semibold leading-tight sm:text-xs"
+                  style={ANONYMOUS_TAG_STYLE}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
           </div>
-        </div>
 
-        <div className="mt-auto pt-1">
-          <a
-            href={`mailto:${person.email}`}
-            className="inline-flex items-center gap-2 text-sm font-semibold transition-colors hover:opacity-80"
-            style={{ color: "#15803d" }}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
-            {person.email}
-          </a>
+          <div className="pt-4">
+            <a
+              href={`mailto:${person.email}`}
+              className="inline-flex items-center gap-2 text-sm font-semibold transition-colors hover:opacity-80"
+              style={{ color: "#15803d" }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              {person.email}
+            </a>
+          </div>
         </div>
       </div>
     </article>
@@ -556,7 +558,7 @@ export default function WhyUs() {
                     <TeamMemberCard key={person.email} person={person} />
                   ))}
                 </div>
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3 lg:gap-8 lg:items-start">
+                <div className="grid grid-cols-1 items-stretch gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3 lg:gap-8 lg:auto-rows-fr">
                   {extendedTeam.map((person) => (
                     <AnonymousTeamCard key={person.title} person={person} />
                   ))}

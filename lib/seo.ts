@@ -4,7 +4,7 @@ import { getReadMinutes } from "@/app/data/aiBlogPosts";
 import type { CaseStudy } from "@/app/data/caseStudies";
 import { FOUNDERS } from "@/app/data/founders";
 import { HELP_PAGE_DESCRIPTION } from "@/app/data/aiHelpIntent";
-import { MARIUS_EMAIL, MARIUS_PHONE_TEL } from "@/app/data/siteContact";
+import { COMPANY_OFFICE, MARIUS_EMAIL, MARIUS_PHONE_TEL } from "@/app/data/siteContact";
 import { SOCIAL_LINKS } from "@/app/data/siteSocial";
 import { tjenester } from "@/app/data/tjenester";
 import type { Tjeneste } from "@/app/data/tjenester";
@@ -117,6 +117,18 @@ export function organizationJsonLd() {
     slogan: "Hjelp med AI for norske bedrifter",
     email: MARIUS_EMAIL,
     telephone: MARIUS_PHONE_TEL,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: COMPANY_OFFICE.street,
+      addressLocality: COMPANY_OFFICE.city,
+      postalCode: COMPANY_OFFICE.postalCode,
+      addressCountry: COMPANY_OFFICE.country,
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: COMPANY_OFFICE.lat,
+      longitude: COMPANY_OFFICE.lon,
+    },
     areaServed: {
       "@type": "Country",
       name: "Norway",

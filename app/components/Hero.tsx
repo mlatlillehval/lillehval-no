@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import BookingModal from "./BookingModal";
+import NeuralNetworkBackground from "./NeuralNetworkBackground";
 import {
   FRONT_PAGE_DEFAULTS,
   mergeFrontpageDefaultsFromApi,
@@ -145,16 +146,29 @@ export default function Hero({ initialCopy = FRONT_PAGE_DEFAULTS }: HeroProps) {
   }, []);
 
   return (
-    <section className="relative flex flex-col overflow-hidden">
-      <div className="relative z-10 px-6 pb-16 pt-24 lg:px-12 lg:pb-20 lg:pt-28">
-        <div className="relative mx-auto w-full max-w-3xl">
+    <section
+      className="relative z-10 isolate flex flex-col overflow-hidden"
+      style={{
+        background: "linear-gradient(160deg, #0a2e1a 0%, #061a10 60%, #071e12 100%)",
+      }}
+    >
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 70% 45% at 50% 0%, rgba(21,128,61,0.28) 0%, transparent 62%)",
+        }}
+      />
+      <div className="relative z-10 overflow-hidden px-6 pb-16 pt-24 lg:px-12 lg:pb-20 lg:pt-28">
+        <NeuralNetworkBackground surface="dark" />
+        <div className="relative z-10 mx-auto w-full max-w-3xl">
           <h1
             className="m-0 text-balance text-4xl font-extrabold leading-[1.12] tracking-tight sm:text-5xl xl:text-6xl"
-            style={{ color: "#052e16" }}
+            style={{ color: "#f2ede3" }}
           >
             {headline.greenLead ? (
               <>
-                <span style={{ color: "#15803d" }}>{headline.greenLead}</span>
+                <span style={{ color: "#4ade80" }}>{headline.greenLead}</span>
                 {" "}
               </>
             ) : null}
@@ -162,7 +176,7 @@ export default function Hero({ initialCopy = FRONT_PAGE_DEFAULTS }: HeroProps) {
             {headline.highlight ? (
               <>
                 {" "}
-                <span style={{ color: "#15803d" }}>{headline.highlight}</span>
+                <span style={{ color: "#4ade80" }}>{headline.highlight}</span>
               </>
             ) : null}
             {headline.mid ? ` ${headline.mid}` : null}
@@ -176,7 +190,7 @@ export default function Hero({ initialCopy = FRONT_PAGE_DEFAULTS }: HeroProps) {
           {copy.hero_subheadline ? (
             <p
               className="mt-6 max-w-[65ch] text-sm leading-relaxed"
-              style={{ color: "rgba(26,51,32,0.75)" }}
+              style={{ color: "rgba(242,237,227,0.82)" }}
             >
               {copy.hero_subheadline}
             </p>
@@ -185,7 +199,7 @@ export default function Hero({ initialCopy = FRONT_PAGE_DEFAULTS }: HeroProps) {
             <button
               type="button"
               onClick={() => setModalOpen(true)}
-              className="focus-ring inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-8 py-3.5 text-base font-bold transition-all duration-200 hover:scale-105 active:scale-95"
+              className="focus-ring-light inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-8 py-3.5 text-base font-bold transition-all duration-200 hover:scale-105 active:scale-95"
               style={{
                 background: "#f59e0b",
                 color: "#052016",
@@ -197,7 +211,7 @@ export default function Hero({ initialCopy = FRONT_PAGE_DEFAULTS }: HeroProps) {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </button>
-            <p className="m-0 text-sm leading-relaxed" style={{ color: "rgba(26,51,32,0.6)" }}>
+            <p className="m-0 text-sm leading-relaxed" style={{ color: "rgba(242,237,227,0.62)" }}>
               {copy.hero_trust_line}
             </p>
           </div>
@@ -209,16 +223,9 @@ export default function Hero({ initialCopy = FRONT_PAGE_DEFAULTS }: HeroProps) {
         className="relative z-10 w-full flex-shrink-0 min-h-[340px] sm:min-h-0"
         style={{
           height: "clamp(340px, 42vw, 400px)",
-          marginTop: "clamp(-28px, -3vw, -16px)",
         }}
       >
-        <div
-          className="w-full h-full relative overflow-hidden pb-[88px] sm:pb-0"
-          style={{
-            background: "linear-gradient(160deg, #0a2e1a 0%, #061a10 60%, #071e12 100%)",
-            borderRadius: "28px 28px 0 0",
-          }}
-        >
+        <div className="relative h-full w-full overflow-hidden pb-[88px] sm:pb-0">
           {/* Radial glow */}
           <div
             className="absolute inset-0 pointer-events-none"

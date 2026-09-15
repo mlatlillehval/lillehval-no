@@ -40,44 +40,111 @@ export default function KontaktPage() {
           </div>
 
           <div
-            className="rounded-2xl p-6 sm:p-8 mb-8"
+            className="mb-8 rounded-2xl p-6 sm:p-8"
             style={{ background: "rgba(255,255,255,0.75)", border: "1px solid rgba(21,128,61,0.18)" }}
           >
-            <h2 className="text-lg font-extrabold text-[#1a3320] mb-4">{COMPANY_NAME}</h2>
-            <dl className="space-y-3 text-sm">
+            <div className="grid items-stretch gap-6 md:grid-cols-[minmax(0,1fr)_minmax(13.5rem,16rem)] md:gap-8">
               <div>
-                <dt className="font-semibold text-[rgba(26,51,32,0.55)]">Tjenesteområde</dt>
-                <dd className="text-[#1a3320]">{COMPANY_AREA_SERVED}</dd>
+                <h2 className="mb-4 text-lg font-extrabold text-[#1a3320]">{COMPANY_NAME}</h2>
+                <dl className="space-y-3 text-sm">
+                  <div>
+                    <dt className="font-semibold text-[rgba(26,51,32,0.55)]">Tjenesteområde</dt>
+                    <dd className="text-[#1a3320]">{COMPANY_AREA_SERVED}</dd>
+                  </div>
+                  <div>
+                    <dt className="font-semibold text-[rgba(26,51,32,0.55)]">Kontorplass</dt>
+                    <dd className="text-[#1a3320]">
+                      <a
+                        href="https://www.google.com/maps/search/?api=1&query=Storgata+30,+3126+Tønsberg"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="focus-ring rounded-sm font-semibold underline-offset-2 hover:underline"
+                        style={{ color: "#15803d" }}
+                      >
+                        Friends, Storgata 30, Tønsberg
+                      </a>
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="font-semibold text-[rgba(26,51,32,0.55)]">Hovedtelefon</dt>
+                    <dd>
+                      <a
+                        href={`tel:${SITE_PHONE_TEL}`}
+                        className="focus-ring rounded-sm font-semibold underline-offset-2 hover:underline"
+                        style={{ color: "#15803d" }}
+                      >
+                        {SITE_PHONE_DISPLAY}
+                      </a>
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="font-semibold text-[rgba(26,51,32,0.55)]">E-post</dt>
+                    <dd>
+                      <a
+                        href={`mailto:${MARIUS_EMAIL}`}
+                        className="focus-ring rounded-sm font-semibold underline-offset-2 hover:underline break-all"
+                        style={{ color: "#15803d" }}
+                      >
+                        {MARIUS_EMAIL}
+                      </a>
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="font-semibold text-[rgba(26,51,32,0.55)]">Om oss</dt>
+                    <dd className="text-[#1a3320]">{COMPANY_TAGLINE}</dd>
+                  </div>
+                </dl>
               </div>
-              <div>
-                <dt className="font-semibold text-[rgba(26,51,32,0.55)]">Hovedtelefon</dt>
-                <dd>
+
+              <figure
+                className="m-0 flex min-h-[12.5rem] flex-col overflow-hidden rounded-xl md:min-h-0"
+                style={{ border: "1px solid rgba(21,128,61,0.18)" }}
+              >
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=Storgata+30,+3126+Tønsberg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="focus-ring relative block h-[12.5rem] overflow-hidden md:h-full md:min-h-[13.75rem]"
+                >
+                  <img
+                    src="/maps/storgata-30-tonsberg.png"
+                    alt="Kartutsnitt av Friends i Storgata 30, Tønsberg"
+                    width={256}
+                    height={256}
+                    className="h-full w-full object-cover"
+                  />
+                  <span
+                    className="pointer-events-none absolute left-1/2 top-[46%] -translate-x-1/2 -translate-y-full"
+                    aria-hidden
+                  >
+                    <svg width="28" height="36" viewBox="0 0 28 36" fill="none">
+                      <path
+                        d="M14 35s11-12.2 11-21.2C25 7.2 20.1 2 14 2S3 7.2 3 13.8C3 22.8 14 35 14 35z"
+                        fill="#f59e0b"
+                      />
+                      <circle cx="14" cy="13.5" r="4.25" fill="#052016" />
+                    </svg>
+                  </span>
+                </a>
+                <figcaption
+                  className="flex items-center justify-between gap-3 border-t px-3 py-2.5"
+                  style={{ borderColor: "rgba(21,128,61,0.12)", background: "rgba(255,255,255,0.9)" }}
+                >
                   <a
-                    href={`tel:${SITE_PHONE_TEL}`}
-                    className="font-semibold underline-offset-2 hover:underline"
+                    href="https://www.google.com/maps/search/?api=1&query=Storgata+30,+3126+Tønsberg"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="focus-ring inline-flex min-h-11 items-center rounded-sm text-xs font-semibold"
                     style={{ color: "#15803d" }}
                   >
-                    {SITE_PHONE_DISPLAY}
+                    Åpne i kart
                   </a>
-                </dd>
-              </div>
-              <div>
-                <dt className="font-semibold text-[rgba(26,51,32,0.55)]">E-post</dt>
-                <dd>
-                  <a
-                    href={`mailto:${MARIUS_EMAIL}`}
-                    className="font-semibold underline-offset-2 hover:underline break-all"
-                    style={{ color: "#15803d" }}
-                  >
-                    {MARIUS_EMAIL}
-                  </a>
-                </dd>
-              </div>
-              <div>
-                <dt className="font-semibold text-[rgba(26,51,32,0.55)]">Om oss</dt>
-                <dd className="text-[#1a3320]">{COMPANY_TAGLINE}</dd>
-              </div>
-            </dl>
+                  <span className="text-[10px]" style={{ color: "rgba(26,51,32,0.45)" }}>
+                    © OpenStreetMap
+                  </span>
+                </figcaption>
+              </figure>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-10">

@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 
 interface Node {
@@ -65,7 +66,18 @@ const NODE_ALPHA_SWING = 0.18;
 const MQ_MOBILE = "(max-width: 639px)";
 const MQ_REDUCE_MOTION = "(prefers-reduced-motion: reduce)";
 
-export default function NeuralNetworkBackground() {
+type NeuralSurface = "light" | "dark";
+
+type NeuralNetworkBackgroundProps = {
+  /** `dark` for det grønne hero-feltet — screen-blend, størrelse etter forelder. */
+  surface?: NeuralSurface;
+};
+
+export default function NeuralNetworkBackground({
+  surface = "light",
+}: NeuralNetworkBackgroundProps) {
+  const pathname = usePathname();
+  const hideOnHome = surface === "light" && pathname === "/";
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animRef = useRef<number>(0);
   const nodesRef = useRef<Node[]>([]);
@@ -75,6 +87,7 @@ export default function NeuralNetworkBackground() {
   const tierRef = useRef<TierParams>(TIER_DESKTOP);
 
   useEffect(() => {
+    if (hideOnHome) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -84,10 +97,36 @@ export default function NeuralNetworkBackground() {
 
     const mqMobile = window.matchMedia(MQ_MOBILE);
     const mqReduce = window.matchMedia(MQ_REDUCE_MOTION);
+    const palette =
+      surface === "dark" ? LOGO_JOURNEY_RGB.slice(0, 4) : LOGO_JOURNEY_RGB;
+    const lineAlphaPeak = surface === "dark" ? 0.42 : LINE_ALPHA_PEAK;
+    const nodeAlphaMin = surface === "dark" ? 0.42 : NODE_ALPHA_MIN;
+    const nodeAlphaSwing = surface === "dark" ? 0.28 : NODE_ALPHA_SWING;
+
+    const measure = () => {
+      if (surface === "dark") {
+        const parent = canvas.parentElement;
+        return {
+          width: Math.max(1, parent?.clientWidth ?? canvas.clientWidth),
+          height: Math.max(1, parent?.clientHeight ?? canvas.clientHeight),
+        };
+      }
+      return { width: window.innerWidth, height: window.innerHeight };
+    };
+
+    const clearFrame = () => {
+      if (surface === "dark") {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      } else {
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
+    };
 
     const resizeCanvasOnly = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const { width, height } = measure();
+      canvas.width = width;
+      canvas.height = height;
       for (const n of nodesRef.current) {
         n.x = Math.min(canvas.width, Math.max(0, n.x));
         n.y = Math.min(canvas.height, Math.max(0, n.y));
@@ -103,7 +142,7 @@ export default function NeuralNetworkBackground() {
         vy: (Math.random() - 0.5) * tier.speed,
         r: Math.random() * 2.1 + 1.15,
         phase: Math.random() * Math.PI * 2,
-        colorIdx: Math.floor(Math.random() * LOGO_JOURNEY_RGB.length),
+        colorIdx: Math.floor(Math.random() * palette.length),
       }));
     };
 
@@ -120,8 +159,8 @@ export default function NeuralNetworkBackground() {
       const tier = tierRef.current;
       const nodes = nodesRef.current;
 
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      clearFrame();
 
       const globalBreath = 1;
       for (let i = 0; i < nodes.length; i++) {
@@ -138,10 +177,10 @@ export default function NeuralNetworkBackground() {
           if (dist < maxHere && dist > 0.5) {
             const falloff = 1 - dist / maxHere;
             const linePulse = 1;
-            const alpha = falloff * LINE_ALPHA_PEAK * linePulse;
+            const alpha = falloff * lineAlphaPeak * linePulse;
 
-            const ca = LOGO_JOURNEY_RGB[a.colorIdx];
-            const cb = LOGO_JOURNEY_RGB[b.colorIdx];
+            const ca = palette[a.colorIdx];
+            const cb = palette[b.colorIdx];
             const blend = mixRgb(ca, cb, 0.5);
 
             ctx.beginPath();
@@ -154,10 +193,10 @@ export default function NeuralNetworkBackground() {
         }
       }
 
-      const alphaFill = NODE_ALPHA_MIN + NODE_ALPHA_SWING * 0.5;
+      const alphaFill = nodeAlphaMin + nodeAlphaSwing * 0.5;
       for (const n of nodes) {
         const rDraw = n.r;
-        const c = LOGO_JOURNEY_RGB[n.colorIdx];
+        const c = palette[n.colorIdx];
         const glow = mixRgb(c, { r: 255, g: 255, b: 255 }, 0.38);
 
         ctx.beginPath();
@@ -181,8 +220,8 @@ export default function NeuralNetworkBackground() {
       if (startRef.current === 0) startRef.current = nowMs;
       const time = (nowMs - startRef.current) / 1000;
 
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      clearFrame();
       const nodes = nodesRef.current;
       const tier = tierRef.current;
 
@@ -222,10 +261,10 @@ export default function NeuralNetworkBackground() {
             const falloff = 1 - dist / maxHere;
             const linePulse =
               0.55 + 0.45 * Math.sin(time * 1.25 + dist * 0.05 + (i + j) * 0.07);
-            const alpha = falloff * LINE_ALPHA_PEAK * linePulse;
+            const alpha = falloff * lineAlphaPeak * linePulse;
 
-            const ca = LOGO_JOURNEY_RGB[a.colorIdx];
-            const cb = LOGO_JOURNEY_RGB[b.colorIdx];
+            const ca = palette[a.colorIdx];
+            const cb = palette[b.colorIdx];
             const blend = mixRgb(ca, cb, 0.5);
 
             ctx.beginPath();
@@ -242,10 +281,10 @@ export default function NeuralNetworkBackground() {
         const pulse = 0.72 + 0.28 * Math.sin(time * 1.45 + n.phase);
         const rDraw = n.r * pulse;
         const alphaFill =
-          NODE_ALPHA_MIN + NODE_ALPHA_SWING * Math.sin(time * 2 + n.phase * 2);
+          nodeAlphaMin + nodeAlphaSwing * Math.sin(time * 2 + n.phase * 2);
 
-        const c = LOGO_JOURNEY_RGB[n.colorIdx];
-        const glow = mixRgb(c, { r: 255, g: 255, b: 255 }, 0.38);
+        const c = palette[n.colorIdx];
+        const glow = mixRgb(c, { r: 255, g: 255, b: 255 }, surface === "dark" ? 0.55 : 0.38);
 
         ctx.beginPath();
         ctx.arc(n.x, n.y, rDraw, 0, Math.PI * 2);
@@ -295,19 +334,33 @@ export default function NeuralNetworkBackground() {
     mqReduce.addEventListener("change", applyPreferences);
     window.addEventListener("resize", onResize);
 
+    const parent = canvas.parentElement;
+    const resizeObserver =
+      surface === "dark" && parent
+        ? new ResizeObserver(() => onResize())
+        : null;
+    resizeObserver?.observe(parent);
+
     return () => {
       cancelAnimationFrame(animRef.current);
       mqMobile.removeEventListener("change", applyPreferences);
       mqReduce.removeEventListener("change", applyPreferences);
       window.removeEventListener("resize", onResize);
+      resizeObserver?.disconnect();
     };
-  }, []);
+  }, [surface, hideOnHome]);
+
+  if (hideOnHome) return null;
 
   return (
     <canvas
       ref={canvasRef}
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 z-0 h-screen w-screen mix-blend-multiply"
+      className={
+        surface === "dark"
+          ? "pointer-events-none absolute inset-0 z-[1] h-full w-full mix-blend-screen"
+          : "pointer-events-none fixed inset-0 z-0 h-screen w-screen mix-blend-multiply"
+      }
     />
   );
 }

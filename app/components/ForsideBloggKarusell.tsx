@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export type ForsideBloggKort = {
   slug: string;
@@ -14,6 +14,7 @@ export type ForsideBloggKort = {
 };
 
 const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
+const AUTO_ADVANCE_MS = 7000;
 
 function Chevron({ direction }: { direction: "prev" | "next" }) {
   return (
@@ -46,10 +47,24 @@ export default function ForsideBloggKarusell({ posts }: { posts: ForsideBloggKor
     setIndex(((next % count) + count) % count);
   }, [posts.length]);
 
+  const canCycle = posts.length > 1;
+
+  useEffect(() => {
+    if (!canCycle) return;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (reduceMotion.matches) return;
+
+    const id = window.setInterval(() => {
+      if (document.hidden) return;
+      setIndex((current) => (current + 1) % posts.length);
+    }, AUTO_ADVANCE_MS);
+
+    return () => window.clearInterval(id);
+  }, [canCycle, posts.length, index]);
+
   if (posts.length === 0) return null;
 
   const featured = posts[index];
-  const canCycle = posts.length > 1;
 
   return (
     <div
