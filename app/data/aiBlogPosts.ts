@@ -20,6 +20,32 @@ export function getReadMinutes(post: Pick<AIBlogPost, "excerpt" | "body" | "read
 
 export const AI_BLOG_POSTS: AIBlogPost[] = [
   {
+    id: "13",
+    slug: "naeringslivet-sikkerhet-og-beredskap",
+    title: "Sikkerhet og beredskap på Næringslivet",
+    excerpt:
+      "Torsdag 24. september var vi på Næringslivet, der temaet var sikkerhet og beredskap. For oss som jobber med AI er det et tema vi ikke kan stå utenfor.",
+    image: "/blogg/naeringslivet/marius.jpg",
+    publishedAt: "2026-09-27",
+    gallery: [
+      {
+        src: "/blogg/naeringslivet/scene.jpg",
+        alt: "Scenen på Næringslivet med foredrag om teknologi, AI og innovasjon.",
+      },
+      {
+        src: "/blogg/naeringslivet/rollup.jpg",
+        alt: "Lillehvals rollup i foajeen på Næringslivet.",
+      },
+    ],
+    body: `Torsdag 24. september var vi i Lillehval på Næringslivet. Årets tema var sikkerhet og beredskap, og vi fikk en dag med gode innlegg og mange samtaler med folk fra næringslivet.
+
+For oss som jobber med og gir råd om AI, er dette et tema vi må kunne godt. Når bedrifter tar i bruk AI, endrer det hvor data ligger, hvem som har tilgang til hva og hvilke systemer som blir kritiske for driften. Da er det ikke nok å vite hva teknologien kan. Vi må også forstå hvilke trusler bedriftene står overfor, hvilke krav de må forholde seg til og hva som skjer når noe går galt.
+
+Derfor setter vi pris på arenaer som denne. Vi fikk høre hvordan andre tenker om risiko og beredskap, og det tar vi med oss i arbeidet med kundene våre.
+
+Takk til arrangørene og alle vi snakket med i løpet av dagen. Det var spennende å være til stede.`,
+  },
+  {
     id: "12",
     slug: "fra-gjentatte-sporsmal-til-selvlarende-system",
     title: "Fra gjentatte spørsmål til et system som lærer",
