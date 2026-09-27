@@ -29,6 +29,14 @@ export const AI_BLOG_POSTS: AIBlogPost[] = [
     publishedAt: "2026-09-27",
     gallery: [
       {
+        src: "/blogg/naeringslivet/sal.jpg",
+        alt: "Salen under åpningen av Næringslivet 2026.",
+      },
+      {
+        src: "/blogg/naeringslivet/panel.jpg",
+        alt: "Paneldebatt på scenen under Næringslivet 2026.",
+      },
+      {
         src: "/blogg/naeringslivet/scene.jpg",
         alt: "Scenen på Næringslivet med foredrag om teknologi, AI og innovasjon.",
       },
