@@ -20,6 +20,62 @@ export function getReadMinutes(post: Pick<AIBlogPost, "excerpt" | "body" | "read
 
 export const AI_BLOG_POSTS: AIBlogPost[] = [
   {
+    id: "14",
+    slug: "ai-i-strategien-for-2027",
+    title: "Har AI en plass i strategien for 2027?",
+    excerpt:
+      "Oktober og november er strategi- og budsjettid i norske bedrifter. Det gjelder også i Vestfold. Mange ledere jeg snakker med, stiller seg det samme spørsmålet: Hvordan skal vi tenke om AI neste år?",
+    image: "/blogg/strategi-2027/marius-foredrag.jpg",
+    publishedAt: "2026-09-28",
+    body: `I forrige innlegg på LinkedIn skrev jeg om budsjettprosessen. Men budsjettet er bare tallene. Det viktigste skjer før det, når ledergruppen bestemmer retningen for året som kommer. Det er i disse ukene prioriteringene for 2027 blir satt.
+
+I samtaler med ledere her i Vestfold hører jeg de samme spørsmålene igjen og igjen. Hvor starter vi? Hva bør vi bruke tid og penger på? Og hvordan vet vi at det gir noe tilbake?
+
+## Hvis AI ikke står i strategien, skjer det likevel, bare uten retning
+
+Det jeg ser oftest, er ikke bedrifter som har valgt bort AI. Det er bedrifter der AI har kommet inn bakveien. Noen ansatte bruker ChatGPT på egen hånd, det er kjøpt noen lisenser, og et par ildsjeler tester ting på fritiden. Ingen eier det, og det finnes ingen budsjettpost.
+
+Resultatet blir mye aktivitet og lite effekt.
+
+AI er ikke et IT-prosjekt. Det handler om hvordan arbeidet faktisk blir gjort, som hvor tiden går, hvordan kundene blir fulgt opp og hvordan beslutninger blir tatt. Derfor hører det hjemme i strategidiskusjonen i ledergruppen, ikke i et eget sidespor.
+
+## Hva jeg har lært om å legge gode planer
+
+Jeg har jobbet i næringslivet i 16 år: åtte år i M&A-rådgivning i PwC og åtte år i Komplett, de siste som salgsdirektør i ledergruppen. Mye av den tiden handlet om å legge planer for hvor et område skulle gå, og om å få dem gjennomført.
+
+Det jeg har lært, er at gode planer nesten alltid har tre ting til felles. De starter med at alle har den samme forståelsen av utgangspunktet. De prioriterer hardt. Og de har noen som eier gjennomføringen.
+
+Det gjelder også for AI.
+
+## En god AI-strategi handler om tre ting
+
+1. Heve kunnskapsnivået. Ledergruppen og nøkkelpersonene må forstå hva AI kan, og ikke minst hva det ikke kan, uten at det blir for luftig eller for teknisk. Det trenger ikke være et stort løft. En halv dag med konkrete eksempler fra egen bransje gjør mye.
+
+2. Kartlegge brukstilfeller som gir reell verdi. Start i hverdagen, ikke i teknologien. Hvor bruker dere mest tid på gjentakende arbeid? Rapportering, e-post, tilbud og dokumentasjon er typiske steder. Ranger mulighetene etter hvor mye de er verdt og hvor enkle de er å gjennomføre. Tre gode brukstilfeller er bedre enn tjue halve.
+
+3. Implementere, og måle. Det er her de fleste stopper opp. Velg ett eller to brukstilfeller, test dem i liten skala, mål effekten og rull ut når dere ser at det virker. En strategi som ikke fører til at noe faktisk blir tatt i bruk, er bare et dokument.
+
+## Fem spørsmål som bør besvares i strategien for 2027
+
+Hvem i ledergruppen eier AI?
+
+Hvilke to eller tre områder skal vi prioritere?
+
+Hvor mye tid og penger setter vi av?
+
+Hvordan skal vi måle om det virker?
+
+Hva trenger de ansatte for å ta det i bruk?
+
+Har dere svar på disse fem, har dere kommet lenger enn de fleste.
+
+## Vi hjelper gjerne
+
+I Lillehval hjelper vi bedrifter med akkurat dette: å få AI inn i strategien på en måte som gir resultater, ikke bare aktivitet. For oss skal AI løse reelle problemer som finnes, ikke skape nye.
+
+Sitter dere med strategien for 2027 nå? Ta kontakt for en uforpliktende prat.`,
+  },
+  {
     id: "13",
     slug: "naeringslivet-sikkerhet-og-beredskap",
     title: "Sikkerhet og beredskap på Næringslivet",
@@ -43,6 +99,10 @@ export const AI_BLOG_POSTS: AIBlogPost[] = [
       {
         src: "/blogg/naeringslivet/rollup.jpg",
         alt: "Lillehvals rollup i foajeen på Næringslivet.",
+      },
+      {
+        src: "/blogg/naeringslivet/foredrag.jpg",
+        alt: "Foredrag om AI og produktivitet på Næringslivet.",
       },
     ],
     body: `Torsdag 24. september var vi i Lillehval på Næringslivet. Årets tema var sikkerhet og beredskap, og vi fikk en dag med gode innlegg og mange samtaler med folk fra næringslivet.

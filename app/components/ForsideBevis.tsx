@@ -6,7 +6,7 @@ import ForsideBloggKarusell from "./ForsideBloggKarusell";
 
 export default function ForsideBevis() {
   const posts = getAllBlogPosts()
-    .slice(0, 2)
+    .slice(0, 3)
     .map((post) => ({
       slug: post.slug,
       title: post.title,
